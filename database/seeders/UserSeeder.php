@@ -13,9 +13,8 @@ class UserSeeder extends Seeder
     {
         $roles = [
             'admin',
-            'editor',
+            'employee',
             'viewer',
-            'guest',
         ];
 
         foreach ($roles as $roleName) {
@@ -28,6 +27,7 @@ class UserSeeder extends Seeder
             $user = User::create([
                 'name' => ucfirst($roleName) . ' User',
                 'email' => strtolower($roleName) . '@example.com',
+                'username' => strtolower($roleName) ,
                 'password' => Hash::make('password'), 
             ]);
 

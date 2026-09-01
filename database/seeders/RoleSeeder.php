@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -12,38 +13,21 @@ class RoleSeeder extends Seeder
         $roles = [
             'admin' => [
                 'name' => 'مدير النظام',
-                'permissions' => [
-                    'projects.create',
-                    'projects.update',
-                    'projects.delete',
-
-                    'pricing_items.create',
-                    'pricing_items.update',
-                    'pricing_items.delete',
-
-                    'users.manage',
-
-                    'projects.view',
-                ],
+                'permissions' => 'all',
             ],
 
-            'manager' => [
-                'name' => 'مدير',
+            'employee' => [
+                'name' => 'موظف',
                 'permissions' => [
                     'projects.create',
-                    'projects.update',
 
                     'pricing_items.create',
 
-                    'projects.view',
-                ],
-            ],
+                    'contractors.create',
 
-            'data-entry' => [
-                'name' => 'مدخل بيانات',
-                'permissions' => [
-                    'projects.create',
-                    'pricing_items.create',
+                    'incoming_entities.create',
+
+                    'related_works.create',
 
                     'projects.view',
                 ],
@@ -63,17 +47,13 @@ class RoleSeeder extends Seeder
                 ['name' => $data['name']]
             );
 
-            $permissionIds = [];
-
-            foreach ($data['permissions'] as $permissionSlug) {
-                $permission = \App\Models\Permission::where(
+            if ($data['permissions'] === 'all') {
+                $permissionIds = Permission::pluck('id')->toArray();
+            } else {
+                $permissionIds = Permission::whereIn(
                     'slug',
-                    $permissionSlug
-                )->first();
-
-                if ($permission) {
-                    $permissionIds[] = $permission->id;
-                }
+                    $data['permissions']
+                )->pluck('id')->toArray();
             }
 
             $role->permissions()->sync($permissionIds);
