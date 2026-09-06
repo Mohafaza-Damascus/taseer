@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,5 +82,45 @@ Route::prefix('api/v1')->group(function () {
 
         }
     );
+    /*  
+    |--------------------------------------------------------------------------
+    | Projects
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('permission:projects.view')->group(function () {
+        Route::get(
+            '/projects',
+            [ProjectController::class, 'index']
+        );
+        Route::get(
+            '/projects/{project}',
+            [ProjectController::class, 'show']
+        );
+    });
+
+    Route::middleware('permission:projects.create')->group(function () {
+        Route::post(
+            '/projects',
+            [ProjectController::class, 'store']
+        );
+    });
+
+    Route::middleware('permission:projects.update')->group(function () {
+        Route::put(
+            '/projects/{project}',
+            [ProjectController::class, 'update']
+        );
+        Route::patch(
+            '/projects/{project}',
+            [ProjectController::class, 'update']
+        );
+    });
+
+    Route::middleware('permission:projects.delete')->group(function () {
+        Route::delete(
+            '/projects/{project}',
+            [ProjectController::class, 'destroy']
+        );
+    });
 
 });

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
@@ -35,8 +36,18 @@ class Project extends Model
         return $this->belongsTo(Contractor::class);
     }
 
-    public function pricingItems(): HasMany
+    public function pricingItems(): BelongsToMany
     {
-        return $this->hasMany(ProjectPricingItem::class);
+        return $this->belongsToMany(
+            PricingItem::class,
+            'project_pricing_items'
+        )
+            ->withPivot([
+                'quantity',
+                'unit_price_syp',
+                'unit_price_usd',
+                'specifications',
+            ])
+            ->withTimestamps();
     }
 }
