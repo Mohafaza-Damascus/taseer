@@ -20,16 +20,18 @@ class RoleSeeder extends Seeder
                 'name' => 'موظف',
                 'permissions' => [
                     'projects.create',
+                    'projects.view',
 
                     'pricing_items.create',
 
+                    'contractors.view',
                     'contractors.create',
+                    'contractors.update',
+                    'contractors.delete',
 
                     'incoming_entities.create',
 
                     'related_works.create',
-
-                    'projects.view',
                 ],
             ],
 
@@ -37,6 +39,7 @@ class RoleSeeder extends Seeder
                 'name' => 'مشاهد',
                 'permissions' => [
                     'projects.view',
+                     'contractors.view',
                 ],
             ],
         ];

@@ -18,9 +18,6 @@ class Contractor extends Model
         'company_name',
     ];
 
-    protected $casts = [
-        'birth_date' => 'date',
-    ];
 
     public function projects(): HasMany
     {
