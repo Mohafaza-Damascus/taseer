@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,5 +65,21 @@ Route::prefix('api/v1')->group(function () {
         ]);
 
     });
+
+
+    // -------------------------------------------
+    // Users - Admin Only
+    // -------------------------------------------
+
+    Route::middleware('permission:users.manage')->group(
+        function () {
+
+            Route::apiResource(
+                'users',
+                UserController::class
+            );
+
+        }
+    );
 
 });
