@@ -10,6 +10,7 @@ use App\Http\Controllers\Blade\ContractorController as BladeContractorController
 use App\Http\Controllers\Blade\ProjectController as BladeProjectController;
 use App\Http\Controllers\Blade\UserController as BladeUserController;
 use App\Http\Controllers\Blade\IncomingEntityController as BladeIncomingEntityController;
+use App\Http\Controllers\Blade\PricingItemController as BladePricingItemController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -130,6 +131,15 @@ Route::middleware('auth')->group(function () {
         BladeIncomingEntityController::class
     );
 
+    /* 
+    |--------------------------------------------------------------------------
+    | Pricing Items - Blade
+    |--------------------------------------------------------------------------
+    */
+    Route::resource(
+        'pricing-items',
+        BladePricingItemController::class
+    );
     
 });
 
