@@ -29,7 +29,10 @@ class RoleSeeder extends Seeder
                     'contractors.update',
                     'contractors.delete',
 
+                    'incoming_entities.view',
                     'incoming_entities.create',
+                    'incoming_entities.update',
+                    'incoming_entities.delete',
 
                     'related_works.create',
                 ],
@@ -39,7 +42,9 @@ class RoleSeeder extends Seeder
                 'name' => 'مشاهد',
                 'permissions' => [
                     'projects.view',
-                     'contractors.view',
+                    'contractors.view',
+                    'incoming_entities.view',
+
                 ],
             ],
         ];
