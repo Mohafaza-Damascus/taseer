@@ -1,0 +1,125 @@
+/* thmanyahserifdisplay */
+@font-face {
+    font-family: 'thmanyahserifdisplay';
+    src: url('../fonts/thmanyahserifdisplay/otf/thmanyahserifdisplay-Regular.otf') format('opentype'),
+        url('../fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahserifdisplay-medium';
+    src: url('../fonts/thmanyahserifdisplay/otf/thmanyahserifdisplay-Medium.otf') format('opentype'),
+        url('../fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Medium.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahserifdisplay-bold';
+    src: url('../fonts/thmanyahserifdisplay/otf/thmanyahserifdisplay-Bold.otf') format('opentype'),
+        url('../fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahserifdisplay-black';
+    src: url('../fonts/thmanyahserifdisplay/otf/thmanyahserifdisplay-Black.otf') format('opentype'),
+        url('../fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Black.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahserifdisplay-light';
+    src: url('../fonts/thmanyahserifdisplay/otf/thmanyahserifdisplay-Light.otf') format('opentype'),
+        url('../fonts/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Light.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* thmanyahsans */
+@font-face {
+    font-family: 'thmanyahsans';
+    src: url('../fonts/thmanyahsans/otf/thmanyahsans-Regular.otf') format('opentype'),
+        url('../fonts/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
+    /* font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1; */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahsans-medium';
+    src: url('../fonts/thmanyahsans/otf/thmanyahsans-Medium.otf') format('opentype'),
+        url('../fonts/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
+    /* font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1; */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahsans-bold';
+    src: url('../fonts/thmanyahsans/otf/thmanyahsans-Bold.otf') format('opentype'),
+        url('../fonts/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
+    /* font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1; */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahsans-black';
+    src: url('../fonts/thmanyahsans/otf/thmanyahsans-Black.otf') format('opentype'),
+        url('../fonts/thmanyahsans/woff2/thmanyahsans-Black.woff2') format('woff2');
+    /* font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1; */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahsans-light';
+    src: url('../fonts/thmanyahsans/otf/thmanyahsans-Light.otf') format('opentype'),
+        url('../fonts/thmanyahsans/woff2/thmanyahsans-Light.woff2') format('woff2');
+    /* font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1; */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* thmanyahseriftext */
+@font-face {
+    font-family: 'thmanyahseriftext';
+    src: url('../fonts/thmanyahseriftext/otf/thmanyahseriftext-Regular.otf') format('opentype'),
+        url('../fonts/thmanyahseriftext/woff2/thmanyahseriftext-Regular.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahseriftext-medium';
+    src: url('../fonts/thmanyahseriftext/otf/thmanyahseriftext-Medium.otf') format('opentype'),
+        url('../fonts/thmanyahseriftext/woff2/thmanyahseriftext-Medium.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahseriftext-bold';
+    src: url('../fonts/thmanyahseriftext/otf/thmanyahseriftext-Bold.otf') format('opentype'),
+        url('../fonts/thmanyahseriftext/woff2/thmanyahseriftext-Bold.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahseriftext-black';
+    src: url('../fonts/thmanyahseriftext/otf/thmanyahseriftext-Black.otf') format('opentype'),
+        url('../fonts/thmanyahseriftext/woff2/thmanyahseriftext-Black.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'thmanyahseriftext-light';
+    src: url('../fonts/thmanyahseriftext/otf/thmanyahseriftext-Light.otf') format('opentype'),
+        url('../fonts/thmanyahseriftext/woff2/thmanyahseriftext-Light.woff2') format('woff2');
+    font-feature-settings: "calt" 1, "smcp" 1, "ss01" 1;
+    font-style: normal;
+    font-display: swap;
+}

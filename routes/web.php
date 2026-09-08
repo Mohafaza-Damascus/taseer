@@ -40,6 +40,14 @@ Route::middleware('guest')->group(function () {
         return view('auth.login');
     })->name('login');
 
+    Route::get('/login1', function () {
+        return view('auth.login1');
+    })->name('login1');
+
+    Route::get('/login2', function () {
+        return view('auth.login2');
+    })->name('login2');
+
     Route::post('/login', [
         BladeAuthController::class,
         'login',
