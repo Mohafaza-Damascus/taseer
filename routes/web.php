@@ -7,6 +7,7 @@ use App\Http\Controllers\Apis\UserController;
 
 use App\Http\Controllers\Blade\AuthController as BladeAuthController;
 use App\Http\Controllers\Blade\ContractorController as BladeContractorController;
+use App\Http\Controllers\Blade\DashboardController;
 use App\Http\Controllers\Blade\ProjectController as BladeProjectController;
 use App\Http\Controllers\Blade\UserController as BladeUserController;
 use App\Http\Controllers\Blade\IncomingEntityController as BladeIncomingEntityController;
@@ -69,9 +70,11 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get(
+        '/dashboard',
+        [DashboardController::class, 'index']
+    )->name('dashboard');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -79,9 +82,10 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/profile', function () {
-        return view('auth.profile');
-    })->name('profile');
+    Route::get(
+        '/profile',
+        [DashboardController::class, 'profile']
+    )->name('profile');
 
     /*
     |--------------------------------------------------------------------------
@@ -140,7 +144,7 @@ Route::middleware('auth')->group(function () {
         'pricing-items',
         BladePricingItemController::class
     );
-    
+
 });
 
 
