@@ -14,7 +14,6 @@ class ProjectPricingItem extends Model
         'project_id',
         'pricing_item_id',
         'quantity',
-        'unit',
         'unit_price_syp',
         'unit_price_usd',
         'specifications',

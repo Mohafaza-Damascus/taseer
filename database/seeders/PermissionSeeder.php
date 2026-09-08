@@ -24,6 +24,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'تعديل متعهد', 'slug' => 'contractors.update'],
             ['name' => 'حذف متعهد', 'slug' => 'contractors.delete'],
 
+            ['name' => 'مشاهدة الجهات الواردة', 'slug' => 'incoming_entities.view'],
             ['name' => 'إضافة جهة واردة', 'slug' => 'incoming_entities.create'],
             ['name' => 'تعديل جهة واردة', 'slug' => 'incoming_entities.update'],
             ['name' => 'حذف جهة واردة', 'slug' => 'incoming_entities.delete'],
