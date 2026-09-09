@@ -17,7 +17,7 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return back()
                 ->withErrors([
-                    'username' => 'اسم المستخدم أو كلمة المرور غير صحيحة.',
+                    'credentials' => 'اسم المستخدم أو كلمة المرور غير صحيحة.',
                 ])
                 ->withInput($request->only('username'));
         }

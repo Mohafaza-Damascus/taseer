@@ -1,4 +1,9 @@
-.auth-body {
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
     background-color: var(--color-pineal-700);
     background-image: url("../../images/pattern.png");
     background-size: cover;
@@ -6,63 +11,50 @@
     background-position: center;
     background-attachment: fixed;
     font-family: var(--font-thmanyahseriftext);
-    line-height: 1.5;
     color: var(--color-pineal-700);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-}
-
-.auth-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100dvh;
-    padding: 24px;
-    box-sizing: border-box;
 }
+
 
 .auth-card {
     width: 100%;
     max-width: 960px;
-    margin: auto;
-    background: var(--color-golden-wheat-100);
-    border-radius: 24px;
     padding: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    align-items: stretch;
-    overflow: hidden;
 }
 
 .auth-logo-panel {
+    display: flex;
     flex: 1 1 45%;
     background: var(--color-pineal-700);
-    border: none;
-    display: flex;
-    flex-direction: column;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
     align-items: center;
     justify-content: center;
-    gap: 20px;
     padding: 40px;
-    color: var(--color-pineal-700);
 }
 
-.auth-logo-panel .header-logo {
+.header-logo {
     width: 380px;
     height: auto;
-    display: block;
-}
-.auth-logo-panel h1 {
-    color: var(--color-golden-wheat-500);
 }
 
 .auth-form-panel {
+    background: var(--color-golden-wheat-100);
     flex: 1 1 55%;
     padding: 48px 40px;
     box-sizing: border-box;
     display: flex;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
     flex-direction: column;
     justify-content: center;
 }
@@ -87,7 +79,15 @@
 .field {
     display: flex;
     flex-direction: column;
-    /* gap: 100px; */
+    gap: 10px;
+}
+
+.field-error {
+
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.8em;
+    color: var(--color-red-700);
+    overflow-wrap: break-word;
 }
 
 .input-group {
@@ -112,9 +112,8 @@
     font-family: var(--font-thmanyahserifdisplay);
     font-size: 0.9em;
     color: var(--color-pineal-700);
-    background: transparent;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
+    background: none;
+    transition: border-color 0.2s ease;
 }
 
 .input-group:has(.toggle-password) input {
@@ -132,7 +131,7 @@
 
 .toggle-password {
     position: absolute;
-    left: 12px;
+    left: 0px;
     background: none;
     border: none;
     cursor: pointer;
@@ -154,16 +153,6 @@
     opacity: 1;
 }
 
-.field-error {
-    font-family: var(--font-thmanyahseriftext);
-    font-size: 0.8em;
-    color: var(--color-red-700);
-    padding-right: 2px;
-    overflow-wrap: break-word;
-}
-
-
-
 .btn-submit {
     padding: 14px;
     background: var(--color-pineal-700);
@@ -177,71 +166,23 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    box-sizing: border-box;
 }
 
 .btn-submit:hover {
-    background: var(--color-golden-wheat-700);
+    background: var(--color-pineal-900);
 }
 
 
 
 @media (max-width: 768px) {
     .auth-card {
-        flex-direction: column;
-        max-width: 440px;
-    }
-
-    .auth-logo-panel {
-        flex: none;
-        padding: 32px;
+        max-width: 80%;
     }
 
     .auth-logo-panel .header-logo {
         width: 180px;
     }
 
-    .auth-form-panel {
-        padding: 32px 24px;
-    }
+
 }
 
-@media (max-width: 480px) {
-    .auth-wrapper {
-        padding: 16px;
-    }
-
-    .auth-card {
-        border-radius: 16px;
-    }
-
-    .auth-logo-panel {
-        padding: 24px;
-    }
-
-    .auth-logo-panel .header-logo {
-        width: 180px;
-    }
-
-    .auth-form-panel {
-        padding: 24px 20px;
-    }
-
-    .auth-head h1 {
-        font-size: 1.6em;
-    }
-
-    .input-group input {
-        font-size: 16px;
-        padding: 12px 40px 12px 14px;
-    }
-
-    .input-group:has(.toggle-password) input {
-        padding-left: 42px;
-    }
-
-    .btn-submit {
-        padding: 12px;
-        font-size: 1.1em;
-    }
-}

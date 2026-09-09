@@ -9,8 +9,6 @@ use App\Http\Controllers\Blade\AuthController as BladeAuthController;
 use App\Http\Controllers\Blade\ContractorController as BladeContractorController;
 use App\Http\Controllers\Blade\ProjectController as BladeProjectController;
 use App\Http\Controllers\Blade\UserController as BladeUserController;
-use App\Http\Controllers\Blade\IncomingEntityController as BladeIncomingEntityController;
-use App\Http\Controllers\Blade\PricingItemController as BladePricingItemController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +24,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -37,18 +32,9 @@ Route::get('/', function () {
 */
 
 Route::middleware('guest')->group(function () {
-
     Route::get('/login', function () {
         return view('auth.login');
     })->name('login');
-
-    Route::get('/login1', function () {
-        return view('auth.login1');
-    })->name('login1');
-
-    Route::get('/login2', function () {
-        return view('auth.login2');
-    })->name('login2');
 
     Route::post('/login', [
         BladeAuthController::class,
@@ -68,6 +54,14 @@ Route::post('/logout', [
 | Authenticated Blade Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->name('dashboard');
+
+Route::get('/show', function () {
+    return view('dashboard.show');
+});
+
 
 Route::middleware('auth')->group(function () {
 
@@ -77,9 +71,6 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
 
     /*
     |--------------------------------------------------------------------------
@@ -127,28 +118,6 @@ Route::middleware('auth')->group(function () {
         'contractors',
         BladeContractorController::class
     );
-
-    /* 
-    |--------------------------------------------------------------------------
-    | Incoming Entities - Blade
-    |--------------------------------------------------------------------------
-    */
-
-    Route::resource(
-        'incoming-entities',
-        BladeIncomingEntityController::class
-    );
-
-    /* 
-    |--------------------------------------------------------------------------
-    | Pricing Items - Blade
-    |--------------------------------------------------------------------------
-    */
-    Route::resource(
-        'pricing-items',
-        BladePricingItemController::class
-    );
-    
 });
 
 
