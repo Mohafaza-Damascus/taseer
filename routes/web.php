@@ -54,12 +54,12 @@ Route::post('/logout', [
 | Authenticated Blade Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
+Route::get('/', function () {
+    return view('projects.index');
 })->name('dashboard');
 
 Route::get('/show', function () {
-    return view('dashboard.show');
+    return view('projects.show');
 });
 
 
