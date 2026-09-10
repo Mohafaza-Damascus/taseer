@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\Apis\AuthController;
-use App\Http\Controllers\Apis\ContractorController;
-use App\Http\Controllers\Apis\ProjectController;
-use App\Http\Controllers\Apis\UserController;
-
 use App\Http\Controllers\Blade\AuthController as BladeAuthController;
 use App\Http\Controllers\Blade\ContractorController as BladeContractorController;
 use App\Http\Controllers\Blade\DashboardController;
@@ -27,9 +22,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +30,6 @@ Route::get('/', function () {
 */
 
 Route::middleware('guest')->group(function () {
-
     Route::get('/login', function () {
         return view('auth.login');
     })->name('login');
@@ -56,11 +47,7 @@ Route::post('/logout', [
     ->middleware('auth')
     ->name('logout');
 
-/*
-|--------------------------------------------------------------------------
-| Authenticated Blade Routes
-|--------------------------------------------------------------------------
-*/
+
 
 Route::middleware('auth')->group(function () {
 
@@ -74,7 +61,6 @@ Route::middleware('auth')->group(function () {
         '/dashboard',
         [DashboardController::class, 'index']
     )->name('dashboard');
-
 
     /*
     |--------------------------------------------------------------------------

@@ -1,0 +1,340 @@
+a, a:hover, a:visited, a:active {
+    text-decoration: none;
+}
+*, *::before, *::after {
+    box-sizing: border-box !important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.app-body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--color-bg);
+    overflow: hidden;
+}
+
+.layout {
+    display: flex;
+    height: 100%;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.sidebar {
+    width: 248px;
+    background-color: var(--color-brand);
+    background-image: url("../images/pattern.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 12px;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: transform var(--transition-slow);
+    z-index: var(--z-sidebar);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.sidebar-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 8px 8px 24px;
+    flex-shrink: 0;
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.sidebar-logo {
+    width: 62px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.sidebar-gov {
+    font-family: var(--font-display-bold);
+    font-size: var(--text-2xl);
+    color: var(--color-surface);
+    white-space: nowrap;
+    line-height: 1.1;
+}
+
+.sidebar-text {
+    font-family: var(--font-display-bold);
+    font-size: var(--text-2xl);
+    color: var(--color-surface);
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-title);
+    font-size: var(--text-xl);
+    color: var(--color-on-brand);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.sidebar-item:hover {
+    background: var(--overlay-on-dark-weak);
+}
+
+.sidebar-item.active {
+    background: var(--overlay-on-dark-medium);
+}
+
+.sidebar-item img {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.sidebar-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8px 0;
+    margin-top: 12px;
+    border-top: 1px solid var(--overlay-on-dark-weak);
+    gap: 8px;
+}
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+}
+
+.sidebar-user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.sidebar-name {
+    font-family: var(--font-title);
+    font-size: var(--text-xs);
+    color: var(--color-golden-wheat-50);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-role {
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    color: var(--color-golden-wheat-50);
+}
+
+.sidebar-logout {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-2xs);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+    background-color: var(--color-golden-wheat-500);
+}
+
+.sidebar-logout:hover {
+    background: var(--color-golden-wheat-300);
+    cursor: pointer;
+}
+
+.sidebar-logout img {
+    width: 22px;
+    height: 22px;
+}
+
+
+/* تبويب (handle) ملتصق بحافة السايدبار القائدة — يبان كأنه جزء منه لما يكون مفتوح،
+   ويصير handle عالحافة لما ينسكر ليرجع يفتح */
+.sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    right: 248px;                 /* ملاصق تماماً لحافة السايدبار المفتوح */
+    z-index: var(--z-sidebar-toggle);
+    width: 26px;
+    height: 46px;
+    background: var(--color-brand);
+    border: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md); /* مدوّر من الجهة الخارجية فقط */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: right var(--transition-slow), background var(--transition-base);
+}
+
+.sidebar-collapsed .sidebar-toggle {
+    right: 0;                     /* handle ملتصق بحافة الشاشة لما ينسكر */
+}
+
+.sidebar-toggle-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-toggle:hover {
+    background: var(--color-brand-hover);
+}
+
+
+.sidebar-hidden {
+    transform: translateX(100%);
+}
+
+/* استعادة الحالة قبل أول رسم — يمنع وميض الفتح/السكر عند الريفرش.
+   سكربت بالـ<head> بيضيف .sidebar-init-collapsed على <html> قبل ما ينرسم شي. */
+html.sidebar-init-collapsed .sidebar {
+    transform: translateX(100%);
+}
+
+html.sidebar-init-collapsed .main {
+    margin-right: 0;
+}
+
+html.sidebar-init-collapsed .sidebar-toggle {
+    right: 0;
+}
+
+.sidebar-collapsed .main {
+    margin-right: 0;
+}
+
+
+.main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    height: 100%;
+    margin-right: 248px;
+    padding: 0px 40px;
+    box-sizing: border-box;
+    transition: margin-right var(--transition-slow);
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+        padding: 16px 8px;
+    }
+    .sidebar-brand {
+        justify-content: center;
+        padding: 8px 0 24px;
+    }
+    .sidebar-logo {
+        width: 42px;
+        height: 42px;
+    }
+    .sidebar-brand-text {
+        display: none;
+    }
+    .sidebar-item {
+        justify-content: center;
+        padding: 12px;
+    }
+    .sidebar-item span {
+        display: none;
+    }
+    .sidebar-footer {
+        justify-content: center;
+        padding: 16px 0 0;
+    }
+    .sidebar-user-info,
+    .sidebar-user {
+        display: none;
+    }
+    .sidebar-logout {
+        display: flex;
+        width: 42px;
+        height: 42px;
+    }
+
+    .sidebar-toggle {
+        right: 70px;
+    }
+    .sidebar-collapsed .sidebar-toggle {
+        right: 0;
+    }
+    html.sidebar-init-collapsed .sidebar-toggle {
+        right: 0;
+    }
+
+    .main {
+        margin-right: 70px;
+        padding: 58px 16px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        margin-right: 70px;
+        padding: 58px 12px 12px;
+        width: calc(100% - 70px);
+    }
+
+    .sidebar-collapsed .main,
+    html.sidebar-init-collapsed .main {
+        margin-right: 0;
+        width: 100%;
+    }
+}
