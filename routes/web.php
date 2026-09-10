@@ -70,6 +70,23 @@ Route::get('/admin/users/show', function () {
     return view('admin.users.show');
 });
 
+Route::get('/admin/users/edit', function () {
+    return view('admin.users.edit');
+});
+
+
+Route::get('/admin/roles', function () {
+    return view('admin.roles.index');
+});
+Route::get('/admin/roles/show', function () {
+    return view('admin.roles.show');
+});
+
+Route::get('/admin/roles/edit', function () {
+    return view('admin.roles.edit');
+});
+
+
 
 
 Route::middleware('auth')->group(function () {
