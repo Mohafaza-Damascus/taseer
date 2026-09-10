@@ -66,6 +66,10 @@ Route::get('/show', function () {
 Route::get('/admin/users', function () {
     return view('admin.users.index');
 });
+Route::get('/admin/users/show', function () {
+    return view('admin.users.show');
+});
+
 
 
 Route::middleware('auth')->group(function () {
