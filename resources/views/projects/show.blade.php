@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل المشروع</title>
     @vite('resources/css/variables.css')
-    @vite('resources/css/dashboard/show.css')
+    @vite('resources/css/projects/show.css')
 </head>
 
 <body>

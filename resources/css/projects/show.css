@@ -64,7 +64,7 @@ body {
     padding: 10px 20px;
     border: none;
     border-radius: 11px;
-    background-color: var(--color-umber-700);
+    background-color: var(--color-red-700);
     font-family: var(--font-thmanyahseriftext);
     font-size: 0.88rem;
     color: white;
@@ -74,7 +74,7 @@ body {
 }
 
 .btn-delete:hover {
-    background-color: var(--color-umber-900);
+    background-color: var(--color-red-900);
 }
 
 
