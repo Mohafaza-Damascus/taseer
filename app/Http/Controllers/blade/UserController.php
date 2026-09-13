@@ -13,140 +13,110 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * Display users.
-     */
-    public function index(Request $request): View
+
+
+ public function index(): View
     {
         $users = User::query()
-            ->with('roles.permissions')
+            ->with('roles')
             ->latest()
-            ->paginate(15)
-            ->withQueryString();
+            ->paginate(15);
 
-        return view('users.index', compact('users'));
+        return view(
+            'admin.users.index',
+            compact('users')
+        );
     }
 
-    /**
-     * Show create user page.
-     */
     public function create(): View
     {
-        return view('users.create');
+        $roles = Role::query()
+            ->orderBy('name')
+            ->get();
+
+        return view(
+            'admin.users.create',
+            compact('roles')
+        );
     }
 
-    /**
-     * Store employee.
-     */
     public function store(
         CreateUserRequest $request
     ): RedirectResponse {
         $data = $request->validated();
 
-        $employeeRole = Role::where(
-            'slug',
-            'employee'
-        )->first();
-
-        if (!$employeeRole) {
-            return back()
-                ->withErrors([
-                    'error' => 'دور الموظف غير موجود.',
-                ])
-                ->withInput();
-        }
-
         $user = User::create([
-            'name' => $data['name'],
             'username' => $data['username'],
-            'email' => $data['email'] ?? null,
             'password' => $data['password'],
         ]);
 
         $user->roles()->sync([
-            $employeeRole->id,
+            $data['role_id'],
         ]);
 
         return redirect()
             ->route('users.index')
-            ->with('success', 'تم إنشاء الموظف بنجاح.');
+            ->with('success', 'تم إنشاء المستخدم بنجاح.');
     }
 
-    /**
-     * Show user.
-     */
     public function show(User $user): View
     {
-        $user->load('roles.permissions');
+        $user->load([
+            'roles.permissions',
+        ]);
 
         return view(
-            'users.show',
+            'admin.users.show',
             compact('user')
         );
     }
 
-    /**
-     * Show edit page.
-     */
     public function edit(User $user): View
     {
+        $user->load('roles');
+
+        $roles = Role::query()
+            ->orderBy('name')
+            ->get();
+
         return view(
-            'users.edit',
-            compact('user')
+            'admin.users.edit',
+            compact(
+                'user',
+                'roles'
+            )
         );
     }
 
-    /**
-     * Update employee.
-     */
     public function update(
-        UpdateUserRequest $request,
+        \App\Http\Requests\User\UpdateUserRequest $request,
         User $user
     ): RedirectResponse {
         $data = $request->validated();
 
-        $updateData = [];
+        $updateData = [
+            'username' => $data['username'],
+        ];
 
-        if (array_key_exists('name', $data)) {
-            $updateData['name'] = $data['name'];
-        }
-
-        if (array_key_exists('username', $data)) {
-            $updateData['username'] = $data['username'];
-        }
-
-        if (array_key_exists('email', $data)) {
-            $updateData['email'] = $data['email'];
-        }
-
-        if (
-            array_key_exists('password', $data)
-            && $data['password'] !== null
-        ) {
+        if (!empty($data['password'])) {
             $updateData['password'] = $data['password'];
         }
 
-        if (!empty($updateData)) {
-            $user->update($updateData);
-        }
+        $user->update($updateData);
+
+        $user->roles()->sync([
+            $data['role_id'],
+        ]);
 
         return redirect()
-            ->route('users.index')
+            ->route('users.show', $user)
             ->with('success', 'تم تعديل المستخدم بنجاح.');
     }
 
-    /**
-     * Delete user.
-     */
     public function destroy(User $user): RedirectResponse
     {
-        if ($user->id === auth()->id()) {
-            return back()->withErrors([
-                'error' => 'لا يمكنك حذف حسابك الحالي.',
-            ]);
-        }
-
         $user->roles()->detach();
+
         $user->delete();
 
         return redirect()

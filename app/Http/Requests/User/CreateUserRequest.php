@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\User;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends BaseRequest
+class CreateUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,24 +14,11 @@ class CreateUserRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
             'username' => [
                 'required',
                 'string',
-                'max:100',
-                'unique:users,username',
-            ],
-
-            'email' => [
-                'nullable',
-                'email',
                 'max:255',
-                'unique:users,email',
+                'unique:users,username',
             ],
 
             'password' => [
@@ -40,23 +27,27 @@ class CreateUserRequest extends BaseRequest
                 'min:8',
                 'confirmed',
             ],
+
+            'role_id' => [
+                'required',
+                'integer',
+                'exists:roles,id',
+            ],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'الاسم مطلوب.',
-
             'username.required' => 'اسم المستخدم مطلوب.',
-            'username.unique' => 'اسم المستخدم مستخدم مسبقاً.',
-
-            'email.email' => 'البريد الإلكتروني غير صحيح.',
-            'email.unique' => 'البريد الإلكتروني مستخدم مسبقاً.',
+            'username.unique' => 'اسم المستخدم مستخدم مسبقًا.',
 
             'password.required' => 'كلمة المرور مطلوبة.',
-            'password.min' => 'كلمة المرور يجب أن تكون 8 محارف على الأقل.',
-            'password.confirmed' => 'تأكيد كلمة المرور غير مطابق.',
+            'password.min' => 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.',
+            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق.',
+
+            'role_id.required' => 'يجب اختيار الدور.',
+            'role_id.exists' => 'الدور المحدد غير موجود.',
         ];
     }
 }
