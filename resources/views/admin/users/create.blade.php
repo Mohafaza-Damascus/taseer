@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>username</title>
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/users/edit.css')
+    @vite('resources/css/admin/users/create.css')
 </head>
 <body>
     <div class="container">
         <section class="header-card">
-            <h1>تعديل المستخدم</h1>
+            <h1>إنشاء المستخدم</h1>
             <a href="" class="btn-go-back">رجوع</a>
         </section>
 
@@ -19,7 +19,7 @@
             @method('PUT')
 
             <div class="form-group">
-                <label for="username">اسم المستخدم</label>
+                <label for="username">اسم مستخدم</label>
                 <input type="text" id="username" name="username"
                        value="username" required>
                 <span class="form-error"></span>
@@ -27,8 +27,7 @@
 
             <div class="form-group">
                 <label for="password">كلمة المرور</label>
-                <input type="password" id="password" name="password"
-                    placeholder="••••••••" autocomplete="new-password">
+                <input type="password" id="password" name="password" autocomplete="new-password">
 
                 <span class="form-error"></span>
             </div>
@@ -41,31 +40,41 @@
                         <input type="radio"
                                 name="role_id"
                                 value="1">
-                        <span class="radio-name">اسم الرول</span>
+                        <span class="radio-text">
+                            <span class="radio-name">اسم الرول</span>
+                        </span>
                     </label>
                     <label class="radio-item">
                         <input type="radio"
                                 name="role_id"
                                 value="1">
-                        <span class="radio-name">اسم الرول</span>
+                        <span class="radio-text">
+                            <span class="radio-name">اسم الرول</span>
+                        </span>
                     </label>
                     <label class="radio-item">
                         <input type="radio"
                                 name="role_id"
                                 value="1">
-                        <span class="radio-name">اسم الرول</span>
+                        <span class="radio-text">
+                            <span class="radio-name">اسم الرول</span>
+                        </span>
                     </label>
                     <label class="radio-item">
                         <input type="radio"
                                 name="role_id"
                                 value="1">
-                        <span class="radio-name">اسم الرول</span>
+                        <span class="radio-text">
+                            <span class="radio-name">اسم الرول</span>
+                        </span>
                     </label>
                     <label class="radio-item">
                         <input type="radio"
                                 name="role_id"
                                 value="1">
-                        <span class="radio-name">اسم الرول</span>
+                        <span class="radio-text">
+                            <span class="radio-name">اسم الرول</span>
+                        </span>
                     </label>
 
                 </div>
@@ -73,7 +82,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-save">حفظ التعديلات</button>
+                <button type="submit" class="btn-save">حفظ</button>
                 <a href="" class="btn-cancel">إلغاء</a>
             </div>
         </form>

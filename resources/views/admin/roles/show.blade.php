@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل الدور - {{ $role->name }}</title>
+    <title>تفاصيل الدور</title>
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/roles/show.css')
 </head>
@@ -11,52 +11,52 @@
     <div class="container">
         <section class="header-card">
             <h1>تفاصيل الدور</h1>
-            <a href="{{ route('admin.roles.index') }}" class="btn-go-back">رجوع</a>
+            <a href="" class="btn-go-back">رجوع</a>
         </section>
 
         <div class="form-card">
             <div class="info-list">
                 <div class="info-row">
                     <span class="info-label">الاسم</span>
-                    <span class="info-value">{{ $role->name }}</span>
+                    <span class="info-value">اسم الدور</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">المُعرّف (Slug)</span>
-                    <span class="info-value">{{ $role->slug }}</span>
+                    <span class="info-label">slug</span>
+                    <span class="info-value">slug</span>
                 </div>
             </div>
 
             <div>
-                <span class="section-title">الصلاحيات ({{ $role->permissions->count() }})</span>
+                <span class="section-title">الصلاحيات (عدد الصلاحيات)</span>
                 <div class="chip-list">
-                    @forelse($role->permissions as $permission)
-                        <span class="chip">{{ $permission->name }}</span>
-                    @empty
-                        <span class="chip is-muted">لا يوجد صلاحيات</span>
-                    @endforelse
+                        <span class="chip">صلاحية 1</span>
+                        <span class="chip">صلاحية 2</span>
+                        <span class="chip">صلاحية 3</span>
+                        <span class="chip">صلاحية 4</span>
+                        <span class="chip">صلاحية 5</span>
+                        <span class="chip">لا يوجد صلاحيات</span>
                 </div>
             </div>
 
             <div>
-                <span class="section-title">المستخدمون بهذا الدور ({{ $role->users->count() }})</span>
+                <span class="section-title">المستخدمون بهذا الدور (عدد المستخدمين)</span>
                 <div class="chip-list">
-                    @forelse($role->users as $user)
-                        <span class="chip is-muted">{{ $user->username }}</span>
-                    @empty
-                        <span class="chip is-muted">لا يوجد مستخدمون</span>
-                    @endforelse
+                    <span class="chip">كنان عايد</span>
+                    <span class="chip">سامي زكريا</span>
+                    <span class="chip">محمود الأشقر</span>
+                    <span class="chip">لا يوجد مستخدمون</span>
                 </div>
             </div>
 
             <div class="form-actions">
-                <a href="{{ route('admin.roles.edit', $role) }}" class="btn-primary">تعديل</a>
+                <a href="" class="btn-edit">تعديل</a>
 
-                <form action="{{ route('admin.roles.destroy', $role) }}"
+                <form action=""
                       method="POST"
                       onsubmit="return confirm('هل أنت متأكد من حذف الدور؟');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-danger">حذف</button>
+                    <button type="submit" class="btn-delete">حذف</button>
                 </form>
             </div>
         </div>

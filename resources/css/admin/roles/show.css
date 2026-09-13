@@ -73,8 +73,9 @@ h1 {
 .info-list {
     display: flex;
     flex-direction: column;
-    padding-bottom: 8px;
-    margin-bottom: 8px;
+    background-color: var(--color-pineal-50);
+    padding: 18px 20px 16px;
+    border-radius: 16px;
 }
 
 .info-row {
@@ -97,7 +98,7 @@ h1 {
 }
 
 .info-row .info-value {
-    color: var(--color-charcoal-700);
+    color: var(--color-pineal-700);
     font-family: var(--font-thmanyahseriftext-medium);
     font-size: 0.92rem;
     overflow-wrap: anywhere;
@@ -121,7 +122,7 @@ h1 {
     display: inline-flex;
     align-items: center;
     padding: 6px 12px;
-    background-color: var(--color-pineal-100);
+    background-color: var(--color-pineal-50);
     color: var(--color-pineal-700);
     border-radius: 999px;
     font-size: 0.85rem;
@@ -129,10 +130,7 @@ h1 {
     white-space: nowrap;
 }
 
-.chip.is-muted {
-    background-color: var(--color-charcoal-100);
-    color: var(--color-charcoal-700);
-}
+
 
 .form-actions {
     display: flex;
@@ -141,8 +139,8 @@ h1 {
     justify-content: flex-start;
 }
 
-.btn-primary,
-.btn-danger {
+.btn-edit,
+.btn-delete {
     padding: 11px 16px;
     border: 2px solid transparent;
     border-radius: 11px;
@@ -157,21 +155,21 @@ h1 {
     text-align: center;
 }
 
-.btn-primary {
+.btn-edit {
     background-color: var(--color-pineal-700);
     color: var(--color-golden-wheat-100);
 }
 
-.btn-primary:hover {
+.btn-edit:hover {
     background-color: var(--color-pineal-900);
 }
 
-.btn-danger {
+.btn-delete {
     background-color: var(--color-red-700);
     color: #fff;
 }
 
-.btn-danger:hover {
+.btn-delete:hover {
     background-color: var(--color-red-900);
 }
 

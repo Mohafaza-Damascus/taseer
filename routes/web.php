@@ -72,6 +72,10 @@ Route::get('/admin/users/edit', function () {
     return view('admin.users.edit');
 });
 
+Route::get('/admin/users/create', function () {
+    return view('admin.users.create');
+});
+
 
 Route::get('/admin/roles', function () {
     return view('admin.roles.index');
@@ -82,6 +86,9 @@ Route::get('/admin/roles/show', function () {
 
 Route::get('/admin/roles/edit', function () {
     return view('admin.roles.edit');
+});
+Route::get('/admin/roles/create', function () {
+    return view('admin.roles.create');
 });
 
 

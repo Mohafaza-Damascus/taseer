@@ -59,7 +59,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-save">حفظ التعديلات</button>
+                <button type="submit" class="btn-save">حفظ</button>
                 <a href="" class="btn-cancel">إلغاء</a>
             </div>
         </form>
