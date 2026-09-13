@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Project;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateProjectRequest extends BaseRequest
+class CreateProjectRequest extends FormRequest
 {
     public function authorize(): bool
     {
