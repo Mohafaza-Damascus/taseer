@@ -11,80 +11,37 @@ class CreateProjectRequest extends FormRequest
         return true;
     }
 
+    use Illuminate\Validation\Rule;
+
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'name'             => ['required', 'string', 'max:255'],
+            'signing_location' => ['nullable', 'string', 'max:255'],
+            'start_date'       => ['nullable', 'date'],
+            'end_date'         => ['nullable', 'date', 'after_or_equal:start_date'],
 
-            'signing_location' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
+            'incoming_entity_id'         => ['nullable', 'exists:incoming_entities,id'],
+            'new_incoming_entity_name'   => ['nullable', 'string', 'max:255', Rule::unique('incoming_entities', 'name')],
+            'new_incoming_entity_notes'  => ['nullable', 'string'],
 
-            'start_date' => [
-                'nullable',
-                'date',
-            ],
+            'contractor_id'                   => ['nullable', 'exists:contractors,id'],
+            'new_contractor_name'             => ['nullable', 'string', 'max:255'],
+            'new_contractor_phone'            => ['required_with:new_contractor_name', 'string', 'max:255'],
+            'new_contractor_national_number'  => ['required_with:new_contractor_name', 'string', 'max:255', Rule::unique('contractors', 'national_number')],
+            'new_contractor_company_name'     => ['nullable', 'string', 'max:255'],
 
-            'end_date' => [
-                'nullable',
-                'date',
-                'after_or_equal:start_date',
-            ],
-
-            'incoming_entity_id' => [
-                'nullable',
-                'integer',
-                'exists:incoming_entities,id',
-            ],
-
-            'contractor_id' => [
-                'nullable',
-                'integer',
-                'exists:contractors,id',
-            ],
-
-            /*
-             * بنود المشروع
-             */
-            'pricing_items' => [
-                'nullable',
-                'array',
-            ],
-
-            'pricing_items.*.pricing_item_id' => [
-                'required',
-                'integer',
-                'exists:pricing_items,id',
-            ],
-
-            'pricing_items.*.quantity' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
-
-            'pricing_items.*.unit_price_syp' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
-
-            'pricing_items.*.unit_price_usd' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
-
-            'pricing_items.*.specifications' => [
-                'nullable',
-                'array',
-            ],
+            'pricing_items'   => ['nullable', 'array'],
+            'pricing_items.*.pricing_item_id'          => ['nullable', 'exists:pricing_items,id'],
+            'pricing_items.*.new_item_name'            => ['nullable', 'string', 'max:255'],
+            'pricing_items.*.new_item_unit'            => ['nullable', 'string', 'max:255'],
+            'pricing_items.*.new_item_related_work_id'   => ['nullable', 'exists:related_works,id'],
+            'pricing_items.*.new_item_related_work_name' => ['nullable', 'string', 'max:255'],
+            'pricing_items.*.quantity'        => ['required', 'numeric', 'min:0'],
+            'pricing_items.*.unit_price_syp'  => ['required', 'numeric', 'min:0'],
+            'pricing_items.*.unit_price_usd'  => ['required', 'numeric', 'min:0'],
+            'pricing_items.*.specifications'  => ['nullable', 'array'],
+            'pricing_items.*.specifications.*' => ['nullable', 'string', 'max:255'],
         ];
     }
 
