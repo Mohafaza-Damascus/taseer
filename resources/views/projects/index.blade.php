@@ -23,7 +23,6 @@
 
             <form method="GET" action="{{ route('projects.index') }}" class="filter-row">
 
-                {{-- Search --}}
                 <div class="filter-group" data-field="search">
 
                     <label for="searchInput">
@@ -36,7 +35,6 @@
                 </div>
 
 
-                {{-- Incoming Entity --}}
                 <div class="filter-group" data-field="entity">
 
                     <label for="entityFilter">
@@ -64,7 +62,6 @@
                 </div>
 
 
-                {{-- Contractor --}}
                 <div class="filter-group" data-field="contractor">
 
                     <label for="contractorFilter">
@@ -92,7 +89,6 @@
                 </div>
 
 
-                {{-- Date From --}}
                 <div class="filter-group" data-field="dateFrom">
 
                     <label for="dateFrom">
@@ -103,8 +99,6 @@
 
                 </div>
 
-
-                {{-- Date To --}}
                 <div class="filter-group" data-field="dateTo">
 
                     <label for="dateTo">
@@ -116,7 +110,6 @@
                 </div>
 
 
-                {{-- Sort --}}
                 <div class="filter-group" data-field="sort">
 
                     <label for="sortSelect">
@@ -146,7 +139,6 @@
                 </div>
 
 
-                {{-- Filter --}}
                 <div class="filter-group">
 
                     <button type="submit" class="btn-filter-reset">
@@ -224,7 +216,6 @@
                 @endforelse
             </div>
 
-            {{-- Add Project --}}
             <a href="{{ route('projects.create') }}" class="add-card" id="addProjectBtn" title="إضافة مشروع جديد">
                 <span class="add-card-icon">
                     +

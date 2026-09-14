@@ -158,8 +158,11 @@ h1 {
     font-family: var(--font-thmanyahseriftext);
     font-size: 0.9rem;
     color: white;
-    transition: background-color 0.2s ease;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.2s ease;
 }
 
 .btn-details:hover {
@@ -167,6 +170,7 @@ h1 {
 }
 
 .add-card {
+    text-decoration: none;
     border: none;
     border-radius: 16px;
     background-color: var(--color-pineal-700);
