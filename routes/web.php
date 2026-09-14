@@ -35,8 +35,8 @@ Route::post('/logout', [
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('projects.index');
-})->name('dashboard');
+    return redirect()->route('dashboard');
+});
 
 Route::get('/show', function () {
     return view('projects.show');
@@ -59,10 +59,10 @@ Route::get('/admin/users/create', function () {
 });
 
 
-    Route::resource(
-        'roles',
-        BladeRoleController::class
-    );
+Route::resource(
+    'roles',
+    BladeRoleController::class
+);
 
 
 

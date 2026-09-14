@@ -1,0 +1,807 @@
+/* =========================================================
+   Reset
+========================================================= */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Page
+========================================================= */
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    width: 100%;
+
+    background-color: var(--color-golden-wheat-100);
+    color: var(--color-pineal-700);
+
+    font-family: var(--font-thmanyahseriftext-medium);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   Layout
+========================================================= */
+
+.admin-layout {
+    min-height: 100dvh;
+    width: 100%;
+}
+
+/* =========================================================
+   Sidebar
+========================================================= */
+
+.sidebar {
+    width: 300px;
+    min-height: 100dvh;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: var(--color-pineal-700);
+
+    color: var(--color-golden-wheat-100);
+
+    z-index: 100;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Pattern
+--------------------------------------------------------- */
+
+.sidebar-pattern {
+    position: absolute;
+
+    inset: 0;
+background-image: url('../images/pattern.svg');
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 280px;
+
+    opacity: 0.08;
+
+    pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------
+   Sidebar Content
+--------------------------------------------------------- */
+
+.sidebar-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 28px 16px;
+
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Logo
+--------------------------------------------------------- */
+
+.sidebar-header {
+    padding: 5px 10px 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    text-decoration: none;
+}
+
+
+.sidebar-logo img {
+    display: block;
+
+    width: min(170px, 100%);
+    max-height: 75px;
+
+    object-fit: contain;
+}
+
+
+.sidebar-header > span {
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.85rem;
+
+    color: var(--color-golden-wheat-200);
+}
+
+
+/* ---------------------------------------------------------
+   Navigation
+--------------------------------------------------------- */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.sidebar-link {
+    width: 100%;
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 14px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background-color: transparent;
+
+    color: var(--color-golden-wheat-100);
+
+    font-family: var(--font-thmanyahseriftext-medium);
+    font-size: 0.95rem;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+.sidebar-link:hover {
+    background-color: var(--color-pineal-900);
+
+    color: var(--color-golden-wheat-100);
+
+    transform: translateX(-2px);
+}
+
+
+.sidebar-link.active {
+    background-color: var(--color-golden-wheat-100);
+
+    color: var(--color-pineal-700);
+}
+
+
+.sidebar-link.active:hover {
+    background-color: var(--color-golden-wheat-50);
+
+    color: var(--color-pineal-700);
+}
+
+
+/* ---------------------------------------------------------
+   Icons
+--------------------------------------------------------- */
+
+.sidebar-icon {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+
+.sidebar-link.active .sidebar-icon {
+    background-color: var(--color-pineal-100);
+}
+
+
+/* ---------------------------------------------------------
+   Footer
+--------------------------------------------------------- */
+
+.sidebar-footer {
+    margin-top: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.sidebar-footer form {
+    width: 100%;
+    margin: 0;
+}
+
+
+.sidebar-logout {
+    font-family: var(--font-thmanyahseriftext-medium);
+}
+
+/* =========================================================
+   Main Content
+========================================================= */
+
+.main-content {
+    width: calc(100% - 250px);
+
+    min-height: 100dvh;
+
+    margin-right: 250px;
+
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+.dashboard {
+    width: 100%;
+    max-width: 1240px;
+
+    margin: 0 auto;
+
+    padding: clamp(24px, 4vw, 40px)
+             clamp(16px, 4vw, 30px);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Dashboard Header
+========================================================= */
+
+.dashboard-header {
+    margin-bottom: clamp(24px, 4vw, 34px);
+}
+
+
+.dashboard-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.9rem;
+
+    color: var(--color-pineal-500);
+}
+
+
+.dashboard-header h1 {
+    font-family: var(--font-thmanyahserifdisplay-bold);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+
+    line-height: 1.2;
+
+    color: var(--color-pineal-700);
+}
+
+
+.dashboard-header p {
+    margin-top: 7px;
+
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.95rem;
+
+    color: var(--color-charcoal-500);
+}
+
+
+/* =========================================================
+   Dashboard Sections
+========================================================= */
+
+.dashboard-section {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 30px;
+}
+
+
+.section-heading {
+    display: flex;
+    align-items: center;
+
+    min-height: 30px;
+}
+
+
+.section-heading h2 {
+    font-family: var(--font-thmanyahserifdisplay-bold);
+    font-size: 1.35rem;
+
+    color: var(--color-pineal-700);
+}
+
+
+/* =========================================================
+   Statistics
+========================================================= */
+
+.stats-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: clamp(12px, 2vw, 20px);
+}
+
+
+.stat-card {
+    min-width: 0;
+
+    padding: clamp(18px, 3vw, 24px);
+
+    background-color: #fff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 2px 8px rgba(6, 66, 57, 0.06);
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 18px rgba(6, 66, 57, 0.10);
+}
+
+
+.stat-card-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+
+.stat-title {
+    font-family: var(--font-thmanyahseriftext-bold);
+    font-size: 1rem;
+
+    color: var(--color-pineal-700);
+}
+
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background-color: var(--color-pineal-100);
+
+    color: var(--color-pineal-700);
+
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}
+
+
+.stat-value {
+    display: block;
+
+    margin-top: 20px;
+
+    font-family: var(--font-thmanyahserifdisplay-bold);
+    font-size: clamp(2rem, 5vw, 2.7rem);
+
+    line-height: 1;
+
+    color: var(--color-pineal-700);
+}
+
+
+.stat-description {
+    display: block;
+
+    margin-top: 9px;
+
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.85rem;
+
+    color: var(--color-charcoal-500);
+}
+
+
+/* =========================================================
+   Quick Links
+========================================================= */
+
+.quick-links {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: clamp(12px, 2vw, 20px);
+}
+
+
+.quick-link {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background-color: var(--color-pineal-700);
+
+    text-decoration: none;
+
+    box-shadow:
+        0 2px 8px rgba(6, 66, 57, 0.08);
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.quick-link:hover {
+    background-color: var(--color-pineal-900);
+
+    transform: translateY(-2px);
+}
+
+
+.quick-link-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background-color: var(--color-golden-wheat-100);
+
+    color: var(--color-pineal-700);
+
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+}
+
+
+.quick-link div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.quick-link strong {
+    font-family: var(--font-thmanyahseriftext-bold);
+    font-size: 1rem;
+
+    color: var(--color-golden-wheat-100);
+}
+
+
+.quick-link div span {
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.82rem;
+
+    color: var(--color-golden-wheat-200);
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   Tablet
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        margin-right: 220px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .quick-links {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   Mobile Sidebar
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 72px;
+
+        padding: 20px 10px;
+    }
+
+
+    .sidebar-header {
+        padding: 8px 0 25px;
+    }
+
+
+    .sidebar-header h2 {
+        font-size: 1.1rem;
+    }
+
+
+    .sidebar-header span,
+    .sidebar-link span:not(.sidebar-icon) {
+        display: none;
+    }
+
+
+    .sidebar-link {
+        justify-content: center;
+
+        padding: 9px;
+    }
+
+
+    .sidebar-link:hover {
+        transform: none;
+    }
+
+
+    .sidebar-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 72px);
+
+        margin-right: 72px;
+    }
+
+
+    .dashboard {
+        padding:
+            26px 16px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .quick-links {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   Small Mobile
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .dashboard {
+        padding:
+            22px 12px;
+    }
+
+
+    .dashboard-header {
+        margin-bottom: 24px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+
+
+    .dashboard-header p {
+        font-size: 0.85rem;
+    }
+
+
+    .dashboard-section {
+        margin-bottom: 24px;
+    }
+
+
+    .section-heading h2 {
+        font-size: 1.2rem;
+    }
+
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+
+    .stat-card {
+        padding: 16px;
+    }
+
+
+    .stat-title {
+        font-size: 0.9rem;
+    }
+
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+    }
+
+
+    .stat-value {
+        margin-top: 18px;
+
+        font-size: 2rem;
+    }
+
+
+    .stat-description {
+        font-size: 0.75rem;
+    }
+
+
+    .quick-link {
+        padding: 15px;
+    }
+
+
+    .quick-link-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+}
+
+
+/* =========================================================
+   Very Small Screens
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .sidebar {
+        width: 62px;
+
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 62px);
+
+        margin-right: 62px;
+    }
+
+
+    .dashboard {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
