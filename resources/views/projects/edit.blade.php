@@ -2,271 +2,165 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        تعديل {{ $project->name }}
-    </title>
+    <title>تعديل مشروع</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/projects/show.css')
+    @vite('resources/css/projects/create.css')
 
 </head>
-
 
 <body>
 
     <div class="container">
 
-        <form method="POST" action="{{ route('projects.update', $project) }}" id="projectEditForm">
-
+        <form action="{{ route('projects.update', $project) }}" method="POST">
             @csrf
             @method('PUT')
-
-
-            {{-- ========================================================= --}}
-            {{-- Header --}}
-            {{-- ========================================================= --}}
 
             <section class="page-header">
 
                 <div class="header-main">
 
-                    <h1>
-                        تعديل المشروع
-                    </h1>
-
+                    <h1>تعديل المشروع</h1>
 
                     <div class="header-actions">
-
-                        <a href="{{ route('projects.show', $project) }}" class="btn-icon-edit">
-                            إلغاء
-                        </a>
-
-
-                        <button type="submit" class="btn-delete">
-                            حفظ التعديلات
-                        </button>
-
+                        <a href="{{ route('projects.index') }}" class="btn-cancel">إلغاء</a>
+                        <button type="submit" class="btn-save">حفظ التعديلات</button>
                     </div>
 
                 </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- Project Information --}}
-                {{-- ===================================================== --}}
-
                 <section class="info-grid">
 
-
-                    {{-- ================================================= --}}
-                    {{-- Incoming Entity --}}
-                    {{-- ================================================= --}}
-
+                    {{-- الجهة الواردة --}}
                     <div class="info-card">
 
                         <div class="info-card-header">
-
-                            <h2 class="info-card-title">
-                                الجهة الواردة
-                            </h2>
-
+                            <h2 class="info-card-title">الجهة الواردة</h2>
                         </div>
 
-
-                        <div class="info-item">
-
-                            <label for="incoming_entity_id">
-                                الجهة :
-                            </label>
-
-                            <select id="incoming_entity_id" name="incoming_entity_id">
-
-                                <option value="">
-                                    اختر الجهة
-                                </option>
-
-                                @foreach ($incomingEntities as $entity)
-
-                                    <option value="{{ $entity->id }}" @selected(
-                                        old(
-                                            'incoming_entity_id',
-                                            $project->incoming_entity_id
-                                        ) == $entity->id
-                                    )>
-                                        {{ $entity->name }}
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
+                        <div class="mode-toggle" data-field="incomingEntity">
+                            <button type="button" class="mode-btn active" data-mode="select">اختيار موجود</button>
+                            <button type="button" class="mode-btn" data-mode="new">إنشاء جديد</button>
                         </div>
 
+                        <div id="incomingEntity-select-wrapper">
+                            <div class="info-item">
+                                <label for="incoming_entity_id">الاسم :</label>
+                                <select id="incoming_entity_id" name="incoming_entity_id">
+                                    <option value="">اختر الجهة الواردة</option>
+                                    @foreach($incomingEntities as $incomingEntity)
+                                        <option value="{{ $incomingEntity->id }}"
+                                            @selected(old('incoming_entity_id', $project->incoming_entity_id) == $incomingEntity->id)>
+                                            {{ $incomingEntity->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
-                        <div class="info-item">
-
-                            <label for="incoming_entity_notes">
-                                ملاحظات :
-                            </label>
-
-                            <textarea id="incoming_entity_notes" name="incoming_entity_notes" rows="4">{{ old(
-    'incoming_entity_notes',
-    $project->incomingEntity?->notes
-) }}</textarea>
-
+                        <div id="incomingEntity-new-wrapper" style="display: none;">
+                            <div class="new-fields" style="grid-template-columns: 1fr;">
+                                <div class="info-item">
+                                    <label for="new_incoming_entity_name">اسم الجهة :</label>
+                                    <input type="text" id="new_incoming_entity_name" name="new_incoming_entity_name"
+                                        value="{{ old('new_incoming_entity_name') }}" placeholder="أدخل اسم الجهة الواردة">
+                                </div>
+                                <div class="info-item">
+                                    <label for="new_incoming_entity_notes">ملاحظات :</label>
+                                    <textarea id="new_incoming_entity_notes" name="new_incoming_entity_notes" rows="3"
+                                        placeholder="ملاحظات (اختياري)">{{ old('new_incoming_entity_notes') }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
 
 
-                    {{-- ================================================= --}}
-                    {{-- Contractor --}}
-                    {{-- ================================================= --}}
-
+                    {{-- المقاول --}}
                     <div class="info-card">
 
                         <div class="info-card-header">
-
-                            <h2 class="info-card-title">
-                                المقاول
-                            </h2>
-
+                            <h2 class="info-card-title">المقاول</h2>
                         </div>
 
-
-                        <div class="info-item">
-
-                            <label for="contractor_id">
-                                المقاول :
-                            </label>
-
-                            <select id="contractor_id" name="contractor_id">
-
-                                <option value="">
-                                    اختر المقاول
-                                </option>
-
-                                @foreach ($contractors as $contractor)
-
-                                    <option value="{{ $contractor->id }}" @selected(
-                                        old(
-                                            'contractor_id',
-                                            $project->contractor_id
-                                        ) == $contractor->id
-                                    )>
-                                        {{ $contractor->name }}
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
+                        <div class="mode-toggle" data-field="contractor">
+                            <button type="button" class="mode-btn active" data-mode="select">اختيار موجود</button>
+                            <button type="button" class="mode-btn" data-mode="new">إنشاء جديد</button>
                         </div>
 
-
-                        <div class="info-item">
-
-                            <label for="contractor_phone">
-                                الهاتف :
-                            </label>
-
-                            <input type="text" id="contractor_phone" name="contractor_phone" value="{{ old(
-    'contractor_phone',
-    $project->contractor?->phone
-) }}" dir="ltr">
-
+                        <div id="contractor-select-wrapper">
+                            <div class="info-item">
+                                <label for="contractor_id">الاسم :</label>
+                                <select id="contractor_id" name="contractor_id">
+                                    <option value="">اختر المقاول</option>
+                                    @foreach($contractors as $contractor)
+                                        <option value="{{ $contractor->id }}"
+                                            @selected(old('contractor_id', $project->contractor_id) == $contractor->id)>
+                                            {{ $contractor->name }}
+                                            @if($contractor->company_name) - {{ $contractor->company_name }} @endif
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
-
-                        <div class="info-item">
-
-                            <label for="contractor_national_number">
-                                الرقم الوطني :
-                            </label>
-
-                            <input type="text" id="contractor_national_number" name="contractor_national_number" value="{{ old(
-    'contractor_national_number',
-    $project->contractor?->national_number
-) }}">
-
-                        </div>
-
-
-                        <div class="info-item">
-
-                            <label for="contractor_company_name">
-                                الشركة :
-                            </label>
-
-                            <input type="text" id="contractor_company_name" name="contractor_company_name" value="{{ old(
-    'contractor_company_name',
-    $project->contractor?->company_name
-) }}">
-
+                        <div id="contractor-new-wrapper" style="display: none;">
+                            <div class="new-fields">
+                                <div class="info-item">
+                                    <label for="new_contractor_name">اسم المقاول :</label>
+                                    <input type="text" id="new_contractor_name" name="new_contractor_name"
+                                        value="{{ old('new_contractor_name') }}" placeholder="الاسم الكامل">
+                                </div>
+                                <div class="info-item">
+                                    <label for="new_contractor_national_number">الرقم الوطني :</label>
+                                    <input type="text" id="new_contractor_national_number" name="new_contractor_national_number"
+                                        value="{{ old('new_contractor_national_number') }}" placeholder="الرقم الوطني">
+                                </div>
+                                <div class="info-item">
+                                    <label for="new_contractor_phone">الهاتف :</label>
+                                    <input type="text" id="new_contractor_phone" name="new_contractor_phone"
+                                        value="{{ old('new_contractor_phone') }}" placeholder="رقم الهاتف">
+                                </div>
+                                <div class="info-item">
+                                    <label for="new_contractor_company_name">اسم الشركة :</label>
+                                    <input type="text" id="new_contractor_company_name" name="new_contractor_company_name"
+                                        value="{{ old('new_contractor_company_name') }}" placeholder="اختياري">
+                                </div>
+                            </div>
                         </div>
 
                     </div>
 
 
-                    {{-- ================================================= --}}
-                    {{-- Contract --}}
-                    {{-- ================================================= --}}
-
+                    {{-- بيانات العقد --}}
                     <div class="info-card">
 
                         <div class="info-card-header">
-
-                            <h2 class="info-card-title">
-                                توقيع العقد
-                            </h2>
-
+                            <h2 class="info-card-title">توقيع العقد</h2>
                         </div>
 
-
                         <div class="info-item">
-
-                            <label for="signing_location">
-                                مكان التوقيع :
-                            </label>
-
-                            <input type="text" id="signing_location" name="signing_location" value="{{ old(
-    'signing_location',
-    $project->signing_location
-) }}">
-
+                            <label for="signing_location">مكان التوقيع :</label>
+                            <input type="text" id="signing_location" name="signing_location"
+                                value="{{ old('signing_location', $project->signing_location) }}"
+                                placeholder="أدخل مكان توقيع العقد">
                         </div>
 
-
                         <div class="info-item">
-
-                            <label for="start_date">
-                                تاريخ البدء :
-                            </label>
-
-                            <input type="date" id="start_date" name="start_date" value="{{ old(
-    'start_date',
-    $project->start_date?->format('Y-m-d')
-) }}">
-
+                            <label for="start_date">تاريخ البدء :</label>
+                            <input type="date" id="start_date" name="start_date"
+                                value="{{ old('start_date', optional($project->start_date)->format('Y-m-d')) }}">
                         </div>
 
-
                         <div class="info-item">
-
-                            <label for="end_date">
-                                تاريخ الانتهاء :
-                            </label>
-
-                            <input type="date" id="end_date" name="end_date" value="{{ old(
-    'end_date',
-    $project->end_date?->format('Y-m-d')
-) }}">
-
+                            <label for="end_date">تاريخ الانتهاء :</label>
+                            <input type="date" id="end_date" name="end_date"
+                                value="{{ old('end_date', optional($project->end_date)->format('Y-m-d')) }}">
                         </div>
 
                     </div>
@@ -274,393 +168,67 @@
                 </section>
 
 
-                {{-- ========================================================= --}}
-                {{-- Project Name --}}
-                {{-- ========================================================= --}}
-
-                <div class="info-card project-name-card">
+                {{-- اسم المشروع --}}
+                <section class="info-card">
 
                     <div class="info-card-header">
-
-                        <h2 class="info-card-title">
-                            بيانات المشروع
-                        </h2>
-
+                        <h2 class="info-card-title">بيانات المشروع</h2>
                     </div>
-
 
                     <div class="info-item">
-
-                        <label for="name">
-                            اسم المشروع :
-                        </label>
-
-                        <input type="text" id="name" name="name" value="{{ old(
-    'name',
-    $project->name
-) }}" required>
-
+                        <label for="name">اسم المشروع :</label>
+                        <input type="text" id="name" name="name" value="{{ old('name', $project->name) }}"
+                            placeholder="أدخل اسم المشروع" required>
                     </div>
 
-                </div>
+                </section>
 
 
-                {{-- ========================================================= --}}
-                {{-- Pricing Items --}}
-                {{-- ========================================================= --}}
-
+                {{-- بنود المشروع --}}
                 <section class="table-wrapper">
 
                     <table class="items-table">
 
                         <thead>
-
                             <tr>
-
-                                <th>
-                                    البند
+                                <th>البند</th>
+                                <th>صفات البند</th>
+                                <th>العمل المرتبط</th>
+                                <th>الوحدة</th>
+                                <th>الكمية</th>
+                                <th>سعر الوحدة (ل.س)</th>
+                                <th>الإجمالي (ل.س)</th>
+                                <th>سعر الوحدة ($)</th>
+                                <th>الإجمالي ($)</th>
+                                <th class="col-actions">
+                                    <button type="button" class="btn-icon-add" id="addPricingItem" aria-label="إضافة بند">+</button>
                                 </th>
-
-                                <th>
-                                    صفات البند
-                                </th>
-
-                                <th>
-                                    العمل المرتبط
-                                </th>
-
-                                <th>
-                                    الوحدة
-                                </th>
-
-                                <th>
-                                    الكمية
-                                </th>
-
-                                <th>
-                                    سعر الوحدة (ل.س)
-                                </th>
-
-                                <th>
-                                    الإجمالي (ل.س)
-                                </th>
-
-                                <th>
-                                    سعر الوحدة ($)
-                                </th>
-
-                                <th>
-                                    الإجمالي ($)
-                                </th>
-
-                                <th></th>
-
                             </tr>
-
                         </thead>
-
 
                         <tbody id="pricingItemsBody">
 
-                            @forelse ($project->pricingItems as $index => $item)
-
-                                                        @php
-
-                                                            $quantity = (float) $item->pivot->quantity;
-
-                                                            $unitPriceSyp =
-                                                                (float) $item->pivot->unit_price_syp;
-
-                                                            $unitPriceUsd =
-                                                                (float) $item->pivot->unit_price_usd;
-
-                                                            $totalSyp =
-                                                                $quantity * $unitPriceSyp;
-
-                                                            $totalUsd =
-                                                                $quantity * $unitPriceUsd;
-
-                                                            $specifications =
-                                                                $item->pivot->specifications;
-
-                                                            if (is_string($specifications)) {
-                                                                $specifications = json_decode(
-                                                                    $specifications,
-                                                                    true
-                                                                );
-                                                            }
-
-                                                            $specifications =
-                                                                is_array($specifications)
-                                                                ? $specifications
-                                                                : [];
-
-                                                        @endphp
-
-
-                                                        <tr class="pricing-item-row">
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Pricing Item --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td class="main-label">
-
-                                                                <select name="pricing_items[{{ $index }}][pricing_item_id]"
-                                                                    class="pricing-item-select" data-index="{{ $index }}" required>
-
-                                                                    <option value="">
-                                                                        اختر البند
-                                                                    </option>
-
-                                                                    @foreach ($pricingItems as $pricingItem)
-
-                                                                        <option value="{{ $pricingItem->id }}" @selected(
-                                                                            $item->id == $pricingItem->id
-                                                                        )>
-                                                                            {{ $pricingItem->name }}
-                                                                        </option>
-
-                                                                    @endforeach
-
-                                                                </select>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Specifications --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <select name="pricing_items[{{ $index }}][specifications][]"
-                                                                    class="pricing-specifications" multiple>
-
-                                                                    @foreach ($item->specifications as $availableSpecification)
-
-                                                                        <option value="{{ $availableSpecification->name }}" @selected(
-                                                                            in_array(
-                                                                                $availableSpecification->name,
-                                                                                $specifications
-                                                                            )
-                                                                        )>
-                                                                            {{ $availableSpecification->name }}
-                                                                        </option>
-
-                                                                    @endforeach
-
-                                                                </select>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Related Work --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <span class="related-work-value">
-                                                                    {{ $item->relatedWork?->name ?? '-' }}
-                                                                </span>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Unit --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <span class="unit-value">
-                                                                    {{ $item->unit ?? '-' }}
-                                                                </span>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Quantity --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <input type="number" name="pricing_items[{{ $index }}][quantity]"
-                                                                    value="{{ $quantity }}" step="0.001" min="0" class="quantity-input" required>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Unit SYP --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <input type="number" name="pricing_items[{{ $index }}][unit_price_syp]"
-                                                                    value="{{ $unitPriceSyp }}" step="0.01" min="0" class="unit-price-syp-input"
-                                                                    required>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Total SYP --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td class="cell-money total-syp">
-                                                                {{ number_format(
-                                    $totalSyp,
-                                    2,
-                                    '.',
-                                    ','
-                                ) }}
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Unit USD --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <input type="number" name="pricing_items[{{ $index }}][unit_price_usd]"
-                                                                    value="{{ $unitPriceUsd }}" step="0.01" min="0" class="unit-price-usd-input"
-                                                                    required>
-
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Total USD --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td class="cell-money total-usd">
-                                                                {{ number_format(
-                                    $totalUsd,
-                                    2,
-                                    '.',
-                                    ','
-                                ) }}
-                                                            </td>
-
-
-                                                            {{-- ================================= --}}
-                                                            {{-- Delete --}}
-                                                            {{-- ================================= --}}
-
-                                                            <td>
-
-                                                                <button type="button" class="btn-icon-delete remove-pricing-item"
-                                                                    aria-label="حذف البند">
-
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round">
-
-                                                                        <polyline points="3 6 5 6 21 6" />
-
-                                                                        <path
-                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-
-                                                                        <line x1="10" y1="11" x2="10" y2="17" />
-
-                                                                        <line x1="14" y1="11" x2="14" y2="17" />
-
-                                                                    </svg>
-
-                                                                </button>
-
-                                                            </td>
-
-                                                        </tr>
-
-                            @empty
-
-                                {{-- سيتم إنشاء أول صف بواسطة JavaScript --}}
-
-                            @endforelse
-
-
-                            {{-- ============================================= --}}
-                            {{-- Add Item --}}
-                            {{-- ============================================= --}}
-
-                            <tr>
-
-                                <td colspan="10" class="add-item">
-
-                                    <button type="button" id="addPricingItem">
-                                        +
-                                    </button>
-
+                            <tr id="emptyItemsRow">
+                                <td colspan="10" class="empty-cell">
+                                    لم تتم إضافة أي بند بعد
                                 </td>
-
                             </tr>
 
                         </tbody>
 
-
-                        {{-- ================================================= --}}
-                        {{-- Totals --}}
-                        {{-- ================================================= --}}
-
                         <tfoot>
-
                             <tr>
-
-                                <td class="main-label">
-                                    الإجمالي العام
-                                </td>
-
+                                <td class="main-label" colspan="6">الإجمالي العام</td>
+                                <td class="main-label cell-money" id="totalSyp">0.00</td>
                                 <td></td>
-
-                                <td></td>
-
-                                <td></td>
-
-                                <td></td>
-
-                                <td></td>
-
-                                <td class="main-label" id="grandTotalSyp">
-                                    0.00
-                                </td>
-
-                                <td></td>
-
-                                <td class="main-label" id="grandTotalUsd">
-                                    0.00
-                                </td>
-
-                                <td></td>
-
+                                <td class="main-label cell-money" id="totalUsd">0.00</td>
+                                <td class="col-actions"></td>
                             </tr>
-
                         </tfoot>
 
                     </table>
 
                 </section>
-
-
-                {{-- ========================================================= --}}
-                {{-- Save --}}
-                {{-- ========================================================= --}}
-
-                <div class="form-actions">
-
-                    <a href="{{ route('projects.show', $project) }}" class="btn-icon-edit">
-                        إلغاء
-                    </a>
-
-                    <button type="submit" class="btn-delete">
-                        حفظ التعديلات
-                    </button>
-
-                </div>
 
             </section>
 
@@ -669,538 +237,484 @@
     </div>
 
 
-    {{-- ========================================================= --}}
-    {{-- Pricing Items Data --}}
-    {{-- ========================================================= --}}
-<script>
+    <script>
 
-    const pricingItems = {{ Js::from($pricingItemsData) }};
+        const pricingItems = @json($pricingItems);
+        const relatedWorks = @json($relatedWorks ?? []);
 
-        let pricingItemIndex =
-            {{ $project->pricingItems->count() }};
+        // في حال فشل التحقق نستخدم old()، وإلا نستخدم بنود المشروع الحالية
+        const initialPricingItems = @json(old('pricing_items', $currentPricingItems));
 
+        let itemIndex = 0;
 
-        function formatNumber(value, decimals = 2) {
-
-            return Number(value || 0).toLocaleString(
-                'en-US',
-                {
-                    minimumFractionDigits: decimals,
-                    maximumFractionDigits: decimals
-                }
-            );
-
-        }
+        const tbody = document.getElementById('pricingItemsBody');
+        const addButton = document.getElementById('addPricingItem');
 
 
-        function updateRow(row) {
 
-            const quantity =
-                parseFloat(
-                    row.querySelector('.quantity-input')?.value
-                ) || 0;
+        document.querySelectorAll('.mode-toggle').forEach(toggle => {
 
-            const unitSyp =
-                parseFloat(
-                    row.querySelector('.unit-price-syp-input')?.value
-                ) || 0;
+            const field = toggle.dataset.field;
 
-            const unitUsd =
-                parseFloat(
-                    row.querySelector('.unit-price-usd-input')?.value
-                ) || 0;
+            const selectWrapper = document.getElementById(field + '-select-wrapper');
+            const newWrapper = document.getElementById(field + '-new-wrapper');
+            const select = selectWrapper.querySelector('select');
+            const newFields = newWrapper.querySelectorAll('input, textarea');
 
 
-            const totalSyp =
-                quantity * unitSyp;
+            function setMode(mode) {
 
-            const totalUsd =
-                quantity * unitUsd;
-
-
-            const totalSypElement =
-                row.querySelector('.total-syp');
-
-            const totalUsdElement =
-                row.querySelector('.total-usd');
-
-
-            if (totalSypElement) {
-
-                totalSypElement.textContent =
-                    formatNumber(totalSyp);
-
-            }
-
-
-            if (totalUsdElement) {
-
-                totalUsdElement.textContent =
-                    formatNumber(totalUsd);
-
-            }
-
-
-            updateGrandTotals();
-
-        }
-
-
-        function updateGrandTotals() {
-
-            let totalSyp = 0;
-            let totalUsd = 0;
-
-
-            document
-                .querySelectorAll('.pricing-item-row')
-                .forEach(row => {
-
-                    const quantity =
-                        parseFloat(
-                            row.querySelector(
-                                '.quantity-input'
-                            )?.value
-                        ) || 0;
-
-                    const unitSyp =
-                        parseFloat(
-                            row.querySelector(
-                                '.unit-price-syp-input'
-                            )?.value
-                        ) || 0;
-
-                    const unitUsd =
-                        parseFloat(
-                            row.querySelector(
-                                '.unit-price-usd-input'
-                            )?.value
-                        ) || 0;
-
-
-                    totalSyp +=
-                        quantity * unitSyp;
-
-                    totalUsd +=
-                        quantity * unitUsd;
-
+                toggle.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === mode);
                 });
 
+                if (mode === 'new') {
+                    selectWrapper.style.display = 'none';
+                    newWrapper.style.display = '';
+                    select.disabled = true;
+                    newFields.forEach(f => f.disabled = false);
+                } else {
+                    selectWrapper.style.display = '';
+                    newWrapper.style.display = 'none';
+                    select.disabled = false;
+                    newFields.forEach(f => f.disabled = true);
+                }
+            }
 
-            document.getElementById(
-                'grandTotalSyp'
-            ).textContent =
-                formatNumber(totalSyp);
+
+            toggle.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => setMode(btn.dataset.mode));
+            });
+
+            newFields.forEach(f => f.disabled = true);
+
+            const hasOldNewValues = Array.from(newFields).some(f => f.value.trim() !== '');
+            if (hasOldNewValues) {
+                setMode('new');
+            }
+
+        });
 
 
-            document.getElementById(
-                'grandTotalUsd'
-            ).textContent =
-                formatNumber(totalUsd);
+
+        function addSpecInput(container, value = '') {
+
+            const index = container.closest('tr').dataset.index;
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `pricing_items[${index}][specifications][]`;
+            input.placeholder = 'صفة البند';
+            input.value = value;
+
+            container.appendChild(input);
 
         }
 
 
-        function updateSpecifications(row) {
 
-            const select =
-                row.querySelector('.pricing-item-select');
+        function setRowMode(row, mode) {
 
-            const specificationsSelect =
-                row.querySelector('.pricing-specifications');
+            const select = row.querySelector('.pricing-item-select');
+            const selectWrap = row.querySelector('.item-select-wrapper');
+            const newWrap = row.querySelector('.item-new-wrapper');
+            const newName = row.querySelector('.new-item-name');
 
-            const relatedWork =
-                row.querySelector('.related-work-value');
+            const unitLabel = row.querySelector('.unit-label');
+            const unitInput = row.querySelector('.new-item-unit');
 
-            const unit =
-                row.querySelector('.unit-value');
-
-
-            if (!select) {
-                return;
-            }
+            const relatedWrap = row.querySelector('.related-cell-wrap');
+            const relatedLabel = row.querySelector('.related-work');
 
 
-            const selectedId =
-                Number(select.value);
+            row.querySelectorAll('.row-mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
 
 
-            const item =
-                pricingItems.find(
-                    pricingItem =>
-                        pricingItem.id === selectedId
-                );
+            if (mode === 'new') {
 
+                selectWrap.style.display = 'none';
+                newWrap.style.display = '';
+                select.disabled = true;
+                newName.disabled = false;
 
-            if (!item) {
+                unitLabel.style.display = 'none';
+                unitInput.style.display = '';
+                unitInput.disabled = false;
 
-                if (specificationsSelect) {
-                    specificationsSelect.innerHTML = '';
-                }
+                relatedLabel.style.display = 'none';
+                relatedWrap.style.display = '';
+                setRelatedMode(row, 'select');
 
-                if (relatedWork) {
-                    relatedWork.textContent = '-';
-                }
+            } else {
 
-                if (unit) {
-                    unit.textContent = '-';
-                }
+                selectWrap.style.display = '';
+                newWrap.style.display = 'none';
+                select.disabled = false;
+                newName.disabled = true;
 
-                return;
+                unitLabel.style.display = '';
+                unitInput.style.display = 'none';
+                unitInput.disabled = true;
 
-            }
-
-
-            if (relatedWork) {
-
-                relatedWork.textContent =
-                    item.related_work || '-';
-
-            }
-
-
-            if (unit) {
-
-                unit.textContent =
-                    item.unit || '-';
-
-            }
-
-
-            if (specificationsSelect) {
-
-                specificationsSelect.innerHTML = '';
-
-                item.specifications.forEach(
-                    specification => {
-
-                        const option =
-                            document.createElement('option');
-
-                        option.value =
-                            specification;
-
-                        option.textContent =
-                            specification;
-
-                        specificationsSelect.appendChild(
-                            option
-                        );
-
-                    }
-                );
+                relatedWrap.style.display = 'none';
+                relatedLabel.style.display = '';
 
             }
 
         }
 
 
-        function createPricingItemRow(index) {
 
-            const row =
-                document.createElement('tr');
+        function setRelatedMode(row, mode) {
 
-            row.className =
-                'pricing-item-row';
+            const toggle = row.querySelector('.related-mode-toggle');
+            if (!toggle) return;
+
+            const select = row.querySelector('.new-item-related-work');
+            const newInput = row.querySelector('.new-item-related-work-name');
+            const selectWrap = row.querySelector('.related-select-wrap');
+            const newWrap = row.querySelector('.related-new-wrap');
 
 
-            let options =
-                '<option value="">اختر البند</option>';
+            toggle.querySelectorAll('.row-mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
 
 
-            pricingItems.forEach(item => {
+            if (mode === 'new') {
+                selectWrap.style.display = 'none';
+                newWrap.style.display = '';
+                select.disabled = true;
+                newInput.disabled = false;
+            } else {
+                selectWrap.style.display = '';
+                newWrap.style.display = 'none';
+                select.disabled = false;
+                newInput.disabled = true;
+            }
 
-                options += `
-                    <option value="${item.id}">
-                        ${item.name}
-                    </option>
-                `;
+        }
+
+
+        function setupRow(row) {
+
+            const select = row.querySelector('.pricing-item-select');
+            const unitLabel = row.querySelector('.unit-label');
+            const relatedLabel = row.querySelector('.related-work');
+            const specContainer = row.querySelector('.spec-chips');
+            const addSpecBtn = row.querySelector('.add-spec-btn');
+
+            const quantity = row.querySelector('.quantity');
+            const unitPriceSyp = row.querySelector('.unit-price-syp');
+            const unitPriceUsd = row.querySelector('.unit-price-usd');
+
+            const totalSyp = row.querySelector('.total-syp');
+            const totalUsd = row.querySelector('.total-usd');
+
+            const removeButton = row.querySelector('.remove-item');
+
+
+            row.querySelectorAll('.row-mode-btn[data-field="item"]').forEach(btn => {
+                btn.addEventListener('click', () => setRowMode(row, btn.dataset.mode));
+            });
+
+            row.querySelectorAll('.row-mode-btn[data-field="related"]').forEach(btn => {
+                btn.addEventListener('click', () => setRelatedMode(row, btn.dataset.mode));
+            });
+
+
+            addSpecBtn.addEventListener('click', () => addSpecInput(specContainer));
+
+
+            select.addEventListener('change', function () {
+
+                const option = this.options[this.selectedIndex];
+
+                unitLabel.textContent = option.dataset.unit || '-';
+                relatedLabel.textContent = option.dataset.relatedWork || '-';
+
+                specContainer.innerHTML = '';
+
+                let specs = [];
+                try {
+                    specs = JSON.parse(option.dataset.specs || '[]');
+                } catch (e) {
+                    specs = [];
+                }
+
+                if (!specs.length) {
+                    specs = [''];
+                }
+
+                specs.forEach(spec => addSpecInput(specContainer, spec));
 
             });
 
 
-            row.innerHTML = `
+            function calculateTotals() {
 
-                <td class="main-label">
+                const qty = parseFloat(quantity.value) || 0;
+                const syp = parseFloat(unitPriceSyp.value) || 0;
+                const usd = parseFloat(unitPriceUsd.value) || 0;
 
-                    <select
-                        name="pricing_items[${index}][pricing_item_id]"
-                        class="pricing-item-select"
-                        required
-                    >
+                const options = {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                };
 
-                        ${options}
+                totalSyp.textContent = (qty * syp).toLocaleString('en-US', options);
+                totalUsd.textContent = (qty * usd).toLocaleString('en-US', options);
 
-                    </select>
-
-                </td>
-
-
-                <td>
-
-                    <select
-                        name="pricing_items[${index}][specifications][]"
-                        class="pricing-specifications"
-                        multiple
-                    ></select>
-
-                </td>
+                calculateGrandTotals();
+            }
 
 
-                <td>
-
-                    <span class="related-work-value">
-                        -
-                    </span>
-
-                </td>
+            quantity.addEventListener('input', calculateTotals);
+            unitPriceSyp.addEventListener('input', calculateTotals);
+            unitPriceUsd.addEventListener('input', calculateTotals);
 
 
-                <td>
+            removeButton.addEventListener('click', function () {
+                row.remove();
+                refreshEmptyRow();
+                calculateGrandTotals();
+            });
 
-                    <span class="unit-value">
-                        -
-                    </span>
-
-                </td>
-
-
-                <td>
-
-                    <input
-                        type="number"
-                        name="pricing_items[${index}][quantity]"
-                        value="0"
-                        step="0.001"
-                        min="0"
-                        class="quantity-input"
-                        required
-                    >
-
-                </td>
-
-
-                <td>
-
-                    <input
-                        type="number"
-                        name="pricing_items[${index}][unit_price_syp]"
-                        value="0"
-                        step="0.01"
-                        min="0"
-                        class="unit-price-syp-input"
-                        required
-                    >
-
-                </td>
-
-
-                <td class="cell-money total-syp">
-                    0.00
-                </td>
-
-
-                <td>
-
-                    <input
-                        type="number"
-                        name="pricing_items[${index}][unit_price_usd]"
-                        value="0"
-                        step="0.01"
-                        min="0"
-                        class="unit-price-usd-input"
-                        required
-                    >
-
-                </td>
-
-
-                <td class="cell-money total-usd">
-                    0.00
-                </td>
-
-
-                <td>
-
-                    <button
-                        type="button"
-                        class="btn-icon-delete remove-pricing-item"
-                        aria-label="حذف البند"
-                    >
-                        ×
-                    </button>
-
-                </td>
-
-            `;
-
-
-            return row;
+            setRowMode(row, 'select');
 
         }
 
 
-        document.addEventListener(
-            'DOMContentLoaded',
-            function () {
 
-                const body =
-                    document.getElementById(
-                        'pricingItemsBody'
-                    );
+        function addPricingItem(overrides = {}) {
 
-
-                const addButton =
-                    document.getElementById(
-                        'addPricingItem'
-                    );
-
-
-                addButton.addEventListener(
-                    'click',
-                    function () {
-
-                        const addRow =
-                            body.querySelector(
-                                '.add-item'
-                            )?.parentElement;
-
-
-                        const row =
-                            createPricingItemRow(
-                                pricingItemIndex
-                            );
-
-
-                        pricingItemIndex++;
-
-
-                        body.insertBefore(
-                            row,
-                            addRow
-                        );
-
-
-                        updateGrandTotals();
-
-                    }
-                );
-
-
-                body.addEventListener(
-                    'click',
-                    function (event) {
-
-                        const removeButton =
-                            event.target.closest(
-                                '.remove-pricing-item'
-                            );
-
-
-                        if (!removeButton) {
-                            return;
-                        }
-
-
-                        const row =
-                            removeButton.closest(
-                                '.pricing-item-row'
-                            );
-
-
-                        if (row) {
-
-                            row.remove();
-
-                            updateGrandTotals();
-
-                        }
-
-                    }
-                );
-
-
-                body.addEventListener(
-                    'change',
-                    function (event) {
-
-                        const row =
-                            event.target.closest(
-                                '.pricing-item-row'
-                            );
-
-
-                        if (!row) {
-                            return;
-                        }
-
-
-                        if (
-                            event.target.classList.contains(
-                                'pricing-item-select'
-                            )
-                        ) {
-
-                            updateSpecifications(row);
-
-                        }
-
-                        updateRow(row);
-
-                    }
-                );
-
-
-                body.addEventListener(
-                    'input',
-                    function (event) {
-
-                        const row =
-                            event.target.closest(
-                                '.pricing-item-row'
-                            );
-
-
-                        if (!row) {
-                            return;
-                        }
-
-
-                        if (
-                            event.target.classList.contains(
-                                'quantity-input'
-                            ) ||
-                            event.target.classList.contains(
-                                'unit-price-syp-input'
-                            ) ||
-                            event.target.classList.contains(
-                                'unit-price-usd-input'
-                            )
-                        ) {
-
-                            updateRow(row);
-
-                        }
-
-                    }
-                );
-
-
-                document
-                    .querySelectorAll(
-                        '.pricing-item-row'
-                    )
-                    .forEach(row => {
-
-                        updateRow(row);
-
-                    });
-
-
-                updateGrandTotals();
-
+            const emptyRow = document.getElementById('emptyItemsRow');
+            if (emptyRow) {
+                emptyRow.remove();
             }
-        );
+
+            const row = document.createElement('tr');
+            row.dataset.index = itemIndex;
+
+            row.innerHTML = `
+
+                <td class="item-cell">
+
+                    <div class="row-mode-toggle">
+                        <button type="button" class="row-mode-btn active" data-mode="select" data-field="item">اختيار</button>
+                        <button type="button" class="row-mode-btn" data-mode="new" data-field="item">جديد</button>
+                    </div>
+
+                    <div class="item-select-wrapper">
+                        <select name="pricing_items[${itemIndex}][pricing_item_id]" class="pricing-item-select" required>
+                            <option value="">اختر البند</option>
+                            ${pricingItems.map(item => `
+                                <option
+                                    value="${item.id}"
+                                    data-unit="${item.unit ?? ''}"
+                                    data-related-work="${item.related_work?.name ?? ''}"
+                                    data-specs="${JSON.stringify(
+                                        (item.specifications ?? []).map(s => s.name)
+                                    ).replace(/"/g, '&quot;')}"
+                                >
+                                    ${item.name}
+                                </option>
+                            `).join('')}
+                        </select>
+                    </div>
+
+                    <div class="item-new-wrapper" style="display: none;">
+                        <input
+                            type="text"
+                            name="pricing_items[${itemIndex}][new_item_name]"
+                            class="new-item-name"
+                            placeholder="اسم البند الجديد"
+                            required
+                        >
+                    </div>
+
+                </td>
+
+
+                <td>
+                    <div class="spec-chips"></div>
+                    <button type="button" class="add-spec-btn">+</button>
+                </td>
+
+
+                <td>
+                    <span class="related-work">-</span>
+
+                    <div class="related-cell-wrap" style="display: none;">
+
+                        <div class="row-mode-toggle related-mode-toggle">
+                            <button type="button" class="row-mode-btn active" data-mode="select" data-field="related">اختيار</button>
+                            <button type="button" class="row-mode-btn" data-mode="new" data-field="related">جديد</button>
+                        </div>
+
+                        <div class="related-select-wrap">
+                            <select class="new-item-related-work" name="pricing_items[${itemIndex}][new_item_related_work_id]">
+                                <option value="">اختر العمل</option>
+                                ${relatedWorks.map(work => `
+                                    <option value="${work.id}">${work.name}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+
+                        <div class="related-new-wrap" style="display: none;">
+                            <input
+                                type="text"
+                                class="new-item-related-work-name"
+                                name="pricing_items[${itemIndex}][new_item_related_work_name]"
+                                placeholder="اسم عمل جديد"
+                            >
+                        </div>
+
+                    </div>
+                </td>
+
+
+                <td>
+                    <span class="unit-label">-</span>
+                    <input
+                        type="text"
+                        class="new-item-unit"
+                        name="pricing_items[${itemIndex}][new_item_unit]"
+                        placeholder="الوحدة"
+                        style="display: none;"
+                    >
+                </td>
+
+
+                <td>
+                    <input type="number" name="pricing_items[${itemIndex}][quantity]"
+                        class="quantity" min="0" step="0.001" value="0" required>
+                </td>
+
+
+                <td>
+                    <input type="number" name="pricing_items[${itemIndex}][unit_price_syp]"
+                        class="unit-price-syp" min="0" step="0.01" value="0" required>
+                </td>
+
+
+                <td class="cell-money total-syp">0.00</td>
+
+
+                <td>
+                    <input type="number" name="pricing_items[${itemIndex}][unit_price_usd]"
+                        class="unit-price-usd" min="0" step="0.01" value="0" required>
+                </td>
+
+
+                <td class="cell-money total-usd">0.00</td>
+
+
+                <td class="col-actions">
+                    <button type="button" class="btn-icon-delete remove-item" aria-label="حذف البند">×</button>
+                </td>
+
+            `;
+
+            tbody.appendChild(row);
+
+            itemIndex++;
+
+            setupRow(row);
+
+            const specContainer = row.querySelector('.spec-chips');
+
+
+            if (overrides.pricing_item_id) {
+                const select = row.querySelector('.pricing-item-select');
+                select.value = overrides.pricing_item_id;
+                select.dispatchEvent(new Event('change'));
+            }
+
+            if (overrides.new_item_name) {
+                setRowMode(row, 'new');
+                row.querySelector('.new-item-name').value = overrides.new_item_name;
+                row.querySelector('.new-item-unit').value = overrides.new_item_unit ?? '';
+
+                if (overrides.new_item_related_work_name) {
+                    setRelatedMode(row, 'new');
+                    row.querySelector('.new-item-related-work-name').value = overrides.new_item_related_work_name;
+                } else if (overrides.new_item_related_work_id) {
+                    row.querySelector('.new-item-related-work').value = overrides.new_item_related_work_id;
+                }
+            }
+
+            if (overrides.specifications && overrides.specifications.length) {
+                specContainer.innerHTML = '';
+                overrides.specifications.forEach(spec => addSpecInput(specContainer, spec ?? ''));
+            }
+
+            if (overrides.quantity !== undefined) row.querySelector('.quantity').value = overrides.quantity;
+            if (overrides.unit_price_syp !== undefined) row.querySelector('.unit-price-syp').value = overrides.unit_price_syp;
+            if (overrides.unit_price_usd !== undefined) row.querySelector('.unit-price-usd').value = overrides.unit_price_usd;
+
+            row.querySelector('.quantity').dispatchEvent(new Event('input'));
+
+        }
+
+
+        function refreshEmptyRow() {
+
+            const hasRows = tbody.querySelector('tr[data-index]');
+
+            if (!hasRows && !document.getElementById('emptyItemsRow')) {
+                const tr = document.createElement('tr');
+                tr.id = 'emptyItemsRow';
+                tr.innerHTML = `
+                    <td colspan="10" class="empty-cell">
+                        لم تتم إضافة أي بند بعد
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+        }
+
+
+        function calculateGrandTotals() {
+
+            let totalSyp = 0;
+            let totalUsd = 0;
+
+            document
+                .querySelectorAll('#pricingItemsBody tr[data-index]')
+                .forEach(row => {
+
+                    const quantity = parseFloat(row.querySelector('.quantity')?.value) || 0;
+                    const syp = parseFloat(row.querySelector('.unit-price-syp')?.value) || 0;
+                    const usd = parseFloat(row.querySelector('.unit-price-usd')?.value) || 0;
+
+                    totalSyp += quantity * syp;
+                    totalUsd += quantity * usd;
+
+                });
+
+
+            const options = {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            };
+
+            document.getElementById('totalSyp').textContent =
+                totalSyp.toLocaleString('en-US', options);
+
+            document.getElementById('totalUsd').textContent =
+                totalUsd.toLocaleString('en-US', options);
+
+        }
+
+
+        addButton.addEventListener('click', () => addPricingItem());
+
+
+        initialPricingItems.forEach(item => addPricingItem(item));
 
     </script>
 

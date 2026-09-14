@@ -193,14 +193,16 @@
                                 <th>الإجمالي (ل.س)</th>
                                 <th>سعر الوحدة ($)</th>
                                 <th>الإجمالي ($)</th>
-                                <th></th>
+                                <th class="col-actions">
+                                    <button type="button" class="btn-icon-add" id="addPricingItem" aria-label="إضافة بند">+</button>
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody id="pricingItemsBody">
 
                             <tr id="emptyItemsRow">
-                                <td colspan="11" class="empty-cell">
+                                <td colspan="10" class="empty-cell">
                                     لم تتم إضافة أي بند بعد
                                 </td>
                             </tr>
@@ -213,13 +215,11 @@
                                 <td class="main-label cell-money" id="totalSyp">0.00</td>
                                 <td></td>
                                 <td class="main-label cell-money" id="totalUsd">0.00</td>
-                                <td></td>
+                                <td class="col-actions"></td>
                             </tr>
                         </tfoot>
 
                     </table>
-
-                    <button type="button" class="btn-add-item" id="addPricingItem">+</button>
 
                 </section>
 
@@ -603,7 +603,7 @@
                 <td class="cell-money total-usd">0.00</td>
 
 
-                <td colspan="2" style="text-align: center;">
+                <td class="col-actions">
                     <button type="button" class="btn-icon-delete remove-item" aria-label="حذف البند">×</button>
                 </td>
 
@@ -659,7 +659,7 @@
                 const tr = document.createElement('tr');
                 tr.id = 'emptyItemsRow';
                 tr.innerHTML = `
-                    <td colspan="11" class="empty-cell">
+                    <td colspan="10" class="empty-cell">
                         لم تتم إضافة أي بند بعد
                     </td>
                 `;

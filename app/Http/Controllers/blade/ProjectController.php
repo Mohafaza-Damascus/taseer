@@ -216,36 +216,53 @@ class ProjectController extends Controller
         return view('projects.show', compact('project', 'incomingEntities', 'contractors', 'pricingItems'));
     }
 
-    /**
+   /**
      * Show edit project page.
      */
     public function edit(Project $project): View
     {
-        $project->load(['incomingEntity', 'contractor', 'pricingItems.relatedWork']);
+        $incomingEntities = IncomingEntity::query()->orderBy('name')->get();
 
-        $incomingEntities = \App\Models\IncomingEntity::query()->orderBy('name')->get();
+        $contractors = Contractor::query()->orderBy('name')->get();
 
-        $contractors = \App\Models\Contractor::query()->orderBy('name')->get();
-
-        $pricingItems = \App\Models\PricingItem::query()
+        $pricingItems = PricingItem::query()
             ->with(['relatedWork', 'specifications'])
             ->orderBy('name')
             ->get();
 
-        $pricingItemsData = $pricingItems
-            ->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'unit' => $item->unit,
-                    'related_work' => $item->relatedWork?->name,
-                    'specifications' => $item->specifications->pluck('name')->values()->toArray(),
-                ];
-            })
-            ->values();
+        $relatedWorks = RelatedWork::query()->orderBy('name')->get();
 
-        return view('projects.edit', compact('project', 'incomingEntities', 'contractors', 'pricingItems', 'pricingItemsData'));
+        $project->load([
+            'pricingItems.relatedWork',
+            'pricingItems.specifications',
+        ]);
+
+        // تجهيز بنود التسعير الحالية للمشروع لتعبئتها في الفورم مسبقًا
+        $currentPricingItems = $project->pricingItems->map(function ($item) {
+            return [
+                'pricing_item_id' => $item->id,
+                'quantity'        => $item->pivot->quantity,
+                'unit_price_syp'  => $item->pivot->unit_price_syp,
+                'unit_price_usd'  => $item->pivot->unit_price_usd,
+                'specifications'  => $item->pivot->specifications
+                    ? json_decode($item->pivot->specifications, true)
+                    : null,
+            ];
+        })->values();
+
+        return view(
+            'projects.edit',
+            compact(
+                'project',
+                'incomingEntities',
+                'contractors',
+                'pricingItems',
+                'relatedWorks',
+                'currentPricingItems'
+            )
+        );
     }
+
     /**
      * Update project.
      */
@@ -254,53 +271,92 @@ class ProjectController extends Controller
         $data = $request->validated();
 
         DB::transaction(function () use ($data, $project) {
-            $updateData = [];
 
-            if (array_key_exists('name', $data)) {
-                $updateData['name'] = $data['name'];
+            $incomingEntityId = $data['incoming_entity_id'] ?? null;
+            if (!$incomingEntityId && !empty($data['new_incoming_entity_name'])) {
+                $incomingEntityId = IncomingEntity::create([
+                    'name'  => $data['new_incoming_entity_name'],
+                    'notes' => $data['new_incoming_entity_notes'] ?? null,
+                ])->id;
             }
 
-            if (array_key_exists('signing_location', $data)) {
-                $updateData['signing_location'] = $data['signing_location'];
+            $contractorId = $data['contractor_id'] ?? null;
+            if (!$contractorId && !empty($data['new_contractor_name'])) {
+                $contractorId = Contractor::create([
+                    'name'            => $data['new_contractor_name'],
+                    'phone'           => $data['new_contractor_phone'],
+                    'national_number' => $data['new_contractor_national_number'],
+                    'company_name'    => $data['new_contractor_company_name'] ?? null,
+                ])->id;
             }
 
-            if (array_key_exists('start_date', $data)) {
-                $updateData['start_date'] = $data['start_date'];
-            }
+            $project->update([
+                'name'               => $data['name'],
+                'signing_location'   => $data['signing_location'] ?? null,
+                'start_date'         => $data['start_date'] ?? null,
+                'end_date'           => $data['end_date'] ?? null,
+                'incoming_entity_id' => $incomingEntityId,
+                'contractor_id'      => $contractorId,
+            ]);
 
-            if (array_key_exists('end_date', $data)) {
-                $updateData['end_date'] = $data['end_date'];
-            }
+            $syncData = [];
 
-            if (array_key_exists('incoming_entity_id', $data)) {
-                $updateData['incoming_entity_id'] = $data['incoming_entity_id'];
-            }
-
-            if (array_key_exists('contractor_id', $data)) {
-                $updateData['contractor_id'] = $data['contractor_id'];
-            }
-
-            if (!empty($updateData)) {
-                $project->update($updateData);
-            }
-
-            if (array_key_exists('pricing_items', $data)) {
-                $pricingItems = [];
+            if (!empty($data['pricing_items'])) {
 
                 foreach ($data['pricing_items'] as $item) {
-                    $pricingItems[$item['pricing_item_id']] = [
-                        'quantity' => $item['quantity'],
+
+                    $pricingItemId = $item['pricing_item_id'] ?? null;
+
+                    if (!$pricingItemId && !empty($item['new_item_name'])) {
+
+                        $relatedWorkId = $item['new_item_related_work_id'] ?? null;
+                        if (!$relatedWorkId && !empty($item['new_item_related_work_name'])) {
+                            $relatedWorkId = RelatedWork::create([
+                                'name' => $item['new_item_related_work_name'],
+                            ])->id;
+                        }
+
+                        $pricingItem = PricingItem::create([
+                            'name'            => $item['new_item_name'],
+                            'unit'            => $item['new_item_unit'] ?? null,
+                            'related_work_id' => $relatedWorkId,
+                        ]);
+
+                        if (!empty($item['specifications'])) {
+                            foreach ($item['specifications'] as $spec) {
+                                if (trim((string) $spec) === '') continue;
+                                $pricingItem->specifications()->create([
+                                    'name' => $spec,
+                                ]);
+                            }
+                        }
+
+                        $pricingItemId = $pricingItem->id;
+                    }
+
+                    if (!$pricingItemId) {
+                        continue;
+                    }
+
+                    $syncData[$pricingItemId] = [
+                        'quantity'       => $item['quantity'],
                         'unit_price_syp' => $item['unit_price_syp'],
                         'unit_price_usd' => $item['unit_price_usd'],
-                        'specifications' => isset($item['specifications']) ? json_encode($item['specifications'], JSON_UNESCAPED_UNICODE) : null,
+                        'specifications' =>
+                            isset($item['specifications'])
+                                ? json_encode($item['specifications'], JSON_UNESCAPED_UNICODE)
+                                : null,
                     ];
                 }
-
-                $project->pricingItems()->sync($pricingItems);
             }
+
+            // sync يتكفل تلقائيًا بحذف البنود التي أزيلت من الفورم
+            $project->pricingItems()->sync($syncData);
         });
 
-        return redirect()->route('projects.index')->with('success', 'تم تعديل المشروع بنجاح.');
+        return redirect()
+            ->route('projects.index')
+            ->with('success', 'تم تحديث المشروع بنجاح.');
     }
 
     /**
