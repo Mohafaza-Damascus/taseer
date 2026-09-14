@@ -237,7 +237,6 @@ class ProjectController extends Controller
             'pricingItems.specifications',
         ]);
 
-        // تجهيز بنود التسعير الحالية للمشروع لتعبئتها في الفورم مسبقًا
         $currentPricingItems = $project->pricingItems->map(function ($item) {
             return [
                 'pricing_item_id' => $item->id,
@@ -350,7 +349,6 @@ class ProjectController extends Controller
                 }
             }
 
-            // sync يتكفل تلقائيًا بحذف البنود التي أزيلت من الفورم
             $project->pricingItems()->sync($syncData);
         });
 
