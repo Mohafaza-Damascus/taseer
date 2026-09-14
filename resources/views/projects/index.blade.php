@@ -156,7 +156,7 @@
 
             <div id="projectsContainer" class="projects-container">
 
-                @forelse ($projects as $project)
+                @foreach ($projects as $project)
 
                     <div class="project-card">
 
@@ -207,13 +207,7 @@
 
                         </div>
                     </div>
-                @empty
-                    <div class="no-results">
-                        <p>
-                            لا توجد مشاريع تطابق معايير البحث
-                        </p>
-                    </div>
-                @endforelse
+                @endforeach
             </div>
 
             <a href="{{ route('projects.create') }}" class="add-card" id="addProjectBtn" title="إضافة مشروع جديد">
