@@ -14,15 +14,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    display: flex;
-    justify-content: center;
     min-height: 100dvh;
+    width: 100%;
 }
 
 .container {
     width: 100%;
     max-width: 1240px;
-    padding: 40px 0px;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     gap: 22px;

@@ -276,13 +276,11 @@ background-image: url('../images/pattern.svg');
 ========================================================= */
 
 .main-content {
-    width: calc(100% - 250px);
+    width: 100%;
 
     min-height: 100dvh;
 
-    margin-right: 250px;
-
-    padding: 0;
+    padding-right: 300px;
 
     box-sizing: border-box;
 }
@@ -660,11 +658,11 @@ background-image: url('../images/pattern.svg');
     }
 
 
-    .main-content {
-        width: calc(100% - 72px);
+ .main-content {
+    width: 100%;
 
-        margin-right: 72px;
-    }
+    padding-right: 72px;
+}
 
 
     .dashboard {
