@@ -16,7 +16,7 @@
 
     <div class="container">
 
-        <form action="{{ route('projects.update', $project) }}" method="POST">
+        <form action="{{ route('projects.update', $project) }}" method="POST" novalidate>
             @csrf
             @method('PUT')
 

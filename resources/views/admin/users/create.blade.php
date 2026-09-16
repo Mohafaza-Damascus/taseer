@@ -61,7 +61,7 @@
         @endif
 
 
-        <form action="{{ route('users.store') }}" method="POST" class="form-card">
+        <form action="{{ route('users.store') }}" method="POST" class="form-card" novalidate>
 
             @csrf
 

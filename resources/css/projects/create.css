@@ -401,3 +401,15 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.form-error {
+    display: block;
+    margin-top: 6px;
+    color: #c62828;
+    font-size: 0.85rem;
+    font-family: var(--font-thmanyahseriftext-medium);
+}
+
+.input-error {
+    border-color: #c62828 !important;
+}

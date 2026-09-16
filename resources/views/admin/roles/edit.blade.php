@@ -28,7 +28,7 @@
         </section>
 
 
-        <form action="{{ route('roles.update', $role) }}" method="POST" class="form-card">
+        <form action="{{ route('roles.update', $role) }}" method="POST" class="form-card" novalidate>
 
             @csrf
             @method('PUT')
