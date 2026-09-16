@@ -31,7 +31,6 @@ class LoginRequest extends FormRequest
         return [
             'username.required' => 'اسم المستخدم مطلوب.',
             'username.string' => 'اسم المستخدم يجب أن يكون نصاً.',
-
             'password.required' => 'كلمة المرور مطلوبة.',
             'password.string' => 'كلمة المرور يجب أن تكون نصاً.',
         ];

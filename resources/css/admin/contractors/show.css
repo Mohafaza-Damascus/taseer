@@ -1,0 +1,205 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-golden-wheat-100);
+    font-family: var(--font-thmanyahseriftext-medium);
+    color: var(--color-pineal-700);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    display: flex;
+    justify-content: center;
+    min-height: 100dvh;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1240px;
+    padding: clamp(20px, 5vw, 40px) clamp(16px, 4vw, 20px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vw, 22px);
+}
+
+.header-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+h1 {
+    font-family: var(--font-thmanyahserifdisplay-bold);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.2;
+}
+
+.btn-go-back {
+    padding: 11px 16px;
+    border: 2px solid transparent;
+    border-radius: 11px;
+    background-color: var(--color-pineal-700);
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.9rem;
+    color: var(--color-golden-wheat-100);
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-go-back:hover {
+    background-color: var(--color-pineal-900);
+}
+
+.form-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: clamp(20px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-pineal-50);
+    padding: 18px 20px 16px;
+    border-radius: 16px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    flex-wrap: wrap;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row .info-label {
+    font-family: var(--font-thmanyahseriftext-bold);
+    color: var(--color-pineal-700);
+    font-size: 0.92rem;
+}
+
+.info-row .info-value {
+    color: var(--color-pineal-700);
+    font-family: var(--font-thmanyahseriftext-medium);
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+}
+
+.section-title {
+    font-family: var(--font-thmanyahseriftext-bold);
+    color: var(--color-pineal-700);
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: var(--color-pineal-50);
+    color: var(--color-pineal-700);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-family: var(--font-thmanyahseriftext-medium);
+    white-space: nowrap;
+}
+
+
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 11px 16px;
+    border: 2px solid transparent;
+    border-radius: 11px;
+    font-family: var(--font-thmanyahseriftext);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-edit {
+    background-color: var(--color-pineal-700);
+    color: var(--color-golden-wheat-100);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-pineal-900);
+}
+
+.btn-delete {
+    background-color: var(--color-red-700);
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: var(--color-red-900);
+}
+
+.form-actions form {
+    display: inline-flex;
+}
+
+@media (max-width: 640px) {
+    .header-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-go-back {
+        width: 100%;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions > *,
+    .form-actions form,
+    .form-actions form > button {
+        width: 100%;
+    }
+}

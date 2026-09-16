@@ -19,7 +19,6 @@ class ContractorController extends Controller
     {
         $contractors = Contractor::query()
             ->latest()
-            ->paginate(15)
             ->withQueryString();
 
         return view(
