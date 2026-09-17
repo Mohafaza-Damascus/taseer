@@ -9,3 +9,4 @@ import.meta.glob([
   '../images/**',
 ]);
 import.meta.glob('../css/**/*.css', { eager: true });
+import.meta.glob('../css/*.css', { eager: true });
