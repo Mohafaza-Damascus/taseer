@@ -5,4 +5,7 @@ providers = ["php", "node"]
 NIXPACKS_PHP_VERSION = "8.4"
 
 [phases.setup]
-nixPkgs = ["...", "php84Extensions.pdo_mysql", "php84Extensions.pdo"]
+nixPkgs = ["php84", "php84Extensions.pdo", "php84Extensions.pdo_mysql", "php84Extensions.mbstring", "php84Extensions.tokenizer", "php84Extensions.xml"]
+
+[phases.build]
+cmds = ["composer install --no-dev --optimize-autoloader", "npm install", "npm run build"]
