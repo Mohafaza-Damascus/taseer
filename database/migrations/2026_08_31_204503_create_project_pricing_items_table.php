@@ -21,11 +21,11 @@ return new class extends Migration {
                 ->constrained('pricing_items')
                 ->restrictOnDelete();
 
-            $table->decimal('quantity', 15, 3)->default(0);
+            $table->decimal('quantity', 15, 1)->default(0);
 
-            $table->decimal('unit_price_syp', 20, 2)->default(0);
+            $table->bigInteger('unit_price_syp')->default(0);
 
-            $table->decimal('unit_price_usd', 20, 2)->default(0);
+            $table->bigInteger('unit_price_usd')->default(0);
 
             $table->json('specifications')->nullable();
 

@@ -16,7 +16,7 @@
 
     <div class="container">
 
-        <form action="{{ route('projects.update', $project) }}" method="POST" novalidate>
+        <form action="{{ route('projects.update', $project) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -36,16 +36,10 @@
 
                 <section class="info-grid">
 
-                    {{-- الجهة الواردة --}}
                     <div class="info-card">
 
                         <div class="info-card-header">
                             <h2 class="info-card-title">الجهة الواردة</h2>
-                        </div>
-
-                        <div class="mode-toggle" data-field="incomingEntity">
-                            <button type="button" class="mode-btn active" data-mode="select">اختيار موجود</button>
-                            <button type="button" class="mode-btn" data-mode="new">إنشاء جديد</button>
                         </div>
 
                         <div id="incomingEntity-select-wrapper">
@@ -59,6 +53,7 @@
                                             {{ $incomingEntity->name }}
                                         </option>
                                     @endforeach
+                                    <option value="__other__">أخرى</option>
                                 </select>
                             </div>
                         </div>
@@ -81,16 +76,10 @@
                     </div>
 
 
-                    {{-- المقاول --}}
                     <div class="info-card">
 
                         <div class="info-card-header">
                             <h2 class="info-card-title">المقاول</h2>
-                        </div>
-
-                        <div class="mode-toggle" data-field="contractor">
-                            <button type="button" class="mode-btn active" data-mode="select">اختيار موجود</button>
-                            <button type="button" class="mode-btn" data-mode="new">إنشاء جديد</button>
                         </div>
 
                         <div id="contractor-select-wrapper">
@@ -105,6 +94,7 @@
                                             @if($contractor->company_name) - {{ $contractor->company_name }} @endif
                                         </option>
                                     @endforeach
+                                    <option value="__other__">أخرى</option>
                                 </select>
                             </div>
                         </div>
@@ -168,7 +158,6 @@
                 </section>
 
 
-                {{-- اسم المشروع --}}
                 <section class="info-card">
 
                     <div class="info-card-header">
@@ -184,7 +173,6 @@
                 </section>
 
 
-                {{-- بنود المشروع --}}
                 <section class="table-wrapper">
 
                     <table class="items-table">
@@ -192,7 +180,7 @@
                         <thead>
                             <tr>
                                 <th>البند</th>
-                                <th>صفات البند</th>
+                                <th>صفة البند</th>
                                 <th>العمل المرتبط</th>
                                 <th>الوحدة</th>
                                 <th>الكمية</th>
@@ -242,7 +230,6 @@
         const pricingItems = @json($pricingItems);
         const relatedWorks = @json($relatedWorks ?? []);
 
-        // في حال فشل التحقق نستخدم old()، وإلا نستخدم بنود المشروع الحالية
         const initialPricingItems = @json(old('pricing_items', $currentPricingItems));
 
         let itemIndex = 0;
@@ -251,93 +238,90 @@
         const addButton = document.getElementById('addPricingItem');
 
 
+        function setupEntitySelector(field, selectId) {
 
-        document.querySelectorAll('.mode-toggle').forEach(toggle => {
-
-            const field = toggle.dataset.field;
-
-            const selectWrapper = document.getElementById(field + '-select-wrapper');
+            const select = document.getElementById(selectId);
             const newWrapper = document.getElementById(field + '-new-wrapper');
-            const select = selectWrapper.querySelector('select');
             const newFields = newWrapper.querySelectorAll('input, textarea');
 
+            const originalName = select.name;
+            let hiddenInput = null;
 
             function setMode(mode) {
 
-                toggle.querySelectorAll('.mode-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.mode === mode);
-                });
-
                 if (mode === 'new') {
-                    selectWrapper.style.display = 'none';
+
                     newWrapper.style.display = '';
-                    select.disabled = true;
                     newFields.forEach(f => f.disabled = false);
+
+                    select.value = '__other__';
+                    select.name = '';
+
+                    if (!hiddenInput) {
+                        hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = originalName;
+                        hiddenInput.value = '';
+                        select.parentNode.appendChild(hiddenInput);
+                    }
+
                 } else {
-                    selectWrapper.style.display = '';
+
                     newWrapper.style.display = 'none';
-                    select.disabled = false;
                     newFields.forEach(f => f.disabled = true);
+
+                    select.name = originalName;
+
+                    if (hiddenInput) {
+                        hiddenInput.remove();
+                        hiddenInput = null;
+                    }
+
                 }
             }
 
-
-            toggle.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', () => setMode(btn.dataset.mode));
+            select.addEventListener('change', function () {
+                if (this.value === '__other__') {
+                    setMode('new');
+                } else {
+                    setMode('select');
+                }
             });
 
-            newFields.forEach(f => f.disabled = true);
-
             const hasOldNewValues = Array.from(newFields).some(f => f.value.trim() !== '');
+
             if (hasOldNewValues) {
                 setMode('new');
+            } else {
+                setMode('select');
             }
-
-        });
-
-
-
-        function addSpecInput(container, value = '') {
-
-            const index = container.closest('tr').dataset.index;
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = `pricing_items[${index}][specifications][]`;
-            input.placeholder = 'صفة البند';
-            input.value = value;
-
-            container.appendChild(input);
-
         }
+
+        setupEntitySelector('incomingEntity', 'incoming_entity_id');
+        setupEntitySelector('contractor', 'contractor_id');
 
 
 
         function setRowMode(row, mode) {
 
-            const select = row.querySelector('.pricing-item-select');
-            const selectWrap = row.querySelector('.item-select-wrapper');
-            const newWrap = row.querySelector('.item-new-wrapper');
-            const newName = row.querySelector('.new-item-name');
+            const select      = row.querySelector('.pricing-item-select');
+            const newWrap     = row.querySelector('.item-new-wrapper');
+            const newName     = row.querySelector('.new-item-name');
 
-            const unitLabel = row.querySelector('.unit-label');
-            const unitInput = row.querySelector('.new-item-unit');
+            const unitLabel   = row.querySelector('.unit-label');
+            const unitInput   = row.querySelector('.new-item-unit');
 
-            const relatedWrap = row.querySelector('.related-cell-wrap');
+            const relatedWrap  = row.querySelector('.related-cell-wrap');
             const relatedLabel = row.querySelector('.related-work');
 
-
-            row.querySelectorAll('.row-mode-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.mode === mode);
-            });
-
+            const originalName = select.dataset.originalName;
+            let hiddenInput = select.parentNode.querySelector('.pricing-item-hidden');
 
             if (mode === 'new') {
 
-                selectWrap.style.display = 'none';
                 newWrap.style.display = '';
-                select.disabled = true;
                 newName.disabled = false;
+                newName.required = true;
 
                 unitLabel.style.display = 'none';
                 unitInput.style.display = '';
@@ -345,14 +329,22 @@
 
                 relatedLabel.style.display = 'none';
                 relatedWrap.style.display = '';
-                setRelatedMode(row, 'select');
+
+                select.name = '';
+                if (!hiddenInput) {
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.className = 'pricing-item-hidden';
+                    hiddenInput.name = originalName;
+                    hiddenInput.value = '';
+                    select.parentNode.appendChild(hiddenInput);
+                }
 
             } else {
 
-                selectWrap.style.display = '';
                 newWrap.style.display = 'none';
-                select.disabled = false;
                 newName.disabled = true;
+                newName.required = false;
 
                 unitLabel.style.display = '';
                 unitInput.style.display = 'none';
@@ -361,81 +353,88 @@
                 relatedWrap.style.display = 'none';
                 relatedLabel.style.display = '';
 
+                select.name = originalName;
+                if (hiddenInput) {
+                    hiddenInput.remove();
+                }
+
             }
-
         }
-
 
 
         function setRelatedMode(row, mode) {
 
-            const toggle = row.querySelector('.related-mode-toggle');
-            if (!toggle) return;
+            const select     = row.querySelector('.new-item-related-work');
+            const newInput   = row.querySelector('.new-item-related-work-name');
 
-            const select = row.querySelector('.new-item-related-work');
-            const newInput = row.querySelector('.new-item-related-work-name');
-            const selectWrap = row.querySelector('.related-select-wrap');
-            const newWrap = row.querySelector('.related-new-wrap');
-
-
-            toggle.querySelectorAll('.row-mode-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.mode === mode);
-            });
-
+            const originalName = select.dataset.originalName;
+            let hiddenInput = select.parentNode.querySelector('.related-work-hidden');
 
             if (mode === 'new') {
-                selectWrap.style.display = 'none';
-                newWrap.style.display = '';
-                select.disabled = true;
-                newInput.disabled = false;
-            } else {
-                selectWrap.style.display = '';
-                newWrap.style.display = 'none';
-                select.disabled = false;
-                newInput.disabled = true;
-            }
 
+                newInput.style.display = '';
+                newInput.disabled = false;
+                newInput.required = true;
+
+                select.name = '';
+                if (!hiddenInput) {
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.className = 'related-work-hidden';
+                    hiddenInput.name = originalName;
+                    hiddenInput.value = '';
+                    select.parentNode.appendChild(hiddenInput);
+                }
+
+            } else {
+
+                newInput.style.display = 'none';
+                newInput.disabled = true;
+                newInput.required = false;
+
+                select.name = originalName;
+                if (hiddenInput) {
+                    hiddenInput.remove();
+                }
+
+            }
         }
+
 
 
         function setupRow(row) {
 
-            const select = row.querySelector('.pricing-item-select');
-            const unitLabel = row.querySelector('.unit-label');
-            const relatedLabel = row.querySelector('.related-work');
-            const specContainer = row.querySelector('.spec-chips');
-            const addSpecBtn = row.querySelector('.add-spec-btn');
+            const select        = row.querySelector('.pricing-item-select');
+            const unitLabel     = row.querySelector('.unit-label');
+            const relatedLabel  = row.querySelector('.related-work');
+            const specInput     = row.querySelector('.spec-input');
 
-            const quantity = row.querySelector('.quantity');
-            const unitPriceSyp = row.querySelector('.unit-price-syp');
-            const unitPriceUsd = row.querySelector('.unit-price-usd');
+            const relatedSelect = row.querySelector('.new-item-related-work');
 
-            const totalSyp = row.querySelector('.total-syp');
-            const totalUsd = row.querySelector('.total-usd');
+            const quantity      = row.querySelector('.quantity');
+            const unitPriceSyp  = row.querySelector('.unit-price-syp');
+            const unitPriceUsd  = row.querySelector('.unit-price-usd');
 
-            const removeButton = row.querySelector('.remove-item');
+            const totalSyp      = row.querySelector('.total-syp');
+            const totalUsd      = row.querySelector('.total-usd');
 
-
-            row.querySelectorAll('.row-mode-btn[data-field="item"]').forEach(btn => {
-                btn.addEventListener('click', () => setRowMode(row, btn.dataset.mode));
-            });
-
-            row.querySelectorAll('.row-mode-btn[data-field="related"]').forEach(btn => {
-                btn.addEventListener('click', () => setRelatedMode(row, btn.dataset.mode));
-            });
-
-
-            addSpecBtn.addEventListener('click', () => addSpecInput(specContainer));
+            const removeButton  = row.querySelector('.remove-item');
 
 
             select.addEventListener('change', function () {
+
+                if (this.value === '__other__') {
+                    setRowMode(row, 'new');
+                    specInput.value = '';
+                    return;
+                }
+
+                setRowMode(row, 'select');
 
                 const option = this.options[this.selectedIndex];
 
                 unitLabel.textContent = option.dataset.unit || '-';
                 relatedLabel.textContent = option.dataset.relatedWork || '-';
-
-                specContainer.innerHTML = '';
 
                 let specs = [];
                 try {
@@ -444,13 +443,19 @@
                     specs = [];
                 }
 
-                if (!specs.length) {
-                    specs = [''];
-                }
-
-                specs.forEach(spec => addSpecInput(specContainer, spec));
-
+                specInput.value = specs.length ? (specs[0] ?? '') : '';
             });
+
+
+            relatedSelect.addEventListener('change', function () {
+                if (this.value === '__other__') {
+                    setRelatedMode(row, 'new');
+                } else {
+                    setRelatedMode(row, 'select');
+                }
+            });
+
+            setRelatedMode(row, 'select');
 
 
             function calculateTotals() {
@@ -470,7 +475,6 @@
                 calculateGrandTotals();
             }
 
-
             quantity.addEventListener('input', calculateTotals);
             unitPriceSyp.addEventListener('input', calculateTotals);
             unitPriceUsd.addEventListener('input', calculateTotals);
@@ -483,7 +487,6 @@
             });
 
             setRowMode(row, 'select');
-
         }
 
 
@@ -502,13 +505,13 @@
 
                 <td class="item-cell">
 
-                    <div class="row-mode-toggle">
-                        <button type="button" class="row-mode-btn active" data-mode="select" data-field="item">اختيار</button>
-                        <button type="button" class="row-mode-btn" data-mode="new" data-field="item">جديد</button>
-                    </div>
-
                     <div class="item-select-wrapper">
-                        <select name="pricing_items[${itemIndex}][pricing_item_id]" class="pricing-item-select" required>
+                        <select
+                            name="pricing_items[${itemIndex}][pricing_item_id]"
+                            class="pricing-item-select"
+                            data-original-name="pricing_items[${itemIndex}][pricing_item_id]"
+                            required
+                        >
                             <option value="">اختر البند</option>
                             ${pricingItems.map(item => `
                                 <option
@@ -522,6 +525,7 @@
                                     ${item.name}
                                 </option>
                             `).join('')}
+                            <option value="__other__">أخرى</option>
                         </select>
                     </div>
 
@@ -531,7 +535,6 @@
                             name="pricing_items[${itemIndex}][new_item_name]"
                             class="new-item-name"
                             placeholder="اسم البند الجديد"
-                            required
                         >
                     </div>
 
@@ -539,8 +542,12 @@
 
 
                 <td>
-                    <div class="spec-chips"></div>
-                    <button type="button" class="add-spec-btn">+</button>
+                    <input
+                        type="text"
+                        name="pricing_items[${itemIndex}][specifications][]"
+                        class="spec-input"
+                        placeholder="صفة البند"
+                    >
                 </td>
 
 
@@ -549,28 +556,25 @@
 
                     <div class="related-cell-wrap" style="display: none;">
 
-                        <div class="row-mode-toggle related-mode-toggle">
-                            <button type="button" class="row-mode-btn active" data-mode="select" data-field="related">اختيار</button>
-                            <button type="button" class="row-mode-btn" data-mode="new" data-field="related">جديد</button>
-                        </div>
+                        <select
+                            class="new-item-related-work"
+                            name="pricing_items[${itemIndex}][new_item_related_work_id]"
+                            data-original-name="pricing_items[${itemIndex}][new_item_related_work_id]"
+                        >
+                            <option value="">اختر العمل</option>
+                            ${relatedWorks.map(work => `
+                                <option value="${work.id}">${work.name}</option>
+                            `).join('')}
+                            <option value="__other__">أخرى</option>
+                        </select>
 
-                        <div class="related-select-wrap">
-                            <select class="new-item-related-work" name="pricing_items[${itemIndex}][new_item_related_work_id]">
-                                <option value="">اختر العمل</option>
-                                ${relatedWorks.map(work => `
-                                    <option value="${work.id}">${work.name}</option>
-                                `).join('')}
-                            </select>
-                        </div>
-
-                        <div class="related-new-wrap" style="display: none;">
-                            <input
-                                type="text"
-                                class="new-item-related-work-name"
-                                name="pricing_items[${itemIndex}][new_item_related_work_name]"
-                                placeholder="اسم عمل جديد"
-                            >
-                        </div>
+                        <input
+                            type="text"
+                            class="new-item-related-work-name"
+                            name="pricing_items[${itemIndex}][new_item_related_work_name]"
+                            placeholder="اسم عمل جديد"
+                            style="display: none;"
+                        >
 
                     </div>
                 </td>
@@ -596,7 +600,7 @@
 
                 <td>
                     <input type="number" name="pricing_items[${itemIndex}][unit_price_syp]"
-                        class="unit-price-syp" min="0" step="0.01" value="0" required>
+                        class="unit-price-syp" min="0" step="1" value="0" required>
                 </td>
 
 
@@ -605,7 +609,7 @@
 
                 <td>
                     <input type="number" name="pricing_items[${itemIndex}][unit_price_usd]"
-                        class="unit-price-usd" min="0" step="0.01" value="0" required>
+                        class="unit-price-usd" min="0" step="1" value="0" required>
                 </td>
 
 
@@ -624,8 +628,6 @@
 
             setupRow(row);
 
-            const specContainer = row.querySelector('.spec-chips');
-
 
             if (overrides.pricing_item_id) {
                 const select = row.querySelector('.pricing-item-select');
@@ -634,12 +636,17 @@
             }
 
             if (overrides.new_item_name) {
-                setRowMode(row, 'new');
+                const select = row.querySelector('.pricing-item-select');
+                select.value = '__other__';
+                select.dispatchEvent(new Event('change'));
+
                 row.querySelector('.new-item-name').value = overrides.new_item_name;
                 row.querySelector('.new-item-unit').value = overrides.new_item_unit ?? '';
 
                 if (overrides.new_item_related_work_name) {
-                    setRelatedMode(row, 'new');
+                    const relatedSelect = row.querySelector('.new-item-related-work');
+                    relatedSelect.value = '__other__';
+                    relatedSelect.dispatchEvent(new Event('change'));
                     row.querySelector('.new-item-related-work-name').value = overrides.new_item_related_work_name;
                 } else if (overrides.new_item_related_work_id) {
                     row.querySelector('.new-item-related-work').value = overrides.new_item_related_work_id;
@@ -647,8 +654,7 @@
             }
 
             if (overrides.specifications && overrides.specifications.length) {
-                specContainer.innerHTML = '';
-                overrides.specifications.forEach(spec => addSpecInput(specContainer, spec ?? ''));
+                row.querySelector('.spec-input').value = overrides.specifications[0] ?? '';
             }
 
             if (overrides.quantity !== undefined) row.querySelector('.quantity').value = overrides.quantity;
@@ -658,6 +664,7 @@
             row.querySelector('.quantity').dispatchEvent(new Event('input'));
 
         }
+
 
 
         function refreshEmptyRow() {
@@ -676,6 +683,7 @@
             }
 
         }
+
 
 
         function calculateGrandTotals() {

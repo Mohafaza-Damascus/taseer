@@ -231,6 +231,17 @@ body {
   border-color: black;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
 
 .cell-money {
   font-family: var(--font-thmanyahseriftext-bold);
@@ -400,6 +411,9 @@ body {
   .info-grid {
     grid-template-columns: 1fr;
   }
+}
+.new-item-related-work-name, .new-item-name {
+    margin-top: 10px;
 }
 
 .form-error {
