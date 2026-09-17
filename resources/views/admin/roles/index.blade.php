@@ -8,91 +8,154 @@
     <title>الأدوار</title>
 
     @vite('resources/css/variables.css')
+    @vite('resources/css/admin/dashboard.css')
     @vite('resources/css/admin/users/index.css')
 </head>
 
 <body>
 
-<div class="container">
+    <div class="admin-layout">
 
-    <section class="header-card">
+        {{-- Sidebar --}}
+        <aside class="sidebar">
 
-        <h1>
-            الأدوار
-        </h1>
+            <div class="sidebar-pattern"></div>
 
-        <a
-            href="{{ route('dashboard') }}"
-            class="btn-go-back"
-        >
-            رجوع
-        </a>
+            <div class="sidebar-content">
 
-    </section>
+                <div class="sidebar-header">
 
+                    <a href="{{ route('dashboard') }}" class="sidebar-logo">
+                        <img src="{{ Vite::asset('resources/images/logo2.png') }}" alt="تسعير">
+                    </a>
 
-    @if ($roles->isEmpty())
-
-        <div class="no-results">
-            <p>
-                لا يوجد أدوار
-            </p>
-        </div>
-
-    @else
-
-        <div class="cards-grid">
-
-            @foreach ($roles as $role)
-
-                <div class="card">
-
-                    <span class="card-title">
-                        {{ $role->name }}
+                    <span>
+                        لوحة الإدارة
                     </span>
 
-                    <span class="card-subtitle">
-                        {{ $role->slug }}
-                    </span>
+                </div>
 
-                    <div class="card-footer">
 
-                        <a
-                            href="{{ route('roles.show', $role) }}"
-                            class="btn-details"
-                        >
-                            عرض التفاصيل
+                <nav class="sidebar-nav">
+
+                    <a href="{{ route('dashboard') }}" class="sidebar-link">
+                        <span>لوحة التحكم</span>
+                    </a>
+
+                    <a href="{{ route('projects.index') }}" class="sidebar-link">
+                        <span>المشاريع</span>
+                    </a>
+
+                    <a href="{{ route('users.index') }}" class="sidebar-link">
+                        <span>المستخدمين</span>
+                    </a>
+
+                    <a href="{{ route('roles.index') }}" class="sidebar-link active">
+                        <span>الأدوار</span>
+                    </a>
+
+                </nav>
+
+
+                <div class="sidebar-footer">
+
+                    <a href="{{ route('profile') }}" class="sidebar-link">
+                        <span>الملف الشخصي</span>
+                    </a>
+
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" class="sidebar-link sidebar-logout">
+                            <span>تسجيل الخروج</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        {{-- Main Content --}}
+        <main class="main-content">
+
+            <div class="container">
+
+                <section class="header-card">
+
+                    <h1>
+                        الأدوار
+                    </h1>
+
+
+                </section>
+
+
+                @if ($roles->isEmpty())
+
+                    <div class="no-results">
+
+                        <p>
+                            لا يوجد أدوار
+                        </p>
+
+                    </div>
+
+                @else
+
+                    <div class="cards-grid">
+
+                        @foreach ($roles as $role)
+
+                            <div class="card">
+
+                                <span class="card-title">
+                                    {{ $role->name }}
+                                </span>
+
+                                <span class="card-subtitle">
+                                    {{ $role->slug }}
+                                </span>
+
+                                <div class="card-footer">
+
+                                    <a href="{{ route('roles.show', $role) }}" class="btn-details">
+                                        عرض التفاصيل
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
+
+                        <a href="{{ route('roles.create') }}" class="add-card" title="إضافة دور جديد">
+                            <span class="add-card-icon">
+                                +
+                            </span>
                         </a>
 
                     </div>
 
-                </div>
-
-            @endforeach
+                @endif
 
 
-            <a
-                href="{{ route('roles.create') }}"
-                class="add-card"
-                title="إضافة رول جديد"
-            >
-                <span class="add-card-icon">
-                    +
-                </span>
-            </a>
+                @if ($roles->hasPages())
 
-        </div>
+                    {{ $roles->links() }}
 
-    @endif
+                @endif
 
+            </div>
 
-    @if ($roles->hasPages())
+        </main>
 
-        {{ $roles->links() }}
-
-    @endif
-
-</div>
+    </div>
 
 </body>
+
 </html>

@@ -9,6 +9,30 @@
 
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/roles/edit.css')
+
+    <style>
+        .success-message {
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            border: 1px solid #a5d6a7;
+            font-family: var(--font-thmanyahseriftext-medium);
+        }
+
+        .form-error {
+            display: block;
+            margin-top: 6px;
+            color: #c62828;
+            font-size: 0.85rem;
+            font-family: var(--font-thmanyahseriftext-medium);
+        }
+
+        .input-error {
+            border-color: #c62828 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,7 +52,16 @@
         </section>
 
 
-        <form action="{{ route('roles.store') }}" method="POST" class="form-card">
+        @if (session('success'))
+
+            <div class="success-message">
+                {{ session('success') }}
+            </div>
+
+        @endif
+
+
+        <form action="{{ route('roles.store') }}" method="POST" class="form-card" novalidate>
 
             @csrf
 
@@ -39,7 +72,8 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    class="@error('name') input-error @enderror" required>
 
                 @error('name')
                     <span class="form-error">
@@ -56,7 +90,8 @@
                     slug
                 </label>
 
-                <input type="text" id="slug" name="slug" value="{{ old('slug') }}" required>
+                <input type="text" id="slug" name="slug" value="{{ old('slug') }}"
+                    class="@error('slug') input-error @enderror" required>
 
                 @error('slug')
                     <span class="form-error">
@@ -97,6 +132,12 @@
                 </div>
 
                 @error('permissions')
+                    <span class="form-error">
+                        {{ $message }}
+                    </span>
+                @enderror
+
+                @error('permissions.*')
                     <span class="form-error">
                         {{ $message }}
                     </span>

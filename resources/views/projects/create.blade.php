@@ -16,7 +16,7 @@
 
     <div class="container">
 
-        <form action="{{ route('projects.store') }}" method="POST">
+        <form action="{{ route('projects.store') }}" method="POST" novalidate>
             @csrf
 
             <section class="page-header">
@@ -53,7 +53,8 @@
                                 <select id="incoming_entity_id" name="incoming_entity_id">
                                     <option value="">اختر الجهة الواردة</option>
                                     @foreach($incomingEntities as $incomingEntity)
-                                        <option value="{{ $incomingEntity->id }}" @selected(old('incoming_entity_id') == $incomingEntity->id)>
+                                        <option value="{{ $incomingEntity->id }}"
+                                            @selected(old('incoming_entity_id') == $incomingEntity->id)>
                                             {{ $incomingEntity->name }}
                                         </option>
                                     @endforeach
@@ -66,7 +67,8 @@
                                 <div class="info-item">
                                     <label for="new_incoming_entity_name">اسم الجهة :</label>
                                     <input type="text" id="new_incoming_entity_name" name="new_incoming_entity_name"
-                                        value="{{ old('new_incoming_entity_name') }}" placeholder="أدخل اسم الجهة الواردة">
+                                        value="{{ old('new_incoming_entity_name') }}"
+                                        placeholder="أدخل اسم الجهة الواردة">
                                 </div>
                                 <div class="info-item">
                                     <label for="new_incoming_entity_notes">ملاحظات :</label>
@@ -96,7 +98,8 @@
                                 <select id="contractor_id" name="contractor_id">
                                     <option value="">اختر المقاول</option>
                                     @foreach($contractors as $contractor)
-                                        <option value="{{ $contractor->id }}" @selected(old('contractor_id') == $contractor->id)>
+                                        <option value="{{ $contractor->id }}"
+                                            @selected(old('contractor_id') == $contractor->id)>
                                             {{ $contractor->name }}
                                             @if($contractor->company_name) - {{ $contractor->company_name }} @endif
                                         </option>
@@ -114,7 +117,8 @@
                                 </div>
                                 <div class="info-item">
                                     <label for="new_contractor_national_number">الرقم الوطني :</label>
-                                    <input type="text" id="new_contractor_national_number" name="new_contractor_national_number"
+                                    <input type="text" id="new_contractor_national_number"
+                                        name="new_contractor_national_number"
                                         value="{{ old('new_contractor_national_number') }}" placeholder="الرقم الوطني">
                                 </div>
                                 <div class="info-item">
@@ -124,7 +128,8 @@
                                 </div>
                                 <div class="info-item">
                                     <label for="new_contractor_company_name">اسم الشركة :</label>
-                                    <input type="text" id="new_contractor_company_name" name="new_contractor_company_name"
+                                    <input type="text" id="new_contractor_company_name"
+                                        name="new_contractor_company_name"
                                         value="{{ old('new_contractor_company_name') }}" placeholder="اختياري">
                                 </div>
                             </div>
@@ -169,9 +174,20 @@
                     </div>
 
                     <div class="info-item">
-                        <label for="name">اسم المشروع :</label>
+
+                        <label for="name">
+                            اسم المشروع :
+                        </label>
+
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
-                            placeholder="أدخل اسم المشروع" required>
+                            placeholder="أدخل اسم المشروع" class="@error('name') input-error @enderror" required>
+
+                        @error('name')
+                            <span class="form-error">
+                                {{ $message }}
+                            </span>
+                        @enderror
+
                     </div>
 
                 </section>
@@ -194,7 +210,8 @@
                                 <th>سعر الوحدة ($)</th>
                                 <th>الإجمالي ($)</th>
                                 <th class="col-actions">
-                                    <button type="button" class="btn-icon-add" id="addPricingItem" aria-label="إضافة بند">+</button>
+                                    <button type="button" class="btn-icon-add" id="addPricingItem"
+                                        aria-label="إضافة بند">+</button>
                                 </th>
                             </tr>
                         </thead>
@@ -507,8 +524,8 @@
                                     data-unit="${item.unit ?? ''}"
                                     data-related-work="${item.related_work?.name ?? ''}"
                                     data-specs="${JSON.stringify(
-                                        (item.specifications ?? []).map(s => s.name)
-                                    ).replace(/"/g, '&quot;')}"
+                (item.specifications ?? []).map(s => s.name)
+            ).replace(/"/g, '&quot;')}"
                                 >
                                     ${item.name}
                                 </option>
@@ -579,25 +596,61 @@
                 </td>
 
 
-                <td>
-                    <input type="number" name="pricing_items[${itemIndex}][quantity]"
-                        class="quantity" min="0" step="0.001" value="0" required>
+            <td>
+                    <input
+                        type="number"
+                        name="pricing_items[${itemIndex}][quantity]"
+                        class="quantity"
+                        min="0"
+                        step="0.001"
+                        value="0"
+                        required
+                    >
+
+                    <span
+                        class="form-error"
+                        data-error="pricing_items.${itemIndex}.quantity"
+                    ></span>
                 </td>
 
+                <td>
+                    <input
+                        type="number"
+                        name="pricing_items[${itemIndex}][unit_price_syp]"
+                        class="unit-price-syp"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+
+                    <span
+                        class="form-error"
+                        data-error="pricing_items.${itemIndex}.unit_price_syp"
+                    ></span>
+                </td>
 
                 <td>
-                    <input type="number" name="pricing_items[${itemIndex}][unit_price_syp]"
-                        class="unit-price-syp" min="0" step="0.01" value="0" required>
+                    <input
+                        type="number"
+                        name="pricing_items[${itemIndex}][unit_price_usd]"
+                        class="unit-price-usd"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+
+                    <span
+                        class="form-error"
+                        data-error="pricing_items.${itemIndex}.unit_price_usd"
+                    ></span>
                 </td>
 
 
                 <td class="cell-money total-syp">0.00</td>
 
 
-                <td>
-                    <input type="number" name="pricing_items[${itemIndex}][unit_price_usd]"
-                        class="unit-price-usd" min="0" step="0.01" value="0" required>
-                </td>
 
 
                 <td class="cell-money total-usd">0.00</td>

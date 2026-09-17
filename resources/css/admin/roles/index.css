@@ -11,8 +11,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    display: flex;
-    justify-content: center;
     min-height: 100dvh;
     width: 100%;
 }

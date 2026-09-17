@@ -28,7 +28,7 @@
         </section>
 
 
-        <form action="{{ route('users.update', $user) }}" method="POST" class="form-card">
+        <form action="{{ route('users.update', $user) }}" method="POST" class="form-card" novalidate>
 
             @csrf
             @method('PUT')
