@@ -38,27 +38,33 @@
                 <nav class="sidebar-nav">
 
                     <a href="{{ route('dashboard') }}" class="sidebar-link active">
-                    
+
                         <span>لوحة التحكم</span>
                     </a>
 
 
-                    <a href="{{ route('projects.index') }}" class="sidebar-link">
-                    
-                        <span>المشاريع</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('projects.view'))
+                        <a href="{{ route('projects.index') }}" class="sidebar-link">
+
+                            <span>المشاريع</span>
+                        </a>
+                    @endif
 
 
-                    <a href="{{ route('users.index') }}" class="sidebar-link">
-                    
-                        <span>المستخدمين</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('users.index') }}" class="sidebar-link">
+
+                            <span>المستخدمين</span>
+                        </a>
+                    @endif
 
 
-                    <a href="{{ route('roles.index') }}" class="sidebar-link">
-                    
-                        <span>الأدوار</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('roles.index') }}" class="sidebar-link">
+
+                            <span>الأدوار</span>
+                        </a>
+                    @endif
 
                 </nav>
 
@@ -66,7 +72,7 @@
                 <div class="sidebar-footer">
 
                     <a href="{{ route('profile') }}" class="sidebar-link">
-                    
+
                         <span>الملف الشخصي</span>
                     </a>
 
@@ -75,7 +81,7 @@
                         @csrf
 
                         <button type="submit" class="sidebar-link sidebar-logout">
-                        
+
                             <span>تسجيل الخروج</span>
                         </button>
                     </form>
@@ -197,34 +203,40 @@
 
                     <div class="quick-links">
 
-                        <a href="{{ route('projects.index') }}" class="quick-link">
+                        @if(auth()->user()->hasPermission('projects.view'))
+                            <a href="{{ route('projects.index') }}" class="quick-link">
 
 
-                            <div>
-                                <strong>المشاريع</strong>
-                                <span>إدارة المشاريع والتسعير</span>
-                            </div>
-                        </a>
+                                <div>
+                                    <strong>المشاريع</strong>
+                                    <span>إدارة المشاريع والتسعير</span>
+                                </div>
+                            </a>
+                        @endif
 
 
-                        <a href="{{ route('users.index') }}" class="quick-link">
+                        @if(auth()->user()->hasPermission('users.manage'))
+                            <a href="{{ route('users.index') }}" class="quick-link">
 
 
-                            <div>
-                                <strong>المستخدمين</strong>
-                                <span>إدارة المستخدمين والأدوار</span>
-                            </div>
-                        </a>
+                                <div>
+                                    <strong>المستخدمين</strong>
+                                    <span>إدارة المستخدمين والأدوار</span>
+                                </div>
+                            </a>
+                        @endif
 
 
-                        <a href="{{ route('roles.index') }}" class="quick-link">
+                        @if(auth()->user()->hasPermission('users.manage'))
+                            <a href="{{ route('roles.index') }}" class="quick-link">
 
 
-                            <div>
-                                <strong>الأدوار</strong>
-                                <span>إدارة الأدوار والصلاحيات</span>
-                            </div>
-                        </a>
+                                <div>
+                                    <strong>الأدوار</strong>
+                                    <span>إدارة الأدوار والصلاحيات</span>
+                                </div>
+                            </a>
+                        @endif
 
                     </div>
 

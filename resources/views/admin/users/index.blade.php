@@ -42,17 +42,23 @@
                         <span>لوحة التحكم</span>
                     </a>
 
-                    <a href="{{ route('projects.index') }}" class="sidebar-link">
-                        <span>المشاريع</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('projects.view'))
+                        <a href="{{ route('projects.index') }}" class="sidebar-link">
+                            <span>المشاريع</span>
+                        </a>
+                    @endif
 
-                    <a href="{{ route('users.index') }}" class="sidebar-link active">
-                        <span>المستخدمين</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('users.index') }}" class="sidebar-link active">
+                            <span>المستخدمين</span>
+                        </a>
+                    @endif
 
-                    <a href="{{ route('roles.index') }}" class="sidebar-link">
-                        <span>الأدوار</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('roles.index') }}" class="sidebar-link">
+                            <span>الأدوار</span>
+                        </a>
+                    @endif
 
                 </nav>
 

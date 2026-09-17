@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 
 <head>
@@ -26,9 +27,8 @@
 
                 <div class="header-actions">
                     <a href="{{ route('projects.edit', $project) }}" class="btn-edit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                         </svg>
                         تعديل المشروع
@@ -142,17 +142,51 @@
                     <table class="items-table">
 
                         <thead>
+
                             <tr>
-                                <th>البند</th>
-                                <th>صفات البند</th>
-                                <th>العمل المرتبط</th>
-                                <th>الوحدة</th>
-                                <th>الكمية</th>
-                                <th>سعر الوحدة (ل.س)</th>
-                                <th>الإجمالي (ل.س)</th>
-                                <th>سعر الوحدة ($)</th>
-                                <th>الإجمالي ($)</th>
+
+                                <th>
+                                    البند
+                                </th>
+
+                                <th>
+                                    صفات البند
+                                </th>
+
+                                <th>
+                                    العمل المرتبط
+                                </th>
+
+                                <th>
+                                    الوحدة
+                                </th>
+
+                                <th>
+                                    الكمية
+                                </th>
+
+                                <th>
+                                    سعر الوحدة (ل.س)
+                                </th>
+
+                                <th>
+                                    الإجمالي (ل.س)
+                                </th>
+
+                                <th>
+                                    سعر الوحدة ($)
+                                </th>
+
+                                <th>
+                                    الإجمالي ($)
+                                </th>
+
+                                <th></th>
+
+                                <th></th>
+
                             </tr>
+
                         </thead>
 
 
@@ -160,58 +194,209 @@
 
                             @forelse ($project->pricingItems as $item)
 
-                                @php
-                                    $quantity = (float) $item->pivot->quantity;
-                                    $unitPriceSyp = (float) $item->pivot->unit_price_syp;
-                                    $unitPriceUsd = (float) $item->pivot->unit_price_usd;
-                                    $totalSyp = $quantity * $unitPriceSyp;
-                                    $totalUsd = $quantity * $unitPriceUsd;
+                                                        @php
 
-                                    $specifications = $item->pivot->specifications;
-                                    if (is_string($specifications)) {
-                                        $specifications = json_decode($specifications, true);
-                                    }
-                                    $specifications = is_array($specifications) ? $specifications : [];
-                                @endphp
+                                                            $quantity = (float) $item->pivot->quantity;
 
-                                <tr>
+                                                            $unitPriceSyp = (float) $item->pivot->unit_price_syp;
 
-                                    <td class="item-name">{{ $item->name }}</td>
+                                                            $unitPriceUsd = (float) $item->pivot->unit_price_usd;
 
-                                    <td>
-                                        <div class="spec-chips">
-                                            @forelse ($specifications as $specification)
-                                                @if (is_string($specification) && trim($specification) !== '')
-                                                    <span class="chip">{{ $specification }}</span>
-                                                @endif
-                                            @empty
-                                                <span class="muted">-</span>
-                                            @endforelse
-                                        </div>
-                                    </td>
+                                                            $totalSyp = $quantity * $unitPriceSyp;
 
-                                    <td>{{ $item->relatedWork?->name ?? '-' }}</td>
+                                                            $totalUsd = $quantity * $unitPriceUsd;
 
-                                    <td>{{ $item->unit ?? '-' }}</td>
+                                                            $specifications = $item->pivot->specifications;
 
-                                    <td>{{ number_format($quantity, 3, '.', ',') }}</td>
+                                                            if (is_string($specifications)) {
+                                                                $specifications = json_decode(
+                                                                    $specifications,
+                                                                    true
+                                                                );
+                                                            }
 
-                                    <td>{{ number_format($unitPriceSyp, 2, '.', ',') }}</td>
+                                                            $specifications = is_array($specifications)
+                                                                ? $specifications
+                                                                : [];
 
-                                    <td class="cell-money">{{ number_format($totalSyp, 2, '.', ',') }}</td>
+                                                        @endphp
 
-                                    <td>{{ number_format($unitPriceUsd, 2, '.', ',') }}</td>
 
-                                    <td class="cell-money">{{ number_format($totalUsd, 2, '.', ',') }}</td>
+                                                        <tr>
 
-                                </tr>
+                                                            {{-- Pricing Item --}}
+                                                            <td class="main-label">
+
+                                                                {{ $item->name }}
+
+                                                            </td>
+
+
+                                                            {{-- Specifications --}}
+                                                            <td>
+
+                                                                <div class="spec-chips">
+
+                                                                    @forelse ($specifications as $specification)
+
+                                                                        @if (is_string($specification) && trim($specification) !== '')
+
+                                                                            <span class="chip">
+                                                                                {{ $specification }}
+                                                                            </span>
+
+                                                                        @endif
+
+                                                                    @empty
+
+                                                                        <span>
+                                                                            -
+                                                                        </span>
+
+                                                                    @endforelse
+
+                                                                </div>
+
+                                                            </td>
+
+
+                                                            {{-- Related Work --}}
+                                                            <td>
+
+                                                                {{ $item->relatedWork?->name ?? '-' }}
+
+                                                            </td>
+
+
+                                                            {{-- Unit --}}
+                                                            <td>
+
+                                                                {{ $item->unit ?? '-' }}
+
+                                                            </td>
+
+
+                                                            {{-- Quantity --}}
+                                                            <td>
+
+                                                                {{ number_format(
+                                    $quantity,
+                                    3,
+                                    '.',
+                                    ','
+                                ) }}
+
+                                                            </td>
+
+
+                                                            {{-- Unit SYP --}}
+                                                            <td>
+
+                                                                {{ number_format(
+                                    $unitPriceSyp,
+                                    2,
+                                    '.',
+                                    ','
+                                ) }}
+
+                                                            </td>
+
+
+                                                            {{-- Total SYP --}}
+                                                            <td class="cell-money">
+
+                                                                {{ number_format(
+                                    $totalSyp,
+                                    0,
+                                    '.',
+                                    ','
+                                ) }}
+
+                                                            </td>
+
+
+                                                            {{-- Unit USD --}}
+                                                            <td>
+
+                                                                {{ number_format(
+                                    $unitPriceUsd,
+                                    2,
+                                    '.',
+                                    ','
+                                ) }}
+
+                                                            </td>
+
+
+                                                            {{-- Total USD --}}
+                                                            <td class="cell-money">
+
+                                                                {{ number_format(
+                                    $totalUsd,
+                                    2,
+                                    '.',
+                                    ','
+                                ) }}
+
+                                                            </td>
+
+
+                                                            {{-- Edit --}}
+                                                            <td>
+
+                                                                <a href="{{ route(
+                                    'projects.edit',
+                                    $project
+                                ) }}#pricing-items" class="btn-icon-edit" aria-label="تعديل بنود المشروع">
+
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+
+                                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+
+                                                                    </svg>
+
+                                                                </a>
+
+                                                            </td>
+
+
+                                                            {{-- Delete --}}
+                                                            <td>
+
+                                                                <button type="button" class="btn-icon-delete" aria-label="حذف بند التسعير" disabled
+                                                                    title="سيتم ربط حذف البند عند إضافة مسار حذف مستقل">
+
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+
+                                                                        <polyline points="3 6 5 6 21 6" />
+
+                                                                        <path
+                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+
+                                                                        <line x1="10" y1="11" x2="10" y2="17" />
+
+                                                                        <line x1="14" y1="11" x2="14" y2="17" />
+
+                                                                    </svg>
+
+                                                                </button>
+
+                                                            </td>
+
+                                                        </tr>
 
                             @empty
 
                                 <tr>
-                                    <td colspan="9" class="empty-cell">
+
+                                    <td colspan="11" class="empty-cell">
                                         لا توجد بنود تسعير لهذا المشروع
                                     </td>
+
                                 </tr>
 
                             @endforelse
@@ -220,24 +405,49 @@
 
 
                         @php
+
                             $totalSyp = $project->pricingItems->sum(
-                                fn($item) => (float) $item->pivot->quantity * (float) $item->pivot->unit_price_syp
+                                fn($item) =>
+                                    (float) $item->pivot->quantity *
+                                    (float) $item->pivot->unit_price_syp
                             );
 
                             $totalUsd = $project->pricingItems->sum(
-                                fn($item) => (float) $item->pivot->quantity * (float) $item->pivot->unit_price_usd
+                                fn($item) =>
+                                    (float) $item->pivot->quantity *
+                                    (float) $item->pivot->unit_price_usd
                             );
+
                         @endphp
 
                         @if ($project->pricingItems->isNotEmpty())
+
                             <tfoot>
+
                                 <tr>
-                                    <td class="main-label" colspan="6">الإجمالي العام</td>
-                                    <td class="main-label cell-money">{{ number_format($totalSyp, 2, '.', ',') }}</td>
+
+                                    <td class="main-label" colspan="6">
+                                        الإجمالي العام
+                                    </td>
+
+                                    <td class="main-label cell-money">
+                                        {{ number_format($totalSyp, 2, '.', ',') }}
+                                    </td>
+
                                     <td></td>
-                                    <td class="main-label cell-money">{{ number_format($totalUsd, 2, '.', ',') }}</td>
+
+                                    <td class="main-label cell-money">
+                                        {{ number_format($totalUsd, 2, '.', ',') }}
+                                    </td>
+
+                                    <td></td>
+
+                                    <td></td>
+
                                 </tr>
+
                             </tfoot>
+
                         @endif
 
                     </table>
