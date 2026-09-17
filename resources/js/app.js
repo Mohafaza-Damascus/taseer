@@ -5,3 +5,6 @@
  */
 
 import './echo';
+import.meta.glob([
+  '../images/**',
+]);
