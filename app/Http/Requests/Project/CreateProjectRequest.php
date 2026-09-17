@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+
+    use Illuminate\Validation\Rule;
 
 class CreateProjectRequest extends FormRequest
 {
@@ -12,7 +14,6 @@ class CreateProjectRequest extends FormRequest
         return true;
     }
 
-    use Illuminate\Validation\Rule;
 
     public function rules(): array
     {

@@ -34,6 +34,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'حذف عمل مرتبط', 'slug' => 'related_works.delete'],
 
             ['name' => 'إدارة المستخدمين', 'slug' => 'users.manage'],
+            ['name' => 'إدارة الأدوار', 'slug' => 'role.manage'],
         ];
 
         foreach ($permissions as $permission) {
