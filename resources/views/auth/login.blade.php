@@ -27,7 +27,7 @@
 
                 <div class="field">
                     <div class="input-group">
-                        <img src="{{ Vite::asset('resources/images/user.svg') }}" class="input-icon">
+                        <img src="{{ Vite::asset('image/user.svg') }}" class="input-icon">
                         <input type="text" name="username" id="username" value="{{ old('username') }}"
                             maxlength="255" placeholder="اسم المستخدم" autofocus>
                     </div>
@@ -39,7 +39,7 @@
 
                 <div class="field">
                     <div class="input-group">
-                        <img src="{{ Vite::asset('resources/images/locker.svg') }}" class="input-icon">
+                        <img src="{{ Vite::asset('image/locker.svg') }}" class="input-icon">
                         <input type="password" name="password" id="password" placeholder="كلمة المرور" maxlength="255">
                         <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
                             <img src="{{ Vite::asset('resources/images/eye-off.svg') }}" class="eye-icon"
@@ -69,11 +69,11 @@
 
         if (input.type === 'password') {
             input.type = 'text';
-            img.src = "{{ Vite::asset('resources/images/eye.svg') }}";
+            img.src = "{{ Vite::asset('image/eye.svg') }}";
             img.alt = 'إخفاء';
         } else {
             input.type = 'password';
-            img.src = "{{ Vite::asset('resources/images/eye-off.svg') }}";
+            img.src = "{{ Vite::asset('image/eye-off.svg') }}";
             img.alt = 'إظهار';
         }
     }
