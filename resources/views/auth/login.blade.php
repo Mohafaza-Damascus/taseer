@@ -14,7 +14,7 @@
 
     <div class="auth-card">
         <div class="auth-logo-panel">
-            <img src="{{ asset('images/damascus.png') }}" class="header-logo">
+            <img src="{{ asset('image/damascus.png') }}" class="header-logo">
         </div>
 
         <div class="auth-form-panel">
