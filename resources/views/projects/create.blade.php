@@ -14,6 +14,9 @@
 </head>
 
 <body>
+    @php
+        $canCreatePricingItems = auth()->user()->hasPermission('pricing_items.create');
+    @endphp
 
     <div class="container">
 
@@ -204,8 +207,12 @@
                                 <th>سعر الوحدة ($)</th>
                                 <th>الإجمالي ($)</th>
                                 <th class="col-actions">
-                                    <button type="button" class="btn-icon-add" id="addPricingItem"
-                                        aria-label="إضافة بند">+</button>
+                                    @if($canCreatePricingItems)
+                                        <button type="button" class="btn-icon-add" id="addPricingItem"
+                                            aria-label="إضافة بند">
+                                            +
+                                        </button>
+                                    @endif
                                 </th>
                             </tr>
                         </thead>
@@ -520,6 +527,26 @@
             row.innerHTML = `
 
                 <td class="item-cell">
+
+                    <div class="row-mode-toggle">
+                        <button
+                            type="button"
+                            class="row-mode-btn active"
+                            data-mode="select"
+                            data-field="item">
+                            اختيار
+                        </button>
+
+                        @if($canCreatePricingItems)
+                            <button
+                                type="button"
+                                class="row-mode-btn"
+                                data-mode="new"
+                                data-field="item">
+                                جديد
+                            </button>
+                        @endif
+                    </div>
 
                     <div class="item-select-wrapper">
                         <select
