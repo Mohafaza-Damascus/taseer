@@ -9,8 +9,6 @@ use App\Http\Controllers\Blade\RoleController as BladeRoleController;
 
 use Illuminate\Support\Facades\Route;
 
-
-
 Route::middleware('guest')->group(function () {
     Route::get('/login', function () {
         return view('auth.login');
