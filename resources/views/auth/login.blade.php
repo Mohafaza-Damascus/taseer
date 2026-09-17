@@ -8,6 +8,7 @@
     <title>تسجيل الدخول</title>
     @vite('resources/css/variables.css')
     @vite('resources/css/auth/login.css')
+    @vite('resources/js/app.js')
 </head>
 
 <body>
