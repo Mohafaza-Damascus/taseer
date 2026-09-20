@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>إنشاء متعهد</title>
-
+    <style></style>
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/roles/edit.css')
 </head>
