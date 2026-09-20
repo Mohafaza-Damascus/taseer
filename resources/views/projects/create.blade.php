@@ -528,25 +528,6 @@
 
                 <td class="item-cell">
 
-                    <div class="row-mode-toggle">
-                        <button
-                            type="button"
-                            class="row-mode-btn active"
-                            data-mode="select"
-                            data-field="item">
-                            اختيار
-                        </button>
-
-                        @if($canCreatePricingItems)
-                            <button
-                                type="button"
-                                class="row-mode-btn"
-                                data-mode="new"
-                                data-field="item">
-                                جديد
-                            </button>
-                        @endif
-                    </div>
 
                     <div class="item-select-wrapper">
                         <select

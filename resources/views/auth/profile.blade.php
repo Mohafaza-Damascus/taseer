@@ -62,6 +62,17 @@
                         <span>الأدوار</span>
                     </a>
 
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                            <span>الجهات الواردة</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                            <span>المتعهدين</span>
+                        </a>
+                    @endif
                 </nav>
 
 

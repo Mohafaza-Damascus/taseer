@@ -65,6 +65,11 @@
                         </a>
                     @endif
 
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('contractors.index') }}" class="sidebar-link">
+                            <span>المتعهدين</span>
+                        </a>
+                    @endif
                 </nav>
 
 
@@ -111,16 +116,6 @@
                 </section>
 
 
-                @if ($incomingEntities->isEmpty())
-
-                    <div class="no-results">
-                        <p>
-                            لا يوجد جهات واردة
-                        </p>
-                    </div>
-
-                @else
-
                     <div class="cards-grid">
 
                         @foreach ($incomingEntities as $incomingEntity)
@@ -151,6 +146,7 @@
                         @endforeach
 
 
+
                         <a
                             href="{{ route('incoming_entities.create') }}"
                             class="add-card"
@@ -160,10 +156,7 @@
                                 +
                             </span>
                         </a>
-
                     </div>
-
-                @endif
 
 
             </div>

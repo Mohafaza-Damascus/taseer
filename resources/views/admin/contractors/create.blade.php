@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>إنشاء الدور</title>
+    <title>إنشاء متعهد</title>
 
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/roles/edit.css')
@@ -18,17 +18,17 @@
         <section class="header-card">
 
             <h1>
-                إنشاء الدور
+                إنشاء متعهد
             </h1>
 
-            <a href="{{ route('roles.index') }}" class="btn-go-back">
+            <a href="{{ route('contractors.index') }}" class="btn-go-back">
                 رجوع
             </a>
 
         </section>
 
 
-        <form action="{{ route('roles.store') }}" method="POST" class="form-card">
+        <form action="{{ route('contractors.store') }}" method="POST" class="form-card">
 
             @csrf
 
@@ -48,17 +48,45 @@
                 @enderror
 
             </div>
-
-
             <div class="form-group">
 
-                <label for="slug">
-                    slug
+                <label for="phone">
+                    رقم الهاتف
                 </label>
 
-                <input type="text" id="slug" name="slug" value="{{ old('slug') }}" required>
+                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" required>
 
-                @error('slug')
+                @error('phone')
+                    <span class="form-error">
+                        {{ $message }}
+                    </span>
+                @enderror
+
+            </div>
+            <div class="form-group">
+
+                <label for="national_number">
+                    الرقم الوطني
+                </label>
+
+                <input type="text" id="national_number" name="national_number" value="{{ old('national_number') }}" required>
+
+                @error('national_number')
+                    <span class="form-error">
+                        {{ $message }}
+                    </span>
+                @enderror
+
+            </div>
+            <div class="form-group">
+
+                <label for="company_name">
+                    اسم الشركة
+                </label>
+
+                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" required>
+
+                @error('company_name')
                     <span class="form-error">
                         {{ $message }}
                     </span>
@@ -66,43 +94,6 @@
 
             </div>
 
-
-            <div class="form-group">
-
-                <label>
-                    الصلاحيات
-                </label>
-
-                <div class="checkbox-list">
-
-                    @foreach ($permissions as $permission)
-
-                        <label class="checkbox-item">
-
-                            <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" @checked(
-                                in_array(
-                                    $permission->id,
-                                    old('permissions', [])
-                                )
-                            )>
-
-                            <span class="checkbox-text">
-                                {{ $permission->name }}
-                            </span>
-
-                        </label>
-
-                    @endforeach
-
-                </div>
-
-                @error('permissions')
-                    <span class="form-error">
-                        {{ $message }}
-                    </span>
-                @enderror
-
-            </div>
 
 
             <div class="form-actions">
@@ -111,7 +102,7 @@
                     حفظ
                 </button>
 
-                <a href="{{ route('roles.index') }}" class="btn-cancel">
+                <a href="{{ route('contractors.index') }}" class="btn-cancel">
                     إلغاء
                 </a>
 

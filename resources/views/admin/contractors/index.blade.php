@@ -5,94 +5,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>الأدوار</title>
+    <title>المتعهدين</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/users/index.css')
+    @vite('resources/css/admin/dashboard.css')
+    @vite('resources/css/admin/contractors/index.css')
 </head>
 
 <body>
 
-<div class="container">
+    <div class="admin-layout">
 
-    <section class="header-card">
+        <aside class="sidebar">
 
-        <h1>
-            الأدوار
-        </h1>
+            <div class="sidebar-pattern"></div>
 
-        <a
-            href="{{ route('dashboard') }}"
-            class="btn-go-back"
-        >
-            رجوع
-        </a>
+            <div class="sidebar-content">
 
-    </section>
+                <div class="sidebar-header">
 
+                    <a href="{{ route('dashboard') }}" class="sidebar-logo">
+                        <img src="{{ Vite::asset('resources/images/logo2.png') }}" alt="تسعير">
+                    </a>
 
-    @if ($roles->isEmpty())
-
-        <div class="no-results">
-            <p>
-                لا يوجد أدوار
-            </p>
-        </div>
-
-    @else
-
-        <div class="cards-grid">
-
-            @foreach ($roles as $role)
-
-                <div class="card">
-
-                    <span class="card-title">
-                        {{ $role->name }}
+                    <span>
+                        لوحة الإدارة
                     </span>
-
-                    <span class="card-subtitle">
-                        {{ $role->slug }}
-                    </span>
-
-                    <div class="card-footer">
-
-                        <a
-                            href="{{ route('roles.show', $role) }}"
-                            class="btn-details"
-                        >
-                            عرض التفاصيل
-                        </a>
-
-                    </div>
 
                 </div>
 
-            @endforeach
+
+                <nav class="sidebar-nav">
+
+                    <a href="{{ route('dashboard') }}" class="sidebar-link">
+                        <span>لوحة التحكم</span>
+                    </a>
+
+                    @if(auth()->user()->hasPermission('projects.view'))
+                        <a href="{{ route('projects.index') }}" class="sidebar-link">
+                            <span>المشاريع</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('users.index') }}" class="sidebar-link">
+                            <span>المستخدمين</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('roles.index') }}" class="sidebar-link">
+                            <span>الأدوار</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                            <span>الجهات الواردة</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('contractors.index') }}" class="sidebar-link active">
+                            <span>المتعهدين</span>
+                        </a>
+                    @endif
+                </nav>
 
 
-            <a
-                href="{{ route('roles.create') }}"
-                class="add-card"
-                title="إضافة رول جديد"
-            >
-                <span class="add-card-icon">
-                    +
-                </span>
-            </a>
+                <div class="sidebar-footer">
 
-        </div>
+                    <a href="{{ route('profile') }}" class="sidebar-link">
+                        <span>الملف الشخصي</span>
+                    </a>
 
-    @endif
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" class="sidebar-link sidebar-logout">
+                            <span>تسجيل الخروج</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </aside>
 
 
-    @if ($roles->hasPages())
+        {{-- Main Content --}}
+        <main class="main-content">
 
-        {{ $roles->links() }}
+            <div class="container">
 
-    @endif
+                <section class="header-card">
 
-</div>
+                    <h1>
+                        المتعهدين
+                    </h1>
+
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="btn-go-back"
+                    >
+                        رجوع
+                    </a>
+
+                </section>
+
+
+                    <div class="cards-grid">
+
+                        @foreach ($contractors as $contractor)
+
+                            <div class="card">
+
+                                <span class="card-title">
+                                    {{ $contractor->name }}
+                                </span>
+                                <span class="card-subtitle">
+                                    {{ $contractor->company_name }}
+                                </span>
+                                <div class="card-footer">
+
+                                    <a
+                                        href="{{ route('contractors.show', $contractor) }}"
+                                        class="btn-details"
+                                    >
+                                        عرض التفاصيل
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
+
+
+                        <a
+                            href="{{ route('contractors.create') }}"
+                            class="add-card"
+                            title="إضافة متعهد جديد"
+                        >
+                            <span class="add-card-icon">
+                                +
+                            </span>
+                        </a>
+                    </div>
+
+
+            </div>
+
+        </main>
+
+    </div>
 
 </body>
+
 </html>

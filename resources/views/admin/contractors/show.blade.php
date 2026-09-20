@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $incomingEntity->name }}</title>
+    <title>{{ $contractor->name }}</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/roles/show.css')
+    @vite('resources/css/admin/incoming_entities/show.css')
 </head>
 
 <body>
@@ -18,10 +18,10 @@
         <section class="header-card">
 
             <h1>
-                تفاصيل الجهة الواردة
+                تفاصيل المتعهد
             </h1>
 
-            <a href="{{ route('incoming_entities.index') }}" class="btn-go-back">
+            <a href="{{ route('contractors.index') }}" class="btn-go-back">
                 رجوع
             </a>
 
@@ -39,7 +39,7 @@
                     </span>
 
                     <span class="info-value">
-                        {{ $incomingEntity->name }}
+                        {{ $contractor->name }}
                     </span>
 
                 </div>
@@ -48,26 +48,56 @@
                 <div class="info-row">
 
                     <span class="info-label">
-                        ملاحظات
+                        رقم الهاتف
                     </span>
 
                     <span class="info-value">
-                        {{ $incomingEntity->notes }}
+                        {{ $contractor->phone }}
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        الرقم الوطني
+                    </span>
+
+                    <span class="info-value">
+                        {{ $contractor->national_number }}
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        اسم الشركة
+                    </span>
+
+                    <span class="info-value">
+                        {{ $contractor->company_name }}
                     </span>
 
                 </div>
 
             </div>
 
+            @if(session('error'))
+                <span class="form-error">
+                    {{ session('error') }}
+                </span>
+            @endif
+
             <div class="form-actions">
 
-                <a href="{{ route('incoming_entity.edit', $incomingEntity) }}" class="btn-edit">
+                <a href="{{ route('contractors.edit', $contractor) }}" class="btn-edit">
                     تعديل
                 </a>
 
 
-                <form action="{{ route('incoming_entity.destroy', $incomingEntity) }}" method="POST"
-                    onsubmit="return confirm('هل أنت متأكد من حذف الجهة الواردة؟');">
+                <form action="{{ route('contractors.destroy', $contractor) }}" method="POST"
+                    onsubmit="return confirm('هل أنت متأكد من حذف المتعهد؟');">
 
                     @csrf
                     @method('DELETE')
@@ -77,7 +107,6 @@
                     </button>
 
                 </form>
-
             </div>
 
         </div>

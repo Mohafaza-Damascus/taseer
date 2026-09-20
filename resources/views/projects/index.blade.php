@@ -66,6 +66,12 @@
                         </a>
                     @endif
 
+
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('contractors.index') }}" class="sidebar-link">
+                            <span>المتعهدين</span>
+                        </a>
+                    @endif
                 </nav>
 
 

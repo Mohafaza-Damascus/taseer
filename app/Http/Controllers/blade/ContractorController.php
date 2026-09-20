@@ -19,10 +19,10 @@ class ContractorController extends Controller
     {
         $contractors = Contractor::query()
             ->latest()
-            ->withQueryString();
+            ->get();
 
         return view(
-            'contractors.index',
+            'admin.contractors.index',
             compact('contractors')
         );
     }
@@ -32,7 +32,7 @@ class ContractorController extends Controller
      */
     public function create(): View
     {
-        return view('contractors.create');
+        return view('admin.contractors.create');
     }
 
     /**
@@ -66,7 +66,7 @@ class ContractorController extends Controller
         $contractor->load('projects');
 
         return view(
-            'contractors.show',
+            'admin.contractors.show',
             compact('contractor')
         );
     }
@@ -78,7 +78,7 @@ class ContractorController extends Controller
         Contractor $contractor
     ): View {
         return view(
-            'contractors.edit',
+            'admin.contractors.edit',
             compact('contractor')
         );
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Contractor;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateContractorRequest extends BaseRequest
+class UpdateContractorRequest extends FormRequest
 {
     public function authorize(): bool
     {

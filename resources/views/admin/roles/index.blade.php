@@ -66,6 +66,12 @@
                         </a>
                     @endif
 
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('contractors.index') }}" class="sidebar-link">
+                            <span>المتعهدين</span>
+                        </a>
+                    @endif
+
                 </nav>
 
 
@@ -106,17 +112,6 @@
                 </section>
 
 
-                @if ($roles->isEmpty())
-
-                    <div class="no-results">
-
-                        <p>
-                            لا يوجد أدوار
-                        </p>
-
-                    </div>
-
-                @else
 
                     <div class="cards-grid">
 
@@ -153,7 +148,6 @@
 
                     </div>
 
-                @endif
 
 
             </div>
