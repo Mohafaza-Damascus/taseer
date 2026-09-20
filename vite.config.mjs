@@ -1,64 +1,53 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { glob } from 'glob';
-import path from 'node:path';
-
-// جمع كل ملفات CSS تلقائياً من resources/css
-const cssFiles = glob.sync('resources/css/**/*.css', {
-    ignore: ['resources/css/app.css'], // app.css يُضاف يدوياً كأول عنصر
-});
-
-// جمع كل ملفات JS تلقائياً من resources/js (اختياري)
-const jsFiles = glob.sync('resources/js/**/*.js', {
-    ignore: ['resources/js/app.js'],
-});
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', // الأساسي أولاً (Tailwind + fonts + base)
-                ...cssFiles,             // باقي ملفات CSS
-                'resources/js/app.js',   // الأساسي JS أولاً
-                ...jsFiles,              // باقي ملفات JS
+                // ============ CSS الأساسية ============
+                'resources/css/app.css',
+                'resources/css/fonts.css',
+                'resources/css/toast.css',
+                'resources/css/variables.css',
+
+                // ============ CSS - admin ============
+                'resources/css/admin/dashboard.css',
+                'resources/css/admin/profile.css',
+
+                'resources/css/admin/contractors/create.css',
+                'resources/css/admin/contractors/edit.css',
+                'resources/css/admin/contractors/index.css',
+                'resources/css/admin/contractors/show.css',
+
+                'resources/css/admin/incoming_entities/create.css',
+                'resources/css/admin/incoming_entities/edit.css',
+                'resources/css/admin/incoming_entities/index.css',
+                'resources/css/admin/incoming_entities/show.css',
+
+                'resources/css/admin/roles/create.css',
+                'resources/css/admin/roles/edit.css',
+                'resources/css/admin/roles/index.css',
+                'resources/css/admin/roles/show.css',
+
+                'resources/css/admin/users/create.css',
+                'resources/css/admin/users/edit.css',
+                'resources/css/admin/users/index.css',
+                'resources/css/admin/users/show.css',
+
+                // ============ CSS - auth ============
+                'resources/css/auth/login.css',
+
+                // ============ CSS - projects ============
+                'resources/css/projects/create.css',
+                'resources/css/projects/edit.css',
+                'resources/css/projects/index.css',
+                'resources/css/projects/show.css',
+
+                // ============ JS ============
+                'resources/js/app.js',
             ],
-            refresh: [
-                'resources/views/**',        // إعادة تحميل عند تعديل Blade
-                'resources/css/**',          // إعادة تحميل عند تعديل CSS
-                'resources/js/**',           // إعادة تحميل عند تعديل JS
-                'routes/**',                 // إعادة تحميل عند تعديل Routes
-            ],
+            refresh: true,
         }),
     ],
-    resolve: {
-        alias: {
-            '@css': path.resolve(__dirname, 'resources/css'),
-            '@js': path.resolve(__dirname, 'resources/js'),
-            '@fonts': path.resolve(__dirname, 'resources/fonts'),
-            '@images': path.resolve(__dirname, 'resources/images'),
-        },
-    },
-    build: {
-        // لضمان ترتيب الـ CSS في الملف النهائي
-        cssCodeSplit: false,
-        rollupOptions: {
-            output: {
-                assetFileNames: (assetInfo) => {
-                    // تنظيم ملفات البناء في مجلدات
-                    if (/\.(woff2?|ttf|otf|eot)$/i.test(assetInfo.name)) {
-                        return 'assets/fonts/[name]-[hash][extname]';
-                    }
-                    if (/\.(png|jpe?g|gif|svg|webp|avif)$/i.test(assetInfo.name)) {
-                        return 'assets/images/[name]-[hash][extname]';
-                    }
-                    if (/\.css$/i.test(assetInfo.name)) {
-                        return 'assets/css/[name]-[hash][extname]';
-                    }
-                    return 'assets/[name]-[hash][extname]';
-                },
-                chunkFileNames: 'assets/js/[name]-[hash].js',
-                entryFileNames: 'assets/js/[name]-[hash].js',
-            },
-        },
-    },
 });
