@@ -1,4 +1,4 @@
-/* ===== Reset ===== */
+
 *,
 *::before,
 *::after {
@@ -7,7 +7,6 @@
   box-sizing: border-box;
 }
 
-/* ===== Base ===== */
 body {
   background-color: var(--color-golden-wheat-100);
   font-family: var(--font-thmanyahseriftext);
@@ -20,7 +19,6 @@ body {
   min-height: 100dvh;
 }
 
-/* ===== Layout ===== */
 .container {
   width: 100%;
   max-width: 1240px;
@@ -30,7 +28,6 @@ body {
   gap: 22px;
 }
 
-/* ===== Page Header ===== */
 .page-header {
   background-color: white;
   border-radius: 24px;
@@ -57,7 +54,6 @@ body {
   gap: 10px;
 }
 
-/* ===== Buttons ===== */
 .btn-cancel {
   padding: 10px 20px;
   border: none;
@@ -91,7 +87,6 @@ body {
   background-color: var(--color-pineal-900);
 }
 
-/* ===== Info Grid & Cards ===== */
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -161,7 +156,6 @@ body {
   gap: 10px;
 }
 
-/* ===== Icon Buttons ===== */
 .btn-icon-delete {
   display: inline-flex;
   align-items: center;
@@ -180,7 +174,6 @@ body {
   color: var(--color-red-900);
 }
 
-/* ===== Table ===== */
 .table-wrapper {
   border-radius: 16px;
   overflow: hidden;
@@ -237,12 +230,10 @@ input[type="number"] {
     appearance: textfield;
 }
 
-
 .items-table input:focus,
 .items-table select:focus {
   border-color: black;
 }
-
 
 .cell-money {
   font-family: var(--font-thmanyahseriftext-bold);
@@ -278,7 +269,6 @@ input[type="number"] {
   font-size: 0.95rem;
 }
 
-/* ===== Actions column (add / delete) ===== */
 .items-table th.col-actions,
 .items-table td.col-actions {
   width: 46px;
@@ -311,7 +301,6 @@ input[type="number"] {
   color: white;
 }
 
-/* ===== Mode Toggles ===== */
 .mode-toggle {
   display: flex;
   gap: 6px;
@@ -384,7 +373,6 @@ input[type="number"] {
   background-color: var(--color-pineal-900);
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .info-grid {
     grid-template-columns: 1fr 1fr;

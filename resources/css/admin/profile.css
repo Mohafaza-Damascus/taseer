@@ -1,6 +1,4 @@
-/* =========================================================
-   Reset
-========================================================= */
+
 
 *,
 *::before,
@@ -10,15 +8,9 @@
     box-sizing: border-box;
 }
 
-
-/* =========================================================
-   Body
-========================================================= */
-
 html {
     min-height: 100%;
 }
-
 
 body {
     min-height: 100dvh;
@@ -36,20 +28,10 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-
-/* =========================================================
-   Layout
-========================================================= */
-
 .profile-layout {
     min-height: 100dvh;
     width: 100%;
 }
-
-
-/* =========================================================
-   Sidebar
-========================================================= */
 
 .sidebar {
     width: 300px;
@@ -70,7 +52,6 @@ body {
     z-index: 100;
 }
 
-
 .sidebar-pattern {
     position: absolute;
 
@@ -85,7 +66,6 @@ body {
 
     pointer-events: none;
 }
-
 
 .sidebar-content {
     position: relative;
@@ -103,7 +83,6 @@ body {
     box-sizing: border-box;
 }
 
-
 .sidebar-header {
     padding: 5px 10px 30px;
 
@@ -114,7 +93,6 @@ body {
 
     gap: 10px;
 }
-
 
 .sidebar-logo {
     width: 100%;
@@ -127,7 +105,6 @@ body {
     text-decoration: none;
 }
 
-
 .sidebar-logo img {
     display: block;
 
@@ -137,7 +114,6 @@ body {
     object-fit: contain;
 }
 
-
 .sidebar-header > span {
     font-family: var(--font-thmanyahseriftext);
 
@@ -146,14 +122,12 @@ body {
     color: var(--color-golden-wheat-200);
 }
 
-
 .sidebar-nav {
     display: flex;
     flex-direction: column;
 
     gap: 8px;
 }
-
 
 .sidebar-link {
     width: 100%;
@@ -186,7 +160,6 @@ body {
         transform 0.2s ease;
 }
 
-
 .sidebar-link:hover {
     background-color: var(--color-pineal-900);
 
@@ -195,20 +168,17 @@ body {
     transform: translateX(-2px);
 }
 
-
 .sidebar-link.active {
     background-color: var(--color-golden-wheat-100);
 
     color: var(--color-pineal-700);
 }
 
-
 .sidebar-link.active:hover {
     background-color: var(--color-golden-wheat-50);
 
     color: var(--color-pineal-700);
 }
-
 
 .sidebar-icon {
     width: 32px;
@@ -226,11 +196,9 @@ body {
     font-size: 16px;
 }
 
-
 .sidebar-link.active .sidebar-icon {
     background-color: var(--color-pineal-100);
 }
-
 
 .sidebar-footer {
     margin-top: auto;
@@ -241,16 +209,10 @@ body {
     gap: 8px;
 }
 
-
 .sidebar-footer form {
     width: 100%;
     margin: 0;
 }
-
-
-/* =========================================================
-   Main
-========================================================= */
 
 .profile-main {
     width: calc(100% - 250px);
@@ -259,7 +221,6 @@ body {
 
     margin-right: 250px;
 }
-
 
 .profile-container {
     width: 100%;
@@ -275,15 +236,9 @@ body {
     box-sizing: border-box;
 }
 
-
-/* =========================================================
-   Header
-========================================================= */
-
 .profile-header {
     margin-bottom: 30px;
 }
-
 
 .profile-label {
     display: block;
@@ -297,7 +252,6 @@ body {
     color: var(--color-pineal-500);
 }
 
-
 .profile-header h1 {
     font-family: var(--font-thmanyahserifdisplay-bold);
 
@@ -308,7 +262,6 @@ body {
     color: var(--color-pineal-700);
 }
 
-
 .profile-header p {
     margin-top: 7px;
 
@@ -318,11 +271,6 @@ body {
 
     color: var(--color-charcoal-500);
 }
-
-
-/* =========================================================
-   Cards
-========================================================= */
 
 .profile-card {
     width: 100%;
@@ -339,11 +287,9 @@ body {
         0 2px 8px rgba(6, 66, 57, 0.06);
 }
 
-
 .card-heading {
     margin-bottom: 20px;
 }
-
 
 .card-heading h2 {
     font-family: var(--font-thmanyahserifdisplay-bold);
@@ -353,18 +299,12 @@ body {
     color: var(--color-pineal-700);
 }
 
-
-/* =========================================================
-   Info
-========================================================= */
-
 .info-list {
     display: flex;
     flex-direction: column;
 
     gap: 0;
 }
-
 
 .info-row {
     min-height: 58px;
@@ -380,11 +320,9 @@ body {
     border-bottom: 1px solid var(--color-golden-wheat-200);
 }
 
-
 .info-row:last-child {
     border-bottom: 0;
 }
-
 
 .info-label {
     font-family: var(--font-thmanyahseriftext);
@@ -393,7 +331,6 @@ body {
 
     color: var(--color-charcoal-500);
 }
-
 
 .info-value {
     font-family: var(--font-thmanyahseriftext-bold);
@@ -407,11 +344,6 @@ body {
     overflow-wrap: anywhere;
 }
 
-
-/* =========================================================
-   Chips
-========================================================= */
-
 .chip-list {
     display: flex;
 
@@ -419,7 +351,6 @@ body {
 
     gap: 8px;
 }
-
 
 .chip {
     display: inline-flex;
@@ -443,7 +374,6 @@ body {
     font-size: 0.85rem;
 }
 
-
 .empty-text {
     font-family: var(--font-thmanyahseriftext);
 
@@ -452,39 +382,29 @@ body {
     color: var(--color-charcoal-500);
 }
 
-
-/* =========================================================
-   Mobile
-========================================================= */
-
 @media (max-width: 700px) {
 
     .sidebar {
         width: 72px;
     }
 
-
     .sidebar-content {
         padding: 20px 10px;
     }
 
-
     .sidebar-header {
         padding: 8px 0 25px;
     }
-
 
     .sidebar-logo img {
         width: 48px;
         max-height: 48px;
     }
 
-
     .sidebar-header > span,
     .sidebar-link span:not(.sidebar-icon) {
         display: none;
     }
-
 
     .sidebar-link {
         justify-content: center;
@@ -492,24 +412,20 @@ body {
         padding: 9px;
     }
 
-
     .sidebar-link:hover {
         transform: none;
     }
-
 
     .sidebar-icon {
         width: 34px;
         height: 34px;
     }
 
-
     .profile-main {
         width: calc(100% - 72px);
 
         margin-right: 72px;
     }
-
 
     .profile-container {
         padding:
@@ -518,7 +434,6 @@ body {
 
 }
 
-
 @media (max-width: 480px) {
 
     .profile-container {
@@ -526,21 +441,17 @@ body {
             22px 12px;
     }
 
-
     .profile-header {
         margin-bottom: 24px;
     }
-
 
     .profile-header h1 {
         font-size: 1.8rem;
     }
 
-
     .profile-card {
         padding: 18px;
     }
-
 
     .info-row {
         align-items: flex-start;
@@ -550,20 +461,17 @@ body {
         gap: 5px;
     }
 
-
     .info-value {
         text-align: right;
     }
 
 }
 
-
 @media (max-width: 360px) {
 
     .sidebar {
         width: 62px;
     }
-
 
     .profile-main {
         width: calc(100% - 62px);

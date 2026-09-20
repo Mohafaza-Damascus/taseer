@@ -136,7 +136,6 @@ h1 {
     flex-shrink: 0;
 }
 
-
 .radio-text {
     display: flex;
     flex-direction: column;
@@ -157,8 +156,6 @@ h1 {
 .radio-item input[type="radio"]:checked ~ .radio-name {
     color: white;
 }
-
-
 
 .form-actions {
     display: flex;

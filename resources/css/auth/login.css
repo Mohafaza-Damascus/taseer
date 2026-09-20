@@ -21,7 +21,6 @@ body {
     min-height: 100dvh;
 }
 
-
 .auth-card {
     width: 100%;
     max-width: 960px;
@@ -172,8 +171,6 @@ body {
     background: var(--color-pineal-900);
 }
 
-
-
 @media (max-width: 768px) {
     .auth-card {
         max-width: 80%;
@@ -182,7 +179,6 @@ body {
     .auth-logo-panel .header-logo {
         width: 180px;
     }
-
 
 }
 

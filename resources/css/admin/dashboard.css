@@ -1,6 +1,4 @@
-/* =========================================================
-   Reset
-========================================================= */
+
 
 *,
 *::before,
@@ -9,11 +7,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-
-/* =========================================================
-   Page
-========================================================= */
 
 html {
     min-height: 100%;
@@ -33,19 +26,10 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-
-/* =========================================================
-   Layout
-========================================================= */
-
 .admin-layout {
     min-height: 100dvh;
     width: 100%;
 }
-
-/* =========================================================
-   Sidebar
-========================================================= */
 
 .sidebar {
     width: 300px;
@@ -67,11 +51,6 @@ body {
     box-sizing: border-box;
 }
 
-
-/* ---------------------------------------------------------
-   Pattern
---------------------------------------------------------- */
-
 .sidebar-pattern {
     position: absolute;
 
@@ -85,11 +64,6 @@ background-image: url('../images/pattern.svg');
 
     pointer-events: none;
 }
-
-
-/* ---------------------------------------------------------
-   Sidebar Content
---------------------------------------------------------- */
 
 .sidebar-content {
     position: relative;
@@ -107,11 +81,6 @@ background-image: url('../images/pattern.svg');
     box-sizing: border-box;
 }
 
-
-/* ---------------------------------------------------------
-   Logo
---------------------------------------------------------- */
-
 .sidebar-header {
     padding: 5px 10px 30px;
 
@@ -121,7 +90,6 @@ background-image: url('../images/pattern.svg');
 
     gap: 10px;
 }
-
 
 .sidebar-logo {
     display: flex;
@@ -133,7 +101,6 @@ background-image: url('../images/pattern.svg');
     text-decoration: none;
 }
 
-
 .sidebar-logo img {
     display: block;
 
@@ -143,7 +110,6 @@ background-image: url('../images/pattern.svg');
     object-fit: contain;
 }
 
-
 .sidebar-header > span {
     font-family: var(--font-thmanyahseriftext);
     font-size: 0.85rem;
@@ -151,18 +117,12 @@ background-image: url('../images/pattern.svg');
     color: var(--color-golden-wheat-200);
 }
 
-
-/* ---------------------------------------------------------
-   Navigation
---------------------------------------------------------- */
-
 .sidebar-nav {
     display: flex;
     flex-direction: column;
 
     gap: 8px;
 }
-
 
 .sidebar-link {
     width: 100%;
@@ -197,7 +157,6 @@ background-image: url('../images/pattern.svg');
     box-sizing: border-box;
 }
 
-
 .sidebar-link:hover {
     background-color: var(--color-pineal-900);
 
@@ -206,24 +165,17 @@ background-image: url('../images/pattern.svg');
     transform: translateX(-2px);
 }
 
-
 .sidebar-link.active {
     background-color: var(--color-golden-wheat-100);
 
     color: var(--color-pineal-700);
 }
 
-
 .sidebar-link.active:hover {
     background-color: var(--color-golden-wheat-50);
 
     color: var(--color-pineal-700);
 }
-
-
-/* ---------------------------------------------------------
-   Icons
---------------------------------------------------------- */
 
 .sidebar-icon {
     width: 32px;
@@ -241,15 +193,9 @@ background-image: url('../images/pattern.svg');
     font-size: 16px;
 }
 
-
 .sidebar-link.active .sidebar-icon {
     background-color: var(--color-pineal-100);
 }
-
-
-/* ---------------------------------------------------------
-   Footer
---------------------------------------------------------- */
 
 .sidebar-footer {
     margin-top: auto;
@@ -260,20 +206,14 @@ background-image: url('../images/pattern.svg');
     gap: 8px;
 }
 
-
 .sidebar-footer form {
     width: 100%;
     margin: 0;
 }
 
-
 .sidebar-logout {
     font-family: var(--font-thmanyahseriftext-medium);
 }
-
-/* =========================================================
-   Main Content
-========================================================= */
 
 .main-content {
     width: 100%;
@@ -287,7 +227,6 @@ background-image: url('../images/pattern.svg');
     justify-content: center;
 }
 
-
 .dashboard {
     width: 100%;
     max-width: 1240px;
@@ -300,15 +239,9 @@ background-image: url('../images/pattern.svg');
     box-sizing: border-box;
 }
 
-
-/* =========================================================
-   Dashboard Header
-========================================================= */
-
 .dashboard-header {
     margin-bottom: clamp(24px, 4vw, 34px);
 }
-
 
 .dashboard-label {
     display: block;
@@ -321,7 +254,6 @@ background-image: url('../images/pattern.svg');
     color: var(--color-pineal-500);
 }
 
-
 .dashboard-header h1 {
     font-family: var(--font-thmanyahserifdisplay-bold);
     font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -331,7 +263,6 @@ background-image: url('../images/pattern.svg');
     color: var(--color-pineal-700);
 }
 
-
 .dashboard-header p {
     margin-top: 7px;
 
@@ -340,11 +271,6 @@ background-image: url('../images/pattern.svg');
 
     color: var(--color-charcoal-500);
 }
-
-
-/* =========================================================
-   Dashboard Sections
-========================================================= */
 
 .dashboard-section {
     width: 100%;
@@ -357,7 +283,6 @@ background-image: url('../images/pattern.svg');
     margin-bottom: 30px;
 }
 
-
 .section-heading {
     display: flex;
     align-items: center;
@@ -365,18 +290,12 @@ background-image: url('../images/pattern.svg');
     min-height: 30px;
 }
 
-
 .section-heading h2 {
     font-family: var(--font-thmanyahserifdisplay-bold);
     font-size: 1.35rem;
 
     color: var(--color-pineal-700);
 }
-
-
-/* =========================================================
-   Statistics
-========================================================= */
 
 .stats-grid {
     width: 100%;
@@ -388,7 +307,6 @@ background-image: url('../images/pattern.svg');
 
     gap: clamp(12px, 2vw, 20px);
 }
-
 
 .stat-card {
     min-width: 0;
@@ -410,14 +328,12 @@ background-image: url('../images/pattern.svg');
         box-shadow 0.2s ease;
 }
 
-
 .stat-card:hover {
     transform: translateY(-2px);
 
     box-shadow:
         0 6px 18px rgba(6, 66, 57, 0.10);
 }
-
 
 .stat-card-top {
     display: flex;
@@ -428,14 +344,12 @@ background-image: url('../images/pattern.svg');
     gap: 12px;
 }
 
-
 .stat-title {
     font-family: var(--font-thmanyahseriftext-bold);
     font-size: 1rem;
 
     color: var(--color-pineal-700);
 }
-
 
 .stat-icon {
     width: 42px;
@@ -457,7 +371,6 @@ background-image: url('../images/pattern.svg');
     font-size: 18px;
 }
 
-
 .stat-value {
     display: block;
 
@@ -471,7 +384,6 @@ background-image: url('../images/pattern.svg');
     color: var(--color-pineal-700);
 }
 
-
 .stat-description {
     display: block;
 
@@ -483,11 +395,6 @@ background-image: url('../images/pattern.svg');
     color: var(--color-charcoal-500);
 }
 
-
-/* =========================================================
-   Quick Links
-========================================================= */
-
 .quick-links {
     width: 100%;
 
@@ -498,7 +405,6 @@ background-image: url('../images/pattern.svg');
 
     gap: clamp(12px, 2vw, 20px);
 }
-
 
 .quick-link {
     min-width: 0;
@@ -524,13 +430,11 @@ background-image: url('../images/pattern.svg');
         transform 0.2s ease;
 }
 
-
 .quick-link:hover {
     background-color: var(--color-pineal-900);
 
     transform: translateY(-2px);
 }
-
 
 .quick-link-icon {
     width: 46px;
@@ -552,7 +456,6 @@ background-image: url('../images/pattern.svg');
     font-size: 20px;
 }
 
-
 .quick-link div {
     min-width: 0;
 
@@ -562,14 +465,12 @@ background-image: url('../images/pattern.svg');
     gap: 4px;
 }
 
-
 .quick-link strong {
     font-family: var(--font-thmanyahseriftext-bold);
     font-size: 1rem;
 
     color: var(--color-golden-wheat-100);
 }
-
 
 .quick-link div span {
     font-family: var(--font-thmanyahseriftext);
@@ -580,17 +481,11 @@ background-image: url('../images/pattern.svg');
     line-height: 1.4;
 }
 
-
-/* =========================================================
-   Tablet
-========================================================= */
-
 @media (max-width: 900px) {
 
     .sidebar {
         width: 220px;
     }
-
 
     .main-content {
         width: calc(100% - 220px);
@@ -598,12 +493,10 @@ background-image: url('../images/pattern.svg');
         margin-right: 220px;
     }
 
-
     .stats-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
-
 
     .quick-links {
         grid-template-columns:
@@ -611,11 +504,6 @@ background-image: url('../images/pattern.svg');
     }
 
 }
-
-
-/* =========================================================
-   Mobile Sidebar
-========================================================= */
 
 @media (max-width: 700px) {
 
@@ -625,22 +513,18 @@ background-image: url('../images/pattern.svg');
         padding: 20px 10px;
     }
 
-
     .sidebar-header {
         padding: 8px 0 25px;
     }
-
 
     .sidebar-header h2 {
         font-size: 1.1rem;
     }
 
-
     .sidebar-header span,
     .sidebar-link span:not(.sidebar-icon) {
         display: none;
     }
-
 
     .sidebar-link {
         justify-content: center;
@@ -648,17 +532,14 @@ background-image: url('../images/pattern.svg');
         padding: 9px;
     }
 
-
     .sidebar-link:hover {
         transform: none;
     }
-
 
     .sidebar-icon {
         width: 34px;
         height: 34px;
     }
-
 
  .main-content {
     width: 100%;
@@ -666,29 +547,21 @@ background-image: url('../images/pattern.svg');
     padding-right: 72px;
 }
 
-
     .dashboard {
         padding:
             26px 16px;
     }
-
 
     .stats-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
 
-
     .quick-links {
         grid-template-columns: 1fr;
     }
 
 }
-
-
-/* =========================================================
-   Small Mobile
-========================================================= */
 
 @media (max-width: 480px) {
 
@@ -697,46 +570,37 @@ background-image: url('../images/pattern.svg');
             22px 12px;
     }
 
-
     .dashboard-header {
         margin-bottom: 24px;
     }
-
 
     .dashboard-header h1 {
         font-size: 1.8rem;
     }
 
-
     .dashboard-header p {
         font-size: 0.85rem;
     }
-
 
     .dashboard-section {
         margin-bottom: 24px;
     }
 
-
     .section-heading h2 {
         font-size: 1.2rem;
     }
-
 
     .stats-grid {
         gap: 10px;
     }
 
-
     .stat-card {
         padding: 16px;
     }
 
-
     .stat-title {
         font-size: 0.9rem;
     }
-
 
     .stat-icon {
         width: 36px;
@@ -747,23 +611,19 @@ background-image: url('../images/pattern.svg');
         font-size: 15px;
     }
 
-
     .stat-value {
         margin-top: 18px;
 
         font-size: 2rem;
     }
 
-
     .stat-description {
         font-size: 0.75rem;
     }
 
-
     .quick-link {
         padding: 15px;
     }
-
 
     .quick-link-icon {
         width: 42px;
@@ -771,11 +631,6 @@ background-image: url('../images/pattern.svg');
     }
 
 }
-
-
-/* =========================================================
-   Very Small Screens
-========================================================= */
 
 @media (max-width: 360px) {
 
@@ -786,19 +641,16 @@ background-image: url('../images/pattern.svg');
         padding-right: 7px;
     }
 
-
     .main-content {
         width: calc(100% - 62px);
 
         margin-right: 62px;
     }
 
-
     .dashboard {
         padding-left: 10px;
         padding-right: 10px;
     }
-
 
     .stats-grid {
         grid-template-columns: 1fr;
