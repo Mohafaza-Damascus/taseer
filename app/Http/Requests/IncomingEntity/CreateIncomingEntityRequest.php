@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\IncomingEntity;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateIncomingEntityRequest extends BaseRequest
+class CreateIncomingEntityRequest extends FormRequest
 {
     public function authorize(): bool
     {

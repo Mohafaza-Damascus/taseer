@@ -42,7 +42,7 @@
                         <img src="{{ asset('image/locker.svg') }}" class="input-icon">
                         <input type="password" name="password" id="password" placeholder="كلمة المرور" maxlength="255">
                         <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
-                            <img src="{{ asset('resources/images/eye-off.svg') }}" class="eye-icon"
+                            <img src="{{ asset('image/eye-off.svg') }}" class="eye-icon"
                                 alt="إظهار">
                         </button>
                     </div>

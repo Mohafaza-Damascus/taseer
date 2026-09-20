@@ -17,12 +17,9 @@ class IncomingEntityController extends Controller
      */
     public function index(Request $request): View
     {
-        $incomingEntities = IncomingEntity::query()
-            ->latest()
-            ->paginate(15);
-
+        $incomingEntities = IncomingEntity::query()->get();
         return view(
-            'incoming_entities.index',
+            'admin.incoming_entities.index',
             compact('incomingEntities')
         );
     }
@@ -32,7 +29,7 @@ class IncomingEntityController extends Controller
      */
     public function create(): View
     {
-        return view('incoming_entities.create');
+        return view('admin.incoming_entities.create');
     }
 
     /**
@@ -46,7 +43,7 @@ class IncomingEntityController extends Controller
         );
 
         return redirect()
-            ->route('incoming-entities.index')
+            ->route('incoming_entities.index')
             ->with(
                 'success',
                 'تم إنشاء الجهة الواردة بنجاح.'
@@ -62,7 +59,7 @@ class IncomingEntityController extends Controller
         $incomingEntity->load('projects');
 
         return view(
-            'incoming_entities.show',
+            'admin.incoming_entities.show',
             compact('incomingEntity')
         );
     }
@@ -74,7 +71,7 @@ class IncomingEntityController extends Controller
         IncomingEntity $incomingEntity
     ): View {
         return view(
-            'incoming_entities.edit',
+            'admin.incoming_entities.edit',
             compact('incomingEntity')
         );
     }
@@ -91,7 +88,7 @@ class IncomingEntityController extends Controller
         );
 
         return redirect()
-            ->route('incoming-entities.index')
+            ->route('incoming_entities.index')
             ->with(
                 'success',
                 'تم تعديل الجهة الواردة بنجاح.'
@@ -116,7 +113,7 @@ class IncomingEntityController extends Controller
         $incomingEntity->delete();
 
         return redirect()
-            ->route('incoming-entities.index')
+            ->route('incoming_entities.index')
             ->with(
                 'success',
                 'تم حذف الجهة الواردة بنجاح.'

@@ -5,18 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>المستخدمين</title>
+    <title>الجهات الواردة</title>
 
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/dashboard.css')
-    @vite('resources/css/admin/users/index.css')
+    @vite('resources/css/admin/incoming_entities/index.css')
 </head>
 
 <body>
 
     <div class="admin-layout">
 
-        {{-- Sidebar --}}
         <aside class="sidebar">
 
             <div class="sidebar-pattern"></div>
@@ -49,7 +48,7 @@
                     @endif
 
                     @if(auth()->user()->hasPermission('users.manage'))
-                        <a href="{{ route('users.index') }}" class="sidebar-link active">
+                        <a href="{{ route('users.index') }}" class="sidebar-link">
                             <span>المستخدمين</span>
                         </a>
                     @endif
@@ -60,11 +59,12 @@
                         </a>
                     @endif
 
-                     @if(auth()->user()->hasPermission('users.manage'))
-                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link active">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
+
                 </nav>
 
 
@@ -98,53 +98,49 @@
                 <section class="header-card">
 
                     <h1>
-                        المستخدمين
+                        الجهات الواردة
                     </h1>
 
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="btn-go-back"
+                    >
+                        رجوع
+                    </a>
 
                 </section>
 
 
-                @if ($users->isEmpty())
+                @if ($incomingEntities->isEmpty())
 
                     <div class="no-results">
-
                         <p>
-                            لا يوجد مستخدمين
+                            لا يوجد جهات واردة
                         </p>
-
                     </div>
 
                 @else
 
                     <div class="cards-grid">
 
-                        @foreach ($users as $user)
+                        @foreach ($incomingEntities as $incomingEntity)
 
                             <div class="card">
 
                                 <span class="card-title">
-                                    {{ $user->username }}
+                                    {{ $incomingEntity->name }}
                                 </span>
 
                                 <span class="card-subtitle">
-
-                                    @if ($user->roles->isNotEmpty())
-
-                                        {{ $user->roles->pluck('name')->join('، ') }}
-
-                                    @else
-
-                                        بدون دور
-
-                                    @endif
-
+                                    ملاحظات : {{ $incomingEntity->notes }}
                                 </span>
-
 
                                 <div class="card-footer">
 
-                                    <a href="{{ route('users.show', $user) }}" class="btn-details">
+                                    <a
+                                        href="{{ route('incoming_entities.show', $incomingEntity) }}"
+                                        class="btn-details"
+                                    >
                                         عرض التفاصيل
                                     </a>
 
@@ -155,7 +151,11 @@
                         @endforeach
 
 
-                        <a href="{{ route('users.create') }}" class="add-card" title="إضافة مستخدم جديد">
+                        <a
+                            href="{{ route('incoming_entities.create') }}"
+                            class="add-card"
+                            title="إضافة جهة واردة جديدة"
+                        >
                             <span class="add-card-icon">
                                 +
                             </span>
@@ -165,12 +165,6 @@
 
                 @endif
 
-
-                @if ($users->hasPages())
-
-                    {{ $users->links() }}
-
-                @endif
 
             </div>
 

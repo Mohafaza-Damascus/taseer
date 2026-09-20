@@ -6,7 +6,7 @@ use App\Http\Controllers\Blade\DashboardController;
 use App\Http\Controllers\Blade\ProjectController as BladeProjectController;
 use App\Http\Controllers\Blade\UserController as BladeUserController;
 use App\Http\Controllers\Blade\RoleController as BladeRoleController;
-
+use App\Http\Controllers\Blade\IncomingEntityController as BladeIncomingEntityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -34,26 +34,6 @@ Route::post('/logout', [
 */
 Route::get('/', function () {
     return redirect()->route('dashboard');
-});
-
-Route::get('/show', function () {
-    return view('projects.show');
-});
-
-
-Route::get('/admin/users', function () {
-    return view('admin.users.index');
-});
-Route::get('/admin/users/show', function () {
-    return view('admin.users.show');
-});
-
-Route::get('/admin/users/edit', function () {
-    return view('admin.users.edit');
-});
-
-Route::get('/admin/users/create', function () {
-    return view('admin.users.create');
 });
 
 
@@ -124,6 +104,17 @@ Route::middleware('auth')->group(function () {
     Route::resource(
         'contractors',
         BladeContractorController::class
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | IncomingEntityController - Blade
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource(
+        'incoming_entities',
+        BladeIncomingEntityController::class
     );
 });
 

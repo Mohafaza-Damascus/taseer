@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\PricingItem;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePricingItemRequest extends BaseRequest
 {

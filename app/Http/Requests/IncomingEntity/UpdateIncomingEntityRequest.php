@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\IncomingEntity;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateIncomingEntityRequest extends BaseRequest
+class UpdateIncomingEntityRequest extends FormRequest
 {
     public function authorize(): bool
     {

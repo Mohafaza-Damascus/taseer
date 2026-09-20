@@ -66,6 +66,11 @@
                         </a>
                     @endif
 
+                    @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                            <span>الجهات الواردة</span>
+                        </a>
+                    @endif
                 </nav>
 
 

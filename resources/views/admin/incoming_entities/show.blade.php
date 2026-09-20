@@ -8,7 +8,7 @@
     <title>{{ $incomingEntity->name }}</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/roles/show.css')
+    @vite('resources/css/admin/incoming_entities/show.css')
 </head>
 
 <body>
@@ -59,14 +59,20 @@
 
             </div>
 
+            @if(session('error'))
+                <span class="form-error">
+                    {{ session('error') }}
+                </span>
+            @endif
+
             <div class="form-actions">
 
-                <a href="{{ route('incoming_entity.edit', $incomingEntity) }}" class="btn-edit">
+                <a href="{{ route('incoming_entities.edit', $incomingEntity) }}" class="btn-edit">
                     تعديل
                 </a>
 
 
-                <form action="{{ route('incoming_entity.destroy', $incomingEntity) }}" method="POST"
+                <form action="{{ route('incoming_entities.destroy', $incomingEntity) }}" method="POST"
                     onsubmit="return confirm('هل أنت متأكد من حذف الجهة الواردة؟');">
 
                     @csrf
@@ -77,7 +83,6 @@
                     </button>
 
                 </form>
-
             </div>
 
         </div>
