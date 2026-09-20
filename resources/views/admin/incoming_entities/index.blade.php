@@ -28,9 +28,6 @@
                         <img src="{{ Vite::asset('resources/images/logo2.png') }}" alt="تسعير">
                     </a>
 
-                    <span>
-                        لوحة الإدارة
-                    </span>
 
                 </div>
 

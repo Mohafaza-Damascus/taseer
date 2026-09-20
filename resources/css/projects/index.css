@@ -26,6 +26,21 @@ body {
     gap: 22px;
 }
 
+.header-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+h1 {
+    font-family: var(--font-thmanyahserifdisplay-bold);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.2;
+}
+
 .filter-card {
     background-color: white;
     border-radius: 24px;
@@ -198,6 +213,10 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    .header-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
     .container { padding: 24px 16px 32px; gap: 20px; }
     .filter-card { padding: 18px 16px 14px; }
     .filter-row { grid-template-columns: 1fr; gap: 14px; }

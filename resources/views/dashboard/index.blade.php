@@ -28,10 +28,6 @@
                         <img src="{{ Vite::asset('resources/images/logo2.png') }}" alt="تسعير">
                     </a>
 
-                    <span>
-                        لوحة الإدارة
-                    </span>
-
                 </div>
 
 
@@ -112,17 +108,9 @@
                 <header class="dashboard-header">
 
                     <div>
-                        <span class="dashboard-label">
-                            الإدارة
-                        </span>
-
                         <h1>
                             لوحة التحكم
                         </h1>
-
-                        <p>
-                            نظرة عامة على نظام تسعير
-                        </p>
                     </div>
 
                 </header>
@@ -152,10 +140,6 @@
                                 {{ $usersCount }}
                             </strong>
 
-                            <span class="stat-description">
-                                إجمالي المستخدمين
-                            </span>
-
                         </div>
 
 
@@ -173,10 +157,6 @@
                                 {{ $rolesCount }}
                             </strong>
 
-                            <span class="stat-description">
-                                إجمالي الأدوار
-                            </span>
-
                         </div>
 
 
@@ -192,9 +172,35 @@
                                 {{ $projectsCount }}
                             </strong>
 
-                            <span class="stat-description">
-                                إجمالي المشاريع
-                            </span>
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-top">
+                                <span class="stat-title">
+                                    الجهات الواردة
+                                </span>
+                            </div>
+
+                            <strong class="stat-value">
+                                {{ $incomingEntitiesCount }}
+                            </strong>
+
+                        </div>
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-top">
+                                <span class="stat-title">
+                                    المتعهدين
+                                </span>
+                            </div>
+
+                            <strong class="stat-value">
+                                {{ $contractorsCount }}
+                            </strong>
+
 
                         </div>
 
@@ -220,7 +226,6 @@
 
                                 <div>
                                     <strong>المشاريع</strong>
-                                    <span>إدارة المشاريع والتسعير</span>
                                 </div>
                             </a>
                         @endif
@@ -232,7 +237,6 @@
 
                                 <div>
                                     <strong>المستخدمين</strong>
-                                    <span>إدارة المستخدمين والأدوار</span>
                                 </div>
                             </a>
                         @endif
@@ -244,7 +248,22 @@
 
                                 <div>
                                     <strong>الأدوار</strong>
-                                    <span>إدارة الأدوار والصلاحيات</span>
+                                </div>
+                            </a>
+                        @endif
+
+                        @if(auth()->user()->hasPermission('users.manage'))
+                            <a href="{{ route('incoming_entities.index') }}" class="quick-link">
+                                <div>
+                                    <strong>الجهات الواردة</strong>
+                                </div>
+                            </a>
+                        @endif
+
+                        @if(auth()->user()->hasPermission('users.manage'))
+                            <a href="{{ route('contractors.index') }}" class="quick-link">
+                                <div>
+                                    <strong>المتعهدين</strong>
                                 </div>
                             </a>
                         @endif

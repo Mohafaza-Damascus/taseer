@@ -303,7 +303,7 @@ background-image: url('../images/pattern.svg');
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(5, minmax(0, 1fr));
 
     gap: clamp(12px, 2vw, 20px);
 }
@@ -401,7 +401,7 @@ background-image: url('../images/pattern.svg');
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(5, minmax(0, 1fr));
 
     gap: clamp(12px, 2vw, 20px);
 }
@@ -422,8 +422,6 @@ background-image: url('../images/pattern.svg');
 
     text-decoration: none;
 
-    box-shadow:
-        0 2px 8px rgba(6, 66, 57, 0.08);
 
     transition:
         background-color 0.2s ease,

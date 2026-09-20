@@ -29,9 +29,6 @@
                         <img src="{{ Vite::asset('resources/images/logo2.png') }}" alt="تسعير">
                     </a>
 
-                    <span>
-                        لوحة الإدارة
-                    </span>
 
                 </div>
 
@@ -101,16 +98,12 @@
         <main class="main-content">
 
             <div class="container">
-
+                <section class="header-card">
+                    <h1>
+                        المشـــــــــاريـــــــــــع
+                    </h1>
+                </section>
                 <section class="filter-card">
-
-                    <div class="filter-row">
-
-                        <h1>
-                            المشـــــــــاريـــــــــــع
-                        </h1>
-
-                    </div>
 
 
                     <form method="GET" action="{{ route('projects.index') }}" class="filter-row">
