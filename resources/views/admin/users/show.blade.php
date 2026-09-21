@@ -118,26 +118,25 @@
             </div>
 
 
-            <div class="form-actions">
+            @if(auth()->user()->hasPermission('users.manage'))
+                <div class="form-actions">
 
-                <a href="{{ route('users.edit', $user) }}" class="btn-edit">
-                    تعديل
-                </a>
+                    <a href="{{ route('users.edit', $user) }}" class="btn-edit">
+                        تعديل
+                    </a>
 
+                    <form action="{{ route('users.destroy', $user) }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف المستخدم؟');">
+                        @csrf
+                        @method('DELETE')
 
-                <form action="{{ route('users.destroy', $user) }}" method="POST"
-                    onsubmit="return confirm('هل أنت متأكد من حذف المستخدم؟');">
+                        <button type="submit" class="btn-delete">
+                            حذف
+                        </button>
+                    </form>
 
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="btn-delete">
-                        حذف
-                    </button>
-
-                </form>
-
-            </div>
+                </div>
+            @endif
 
         </div>
 

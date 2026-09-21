@@ -9,7 +9,8 @@ class UpdateUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check()
+            && auth()->user()->hasPermission('users.manage');
     }
 
     public function rules(): array

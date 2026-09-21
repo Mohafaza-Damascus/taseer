@@ -8,14 +8,11 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
-
-
- public function index(): View
+    public function index(): View
     {
         $users = User::query()
             ->with('roles')
@@ -89,7 +86,7 @@ class UserController extends Controller
     }
 
     public function update(
-        \App\Http\Requests\User\UpdateUserRequest $request,
+        UpdateUserRequest $request,
         User $user
     ): RedirectResponse {
         $data = $request->validated();
