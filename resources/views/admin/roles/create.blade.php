@@ -8,7 +8,7 @@
     <title>إنشاء الدور</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/roles/edit.css')
+    @vite('resources/css/admin/roles/create.css')
 
     <style>
         .success-message {
@@ -73,7 +73,7 @@
                 </label>
 
                 <input type="text" id="name" name="name" value="{{ old('name') }}"
-                    class="@error('name') input-error @enderror" required>
+                    @class(['input-error' => $errors->has('name')]) >
 
                 @error('name')
                     <span class="form-error">
@@ -91,7 +91,7 @@
                 </label>
 
                 <input type="text" id="slug" name="slug" value="{{ old('slug') }}"
-                    class="@error('slug') input-error @enderror" required>
+                    @class(['input-error' => $errors->has('slug')]) >
 
                 @error('slug')
                     <span class="form-error">

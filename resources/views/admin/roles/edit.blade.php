@@ -40,7 +40,7 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name', $role->name) }}" required>
+                <input type="text" id="name" name="name" value="{{ old('name', $role->name) }}" @class(['input-error' => $errors->has('name')])>
 
                 @error('name')
                     <span class="form-error">
@@ -57,7 +57,7 @@
                     slug
                 </label>
 
-                <input type="text" id="slug" name="slug" value="{{ old('slug', $role->slug) }}" required>
+                <input type="text" id="slug" name="slug" value="{{ old('slug', $role->slug) }}" @class(['input-error' => $errors->has('slug')])>
 
                 @error('slug')
                     <span class="form-error">

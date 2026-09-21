@@ -212,9 +212,13 @@
                     <div class="info-item">
                         <label for="name">اسم المشروع :</label>
                         <input type="text" id="name" name="name" value="{{ old('name', $project->name) }}"
-                            placeholder="أدخل اسم المشروع" required>
+                            placeholder="أدخل اسم المشروع" @class(['input-error' => $errors->has('name')])>
                     </div>
-
+                    @error('name')
+                            <span class="form-error">
+                                {{ $message }}
+                            </span>
+                    @enderror
                 </section>
 
 

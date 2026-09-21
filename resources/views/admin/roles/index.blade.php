@@ -9,7 +9,7 @@
 
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/dashboard.css')
-    @vite('resources/css/admin/users/index.css')
+    @vite('resources/css/admin/roles/index.css')
 </head>
 
 <body>
@@ -26,7 +26,7 @@
                 <div class="sidebar-header">
 
                     <a href="{{ route('dashboard') }}" class="sidebar-logo">
-                        <img src="{{ asset('../../resources/images/logo2.png') }}" alt="تسعير">
+                        <img src="{{ asset('../../image/logo2.png') }}" alt="تسعير">
                     </a>
 
                 </div>
