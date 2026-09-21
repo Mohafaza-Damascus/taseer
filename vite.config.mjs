@@ -5,13 +5,12 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                // ============ CSS الأساسية ============
+
                 'resources/css/app.css',
                 'resources/css/fonts.css',
                 'resources/css/toast.css',
                 'resources/css/variables.css',
 
-                // ============ CSS - admin ============
                 'resources/css/admin/dashboard.css',
                 'resources/css/admin/profile.css',
 
@@ -35,16 +34,13 @@ export default defineConfig({
                 'resources/css/admin/users/index.css',
                 'resources/css/admin/users/show.css',
 
-                // ============ CSS - auth ============
                 'resources/css/auth/login.css',
 
-                // ============ CSS - projects ============
                 'resources/css/projects/create.css',
                 'resources/css/projects/edit.css',
                 'resources/css/projects/index.css',
                 'resources/css/projects/show.css',
 
-                // ============ JS ============
                 'resources/js/app.js',
             ],
             refresh: true,

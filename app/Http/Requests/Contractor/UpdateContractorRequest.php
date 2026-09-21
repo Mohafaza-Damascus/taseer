@@ -28,14 +28,14 @@ class UpdateContractorRequest extends FormRequest
                 'sometimes',
                 'required',
                 'string',
-                'max:50',
+                'regex:/^09[0-9]{8}$/',
             ],
 
             'national_number' => [
                 'sometimes',
                 'required',
                 'string',
-                'max:100',
+                'regex:/^[0-9]{11}$/',
                 Rule::unique(
                     'contractors',
                     'national_number'
@@ -66,20 +66,14 @@ class UpdateContractorRequest extends FormRequest
             'phone.required' =>
                 'رقم الهاتف مطلوب.',
 
-            'phone.string' =>
-                'رقم الهاتف يجب أن يكون نصاً.',
-
-            'phone.max' =>
-                'رقم الهاتف يجب ألا يتجاوز 50 محرفاً.',
+            'phone.regex' =>
+                'رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 09.',
 
             'national_number.required' =>
                 'الرقم الوطني مطلوب.',
 
-            'national_number.string' =>
-                'الرقم الوطني يجب أن يكون نصاً.',
-
-            'national_number.max' =>
-                'الرقم الوطني يجب ألا يتجاوز 100 محرف.',
+            'national_number.regex' =>
+                'الرقم الوطني يجب أن يكون 11 رقماً.',
 
             'national_number.unique' =>
                 'الرقم الوطني مستخدم مسبقاً.',

@@ -8,7 +8,7 @@
     <title>{{ $contractor->name }}</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/incoming_entities/edit.css')
+    @vite('resources/css/admin/contractors/edit.css')
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <section class="header-card">
 
             <h1>
-                تعديل الجهة الواردة
+                تعديل المتعهد
             </h1>
 
             <a href="{{ route('contractors.show', $contractor) }}" class="btn-go-back">
@@ -40,7 +40,7 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name', $contractor->name) }}" required>
+                <input type="text" id="name" name="name" value="{{ old('name', $contractor->name) }}" @class(['input-error' => $errors->has('name')])>
 
                 @error('name')
                     <span class="form-error">
@@ -55,7 +55,7 @@
                     رقم الهاتف
                 </label>
 
-                <input type="text" id="phone" name="phone" value="{{ old('phone', $contractor->phone) }}" required>
+                <input type="text" id="phone" name="phone" value="{{ old('phone', $contractor->phone) }}" @class(['input-error' => $errors->has('phone')])>
 
                 @error('phone')
                     <span class="form-error">
@@ -70,7 +70,7 @@
                     الرقم الوطني
                 </label>
 
-                <input type="text" id="national_number" name="national_number" value="{{ old('national_number', $contractor->national_number) }}" required>
+                <input type="text" id="national_number" name="national_number" value="{{ old('national_number', $contractor->national_number) }}" @class(['input-error' => $errors->has('national_number')])>
 
                 @error('national_number')
                     <span class="form-error">
@@ -85,7 +85,7 @@
                     اسم الشركة
                 </label>
 
-                <input type="text" id="company_name" name="company_name" value="{{ old('company_name', $contractor->company_name) }}" required>
+                <input type="text" id="company_name" name="company_name" value="{{ old('company_name', $contractor->company_name) }}" @class(['input-error' => $errors->has('company_name')])>
 
                 @error('company_name')
                     <span class="form-error">

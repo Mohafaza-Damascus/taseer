@@ -8,7 +8,7 @@
     <title>إنشاء متعهد</title>
     <style></style>
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/roles/edit.css')
+    @vite('resources/css/admin/contractors/create.css')
 </head>
 
 <body>
@@ -39,7 +39,7 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" @class(['input-error' => $errors->has('name')])>
 
                 @error('name')
                     <span class="form-error">
@@ -54,7 +54,7 @@
                     رقم الهاتف
                 </label>
 
-                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" required>
+                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" @class(['input-error' => $errors->has('phone')])>
 
                 @error('phone')
                     <span class="form-error">
@@ -69,7 +69,7 @@
                     الرقم الوطني
                 </label>
 
-                <input type="text" id="national_number" name="national_number" value="{{ old('national_number') }}" required>
+                <input type="text" id="national_number" name="national_number" value="{{ old('national_number') }}" @class(['input-error' => $errors->has('national_number')])>
 
                 @error('national_number')
                     <span class="form-error">
@@ -84,7 +84,7 @@
                     اسم الشركة
                 </label>
 
-                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" required>
+                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" @class(['input-error' => $errors->has('company_name')])>
 
                 @error('company_name')
                     <span class="form-error">

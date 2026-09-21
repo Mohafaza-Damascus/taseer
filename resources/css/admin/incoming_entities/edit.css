@@ -99,10 +99,17 @@ h1 {
     background-color: white;
 }
 
+
+
+.form-group input.input-error {
+    border-color: var(--color-red-700);
+}
+
 .form-error {
     font-size: 0.82rem;
     color: var(--color-red-700);
 }
+
 
 .checkbox-list {
     display: grid;

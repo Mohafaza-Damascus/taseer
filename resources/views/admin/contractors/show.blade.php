@@ -8,7 +8,7 @@
     <title>{{ $contractor->name }}</title>
 
     @vite('resources/css/variables.css')
-    @vite('resources/css/admin/incoming_entities/show.css')
+    @vite('resources/css/admin/contractors/show.css')
 </head>
 
 <body>
@@ -82,12 +82,11 @@
                 </div>
 
             </div>
-
-            @if(session('error'))
+            @foreach ($errors->all() as $error)
                 <span class="form-error">
-                    {{ session('error') }}
+                    {{ $error }}
                 </span>
-            @endif
+            @endforeach
 
             <div class="form-actions">
 

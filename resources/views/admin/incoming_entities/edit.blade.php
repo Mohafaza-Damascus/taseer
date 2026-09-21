@@ -21,7 +21,7 @@
                 تعديل الجهة الواردة
             </h1>
 
-            <a href="{{ route('incoming_entities.show', $incomingEntity) }}" class="btn-go-back">
+            <a href="{{ route('incoming_entities.show', $incomingEntity) }}" class="btn-go-back" >
                 رجوع
             </a>
 
@@ -40,7 +40,7 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name', $incomingEntity->name) }}">
+                <input type="text" id="name" name="name" value="{{ old('name', $incomingEntity->name) }}" @class(['input-error' => $errors->has('name')])>
 
                 @error('name')
                     <span class="form-error">
@@ -57,7 +57,7 @@
                     ملاحظات
                 </label>
 
-                <input type="text" id="notes" name="notes" value="{{ old('notes', $incomingEntity->notes) }}">
+                <input type="text" id="notes" name="notes" value="{{ old('notes', $incomingEntity->notes) }}" @class(['input-error' => $errors->has('notes')])>
 
                 @error('notes')
                     <span class="form-error">

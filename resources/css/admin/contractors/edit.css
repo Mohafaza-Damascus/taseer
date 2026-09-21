@@ -93,11 +93,19 @@ h1 {
     width: 100%;
 }
 
+
 .form-group input:focus {
     outline: none;
     border-color: black;
     background-color: white;
 }
+
+
+.form-group input.input-error {
+    border-color: var(--color-red-700);
+}
+
+
 
 .form-error {
     font-size: 0.82rem;

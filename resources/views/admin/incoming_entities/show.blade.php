@@ -59,11 +59,11 @@
 
             </div>
 
-            @if(session('error'))
+            @foreach ($errors->all() as $error)
                 <span class="form-error">
-                    {{ session('error') }}
+                    {{ $error }}
                 </span>
-            @endif
+            @endforeach
 
             <div class="form-actions">
 

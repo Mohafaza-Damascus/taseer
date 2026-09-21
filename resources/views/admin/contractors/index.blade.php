@@ -103,12 +103,6 @@
                         المتعهدين
                     </h1>
 
-                    <a
-                        href="{{ route('dashboard') }}"
-                        class="btn-go-back"
-                    >
-                        رجوع
-                    </a>
 
                 </section>
 
