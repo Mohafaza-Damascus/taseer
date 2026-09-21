@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Users - Blade
+    | Users 
     |--------------------------------------------------------------------------
     */
 
@@ -81,7 +81,7 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Roles - Blade
+    | Roles 
     |--------------------------------------------------------------------------
     */
 
@@ -158,14 +158,65 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Contractors - Blade
+    | Contractors
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'contractors',
-        BladeContractorController::class
-    );
+    Route::get(
+        '/contractors',
+        [BladeContractorController::class, 'index']
+    )
+        ->middleware('permission:contractors.view')
+        ->name('contractors.index');
+
+    Route::get(
+        '/contractors/create',
+        [BladeContractorController::class, 'create']
+    )
+        ->middleware('permission:contractors.create')
+        ->name('contractors.create');
+
+    Route::post(
+        '/contractors',
+        [BladeContractorController::class, 'store']
+    )
+        ->middleware('permission:contractors.create')
+        ->name('contractors.store');
+
+    Route::get(
+        '/contractors/{contractor}',
+        [BladeContractorController::class, 'show']
+    )
+        ->middleware('permission:contractors.view')
+        ->name('contractors.show');
+
+    Route::get(
+        '/contractors/{contractor}/edit',
+        [BladeContractorController::class, 'edit']
+    )
+        ->middleware('permission:contractors.update')
+        ->name('contractors.edit');
+
+    Route::put(
+        '/contractors/{contractor}',
+        [BladeContractorController::class, 'update']
+    )
+        ->middleware('permission:contractors.update')
+        ->name('contractors.update');
+
+    Route::patch(
+        '/contractors/{contractor}',
+        [BladeContractorController::class, 'update']
+    )
+        ->middleware('permission:contractors.update')
+        ->name('contractors.update.patch');
+
+    Route::delete(
+        '/contractors/{contractor}',
+        [BladeContractorController::class, 'destroy']
+    )
+        ->middleware('permission:contractors.delete')
+        ->name('contractors.destroy');
 
     /*
     |--------------------------------------------------------------------------

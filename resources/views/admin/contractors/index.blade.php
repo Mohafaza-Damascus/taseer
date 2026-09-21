@@ -28,9 +28,7 @@
                         <img src="{{ asset('../../resources/images/logo2.png') }}" alt="تسعير">
                     </a>
 
-
                 </div>
-
 
                 <nav class="sidebar-nav">
 
@@ -50,25 +48,25 @@
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.index') }}" class="sidebar-link">
                             <span>الأدوار</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link active">
                             <span>المتعهدين</span>
                         </a>
                     @endif
-                </nav>
 
+                </nav>
 
                 <div class="sidebar-footer">
 
@@ -91,8 +89,6 @@
 
         </aside>
 
-
-        {{-- Main Content --}}
         <main class="main-content">
 
             <div class="container">
@@ -103,56 +99,49 @@
                         المتعهدين
                     </h1>
 
-                    <a
-                        href="{{ route('dashboard') }}"
-                        class="btn-go-back"
-                    >
+                    <a href="{{ route('dashboard') }}" class="btn-go-back">
                         رجوع
                     </a>
 
                 </section>
 
+                <div class="cards-grid">
 
-                    <div class="cards-grid">
+                    @foreach ($contractors as $contractor)
 
-                        @foreach ($contractors as $contractor)
+                        <div class="card">
 
-                            <div class="card">
+                            <span class="card-title">
+                                {{ $contractor->name }}
+                            </span>
 
-                                <span class="card-title">
-                                    {{ $contractor->name }}
-                                </span>
-                                <span class="card-subtitle">
-                                    {{ $contractor->company_name }}
-                                </span>
-                                <div class="card-footer">
+                            <span class="card-subtitle">
+                                {{ $contractor->company_name }}
+                            </span>
 
-                                    <a
-                                        href="{{ route('contractors.show', $contractor) }}"
-                                        class="btn-details"
-                                    >
-                                        عرض التفاصيل
-                                    </a>
+                            <div class="card-footer">
 
-                                </div>
+                                <a href="{{ route('contractors.show', $contractor) }}" class="btn-details">
+                                    عرض التفاصيل
+                                </a>
 
                             </div>
 
-                        @endforeach
+                        </div>
 
+                    @endforeach
 
+                    @if(auth()->user()->hasPermission('contractors.create'))
 
-                        <a
-                            href="{{ route('contractors.create') }}"
-                            class="add-card"
-                            title="إضافة متعهد جديد"
-                        >
+                        <a href="{{ route('contractors.create') }}" class="add-card" title="إضافة متعهد جديد">
                             <span class="add-card-icon">
                                 +
                             </span>
                         </a>
-                    </div>
 
+                    @endif
+
+                </div>
 
             </div>
 

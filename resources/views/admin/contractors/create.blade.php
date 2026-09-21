@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>إنشاء متعهد</title>
-    <style></style>
+
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/roles/edit.css')
 </head>
@@ -27,11 +27,9 @@
 
         </section>
 
-
         <form action="{{ route('contractors.store') }}" method="POST" class="form-card">
 
             @csrf
-
 
             <div class="form-group">
 
@@ -48,6 +46,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="phone">
@@ -63,13 +62,15 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="national_number">
                     الرقم الوطني
                 </label>
 
-                <input type="text" id="national_number" name="national_number" value="{{ old('national_number') }}" required>
+                <input type="text" id="national_number" name="national_number" value="{{ old('national_number') }}"
+                    required>
 
                 @error('national_number')
                     <span class="form-error">
@@ -78,13 +79,14 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="company_name">
                     اسم الشركة
                 </label>
 
-                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" required>
+                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}">
 
                 @error('company_name')
                     <span class="form-error">
@@ -93,8 +95,6 @@
                 @enderror
 
             </div>
-
-
 
             <div class="form-actions">
 

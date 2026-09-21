@@ -18,7 +18,7 @@
         <section class="header-card">
 
             <h1>
-                تعديل الجهة الواردة
+                تعديل المتعهد
             </h1>
 
             <a href="{{ route('contractors.show', $contractor) }}" class="btn-go-back">
@@ -27,12 +27,10 @@
 
         </section>
 
-
         <form action="{{ route('contractors.update', $contractor) }}" method="POST" class="form-card">
 
             @csrf
             @method('PUT')
-
 
             <div class="form-group">
 
@@ -49,6 +47,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="phone">
@@ -64,13 +63,15 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="national_number">
                     الرقم الوطني
                 </label>
 
-                <input type="text" id="national_number" name="national_number" value="{{ old('national_number', $contractor->national_number) }}" required>
+                <input type="text" id="national_number" name="national_number"
+                    value="{{ old('national_number', $contractor->national_number) }}" required>
 
                 @error('national_number')
                     <span class="form-error">
@@ -79,13 +80,15 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="company_name">
                     اسم الشركة
                 </label>
 
-                <input type="text" id="company_name" name="company_name" value="{{ old('company_name', $contractor->company_name) }}" required>
+                <input type="text" id="company_name" name="company_name"
+                    value="{{ old('company_name', $contractor->company_name) }}">
 
                 @error('company_name')
                     <span class="form-error">
@@ -94,8 +97,6 @@
                 @enderror
 
             </div>
-
-
 
             <div class="form-actions">
 
