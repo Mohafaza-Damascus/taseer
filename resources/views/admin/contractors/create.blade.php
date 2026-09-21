@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>إنشاء متعهد</title>
-    <style></style>
+
     @vite('resources/css/variables.css')
     @vite('resources/css/admin/contractors/create.css')
 </head>
@@ -27,11 +27,9 @@
 
         </section>
 
-
         <form action="{{ route('contractors.store') }}" method="POST" class="form-card">
 
             @csrf
-
 
             <div class="form-group">
 
@@ -48,6 +46,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="phone">
@@ -63,6 +62,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="national_number">
@@ -78,6 +78,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="company_name">
@@ -93,8 +94,6 @@
                 @enderror
 
             </div>
-
-
 
             <div class="form-actions">
 

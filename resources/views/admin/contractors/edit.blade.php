@@ -27,12 +27,10 @@
 
         </section>
 
-
         <form action="{{ route('contractors.update', $contractor) }}" method="POST" class="form-card">
 
             @csrf
             @method('PUT')
-
 
             <div class="form-group">
 
@@ -49,6 +47,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="phone">
@@ -64,6 +63,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="national_number">
@@ -79,6 +79,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group">
 
                 <label for="company_name">
@@ -94,8 +95,6 @@
                 @enderror
 
             </div>
-
-
 
             <div class="form-actions">
 

@@ -27,7 +27,6 @@
 
         </section>
 
-
         <div class="form-card">
 
             <div class="info-list">
@@ -44,7 +43,6 @@
 
                 </div>
 
-
                 <div class="info-row">
 
                     <span class="info-label">
@@ -58,7 +56,6 @@
                 </div>
 
             </div>
-
 
             <div>
 
@@ -86,7 +83,6 @@
 
             </div>
 
-
             <div>
 
                 <span class="section-title">
@@ -113,27 +109,29 @@
 
             </div>
 
+            @if(auth()->user()->hasPermission('role.manage'))
 
-            <div class="form-actions">
+                <div class="form-actions">
 
-                <a href="{{ route('roles.edit', $role) }}" class="btn-edit">
-                    تعديل
-                </a>
+                    <a href="{{ route('roles.edit', $role) }}" class="btn-edit">
+                        تعديل
+                    </a>
 
+                    <form action="{{ route('roles.destroy', $role) }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف الدور؟');">
 
-                <form action="{{ route('roles.destroy', $role) }}" method="POST"
-                    onsubmit="return confirm('هل أنت متأكد من حذف الدور؟');">
+                        @csrf
+                        @method('DELETE')
 
-                    @csrf
-                    @method('DELETE')
+                        <button type="submit" class="btn-delete">
+                            حذف
+                        </button>
 
-                    <button type="submit" class="btn-delete">
-                        حذف
-                    </button>
+                    </form>
 
-                </form>
+                </div>
 
-            </div>
+            @endif
 
         </div>
 

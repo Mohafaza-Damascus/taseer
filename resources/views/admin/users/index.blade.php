@@ -57,13 +57,13 @@
                         </a>
                     @endif
 
-                     @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
@@ -110,51 +110,53 @@
 
 
 
-                    <div class="cards-grid">
+                <div class="cards-grid">
 
-                        @foreach ($users as $user)
+                    @foreach ($users as $user)
 
-                            <div class="card">
+                        <div class="card">
 
-                                <span class="card-title">
-                                    {{ $user->username }}
-                                </span>
+                            <span class="card-title">
+                                {{ $user->username }}
+                            </span>
 
-                                <span class="card-subtitle">
+                            <span class="card-subtitle">
 
-                                    @if ($user->roles->isNotEmpty())
+                                @if ($user->roles->isNotEmpty())
 
-                                        {{ $user->roles->pluck('name')->join('، ') }}
+                                    {{ $user->roles->pluck('name')->join('، ') }}
 
-                                    @else
+                                @else
 
-                                        بدون دور
+                                    بدون دور
 
-                                    @endif
+                                @endif
 
-                                </span>
+                            </span>
 
 
-                                <div class="card-footer">
+                            <div class="card-footer">
 
-                                    <a href="{{ route('users.show', $user) }}" class="btn-details">
-                                        عرض التفاصيل
-                                    </a>
-
-                                </div>
+                                <a href="{{ route('users.show', $user) }}" class="btn-details">
+                                    عرض التفاصيل
+                                </a>
 
                             </div>
 
-                        @endforeach
+                        </div>
+
+                    @endforeach
 
 
+                    @if(auth()->user()->hasPermission('users.manage'))
                         <a href="{{ route('users.create') }}" class="add-card" title="إضافة مستخدم جديد">
                             <span class="add-card-icon">
                                 +
                             </span>
                         </a>
+                    @endif
 
-                    </div>
+                </div>
 
 
 

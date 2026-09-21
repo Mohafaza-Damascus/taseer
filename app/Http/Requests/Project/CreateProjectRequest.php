@@ -5,16 +5,90 @@ namespace App\Http\Requests\Project;
 use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
-    use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule;
 
 class CreateProjectRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check()
+            && auth()->user()->hasPermission('projects.create');
     }
 
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
 
+            $user = auth()->user();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Incoming Entity
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !empty($this->input('new_incoming_entity_name')) &&
+                !$user->hasPermission('incoming_entities.create')
+            ) {
+                $validator->errors()->add(
+                    'new_incoming_entity_name',
+                    'لا تملك صلاحية إضافة جهة واردة جديدة.'
+                );
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Contractor
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !empty($this->input('new_contractor_name')) &&
+                !$user->hasPermission('contractors.create')
+            ) {
+                $validator->errors()->add(
+                    'new_contractor_name',
+                    'لا تملك صلاحية إضافة متعهد جديد.'
+                );
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Pricing Items
+            |--------------------------------------------------------------------------
+            */
+
+            foreach ($this->input('pricing_items', []) as $index => $item) {
+
+                if (
+                    !empty($item['new_item_name']) &&
+                    !$user->hasPermission('pricing_items.create')
+                ) {
+                    $validator->errors()->add(
+                        "pricing_items.$index.new_item_name",
+                        'لا تملك صلاحية إضافة بند جديد.'
+                    );
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Related Works
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    !empty($item['new_item_related_work_name']) &&
+                    !$user->hasPermission('related_works.create')
+                ) {
+                    $validator->errors()->add(
+                        "pricing_items.$index.new_item_related_work_name",
+                        'لا تملك صلاحية إضافة عمل مرتبط جديد.'
+                    );
+                }
+            }
+        });
+    }
     public function rules(): array
     {
         return [
@@ -120,16 +194,18 @@ class CreateProjectRequest extends FormRequest
             ],
 
             'pricing_items.*.pricing_item_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'distinct',
                 'exists:pricing_items,id',
+                'required_without:pricing_items.*.new_item_name',
             ],
 
             'pricing_items.*.new_item_name' => [
                 'nullable',
                 'string',
                 'max:255',
+                'required_without:pricing_items.*.pricing_item_id',
             ],
 
             'pricing_items.*.new_item_unit' => [
@@ -290,18 +366,11 @@ class CreateProjectRequest extends FormRequest
 
             'pricing_items.array' =>
                 'بنود التسعير يجب أن تكون على شكل قائمة.',
+            'pricing_items.*.pricing_item_id.required_without' =>
+                'يجب اختيار بند موجود أو إدخال بند جديد.',
 
-            'pricing_items.*.pricing_item_id.required' =>
-                'بند التسعير مطلوب.',
-
-            'pricing_items.*.pricing_item_id.integer' =>
-                'معرّف بند التسعير يجب أن يكون رقمًا.',
-
-            'pricing_items.*.pricing_item_id.distinct' =>
-                'لا يمكن إضافة نفس بند التسعير أكثر من مرة.',
-
-            'pricing_items.*.pricing_item_id.exists' =>
-                'بند التسعير المحدد غير موجود.',
+            'pricing_items.*.new_item_name.required_without' =>
+                'يجب اختيار بند موجود أو إدخال بند جديد.',
 
             'pricing_items.*.new_item_name.string' =>
                 'اسم بند التسعير الجديد يجب أن يكون نصًا.',

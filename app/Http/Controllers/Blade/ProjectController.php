@@ -23,33 +23,54 @@ class ProjectController extends Controller
      */
     public function index(Request $request): View
     {
-        $incomingEntities = IncomingEntity::query()->orderBy('name')->get();
-        $contractors = Contractor::query()->orderBy('name')->get();
+        $user = auth()->user();
+
+        $incomingEntities = $user->hasPermission('incoming_entities.view')
+            ? IncomingEntity::query()->orderBy('name')->get()
+            : collect();
+
+        $contractors = $user->hasPermission('contractors.view')
+            ? Contractor::query()->orderBy('name')->get()
+            : collect();
+
         $sort = $request->input('sort', 'name');
+
         $projects = Project::query()
             ->with(['incomingEntity', 'contractor'])
             ->withCount('pricingItems')
             ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->input('search') . '%');
+                $query->where(
+                    'name',
+                    'like',
+                    '%' . $request->input('search') . '%'
+                );
             })
             ->when($request->filled('entity'), function ($query) use ($request) {
-                $query->where('incoming_entity_id', $request->input('entity'));
+                $query->where(
+                    'incoming_entity_id',
+                    $request->input('entity')
+                );
             })
             ->when($request->filled('contractor'), function ($query) use ($request) {
-                $query->where('contractor_id', $request->input('contractor'));
+                $query->where(
+                    'contractor_id',
+                    $request->input('contractor')
+                );
             })
             ->when($request->filled('dateFrom'), function ($query) use ($request) {
-                $query->whereDate('start_date', '>=', $request->input('dateFrom'));
+                $query->whereDate(
+                    'start_date',
+                    '>=',
+                    $request->input('dateFrom')
+                );
             })
             ->when($request->filled('dateTo'), function ($query) use ($request) {
-                $query->whereDate('start_date', '<=', $request->input('dateTo'));
+                $query->whereDate(
+                    'start_date',
+                    '<=',
+                    $request->input('dateTo')
+                );
             });
-
-        /*
-        |--------------------------------------------------------------------------
-        | Sorting
-        |--------------------------------------------------------------------------
-        */
 
         switch ($sort) {
             case 'startDate':
@@ -61,7 +82,16 @@ class ProjectController extends Controller
                 break;
 
             case 'totalSYP':
-                $projects->orderByDesc(ProjectPricingItem::query()->selectRaw('COALESCE(SUM(quantity * unit_price_syp), 0)')->whereColumn('project_pricing_items.project_id', 'projects.id'));
+                $projects->orderByDesc(
+                    ProjectPricingItem::query()
+                        ->selectRaw(
+                            'COALESCE(SUM(quantity * unit_price_syp), 0)'
+                        )
+                        ->whereColumn(
+                            'project_pricing_items.project_id',
+                            'projects.id'
+                        )
+                );
                 break;
 
             case 'name':
@@ -69,9 +99,19 @@ class ProjectController extends Controller
                 $projects->orderBy('name');
                 break;
         }
-        $projects = $projects->paginate(15)->withQueryString();
 
-        return view('projects.index', compact('projects', 'incomingEntities', 'contractors'));
+        $projects = $projects
+            ->paginate(15)
+            ->withQueryString();
+
+        return view(
+            'projects.index',
+            compact(
+                'projects',
+                'incomingEntities',
+                'contractors'
+            )
+        );
     }
 
     /**
@@ -79,16 +119,24 @@ class ProjectController extends Controller
      */
     public function create(): View
     {
-        $incomingEntities = IncomingEntity::query()->orderBy('name')->get();
+        $user = auth()->user();
 
-        $contractors = Contractor::query()->orderBy('name')->get();
+        $incomingEntities = $user->hasPermission('incoming_entities.view')
+            ? IncomingEntity::query()->orderBy('name')->get()
+            : collect();
+
+        $contractors = $user->hasPermission('contractors.view')
+            ? Contractor::query()->orderBy('name')->get()
+            : collect();
 
         $pricingItems = PricingItem::query()
             ->with(['relatedWork', 'specifications'])
             ->orderBy('name')
             ->get();
 
-        $relatedWorks = RelatedWork::query()->orderBy('name')->get();
+        $relatedWorks = RelatedWork::query()
+            ->orderBy('name')
+            ->get();
 
         return view(
             'projects.create',
@@ -104,7 +152,6 @@ class ProjectController extends Controller
     /**
      * Store project.
      */
-
     public function store(CreateProjectRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -112,30 +159,38 @@ class ProjectController extends Controller
         DB::transaction(function () use ($data) {
 
             $incomingEntityId = $data['incoming_entity_id'] ?? null;
-            if (!$incomingEntityId && !empty($data['new_incoming_entity_name'])) {
+
+            if (
+                !$incomingEntityId &&
+                !empty($data['new_incoming_entity_name'])
+            ) {
                 $incomingEntityId = IncomingEntity::create([
-                    'name'  => $data['new_incoming_entity_name'],
+                    'name' => $data['new_incoming_entity_name'],
                     'notes' => $data['new_incoming_entity_notes'] ?? null,
                 ])->id;
             }
 
             $contractorId = $data['contractor_id'] ?? null;
-            if (!$contractorId && !empty($data['new_contractor_name'])) {
+
+            if (
+                !$contractorId &&
+                !empty($data['new_contractor_name'])
+            ) {
                 $contractorId = Contractor::create([
-                    'name'            => $data['new_contractor_name'],
-                    'phone'           => $data['new_contractor_phone'],
+                    'name' => $data['new_contractor_name'],
+                    'phone' => $data['new_contractor_phone'],
                     'national_number' => $data['new_contractor_national_number'],
-                    'company_name'    => $data['new_contractor_company_name'] ?? null,
+                    'company_name' => $data['new_contractor_company_name'] ?? null,
                 ])->id;
             }
 
             $project = Project::create([
-                'name'               => $data['name'],
-                'signing_location'   => $data['signing_location'] ?? null,
-                'start_date'         => $data['start_date'] ?? null,
-                'end_date'           => $data['end_date'] ?? null,
+                'name' => $data['name'],
+                'signing_location' => $data['signing_location'] ?? null,
+                'start_date' => $data['start_date'] ?? null,
+                'end_date' => $data['end_date'] ?? null,
                 'incoming_entity_id' => $incomingEntityId,
-                'contractor_id'      => $contractorId,
+                'contractor_id' => $contractorId,
             ]);
 
             if (!empty($data['pricing_items'])) {
@@ -146,24 +201,34 @@ class ProjectController extends Controller
 
                     $pricingItemId = $item['pricing_item_id'] ?? null;
 
-                    if (!$pricingItemId && !empty($item['new_item_name'])) {
+                    if (
+                        !$pricingItemId &&
+                        !empty($item['new_item_name'])
+                    ) {
+                        $relatedWorkId =
+                            $item['new_item_related_work_id'] ?? null;
 
-                        $relatedWorkId = $item['new_item_related_work_id'] ?? null;
-                        if (!$relatedWorkId && !empty($item['new_item_related_work_name'])) {
+                        if (
+                            !$relatedWorkId &&
+                            !empty($item['new_item_related_work_name'])
+                        ) {
                             $relatedWorkId = RelatedWork::create([
                                 'name' => $item['new_item_related_work_name'],
                             ])->id;
                         }
 
                         $pricingItem = PricingItem::create([
-                            'name'            => $item['new_item_name'],
-                            'unit'            => $item['new_item_unit'] ?? null,
+                            'name' => $item['new_item_name'],
+                            'unit' => $item['new_item_unit'] ?? null,
                             'related_work_id' => $relatedWorkId,
                         ]);
 
                         if (!empty($item['specifications'])) {
                             foreach ($item['specifications'] as $spec) {
-                                if (trim((string) $spec) === '') continue;
+                                if (trim((string) $spec) === '') {
+                                    continue;
+                                }
+
                                 $pricingItem->specifications()->create([
                                     'name' => $spec,
                                 ]);
@@ -178,13 +243,15 @@ class ProjectController extends Controller
                     }
 
                     $syncData[$pricingItemId] = [
-                        'quantity'       => $item['quantity'],
+                        'quantity' => $item['quantity'],
                         'unit_price_syp' => $item['unit_price_syp'],
                         'unit_price_usd' => $item['unit_price_usd'],
-                        'specifications' =>
-                            isset($item['specifications'])
-                                ? json_encode($item['specifications'], JSON_UNESCAPED_UNICODE)
-                                : null,
+                        'specifications' => isset($item['specifications'])
+                            ? json_encode(
+                                $item['specifications'],
+                                JSON_UNESCAPED_UNICODE
+                            )
+                            : null,
                     ];
                 }
 
@@ -202,52 +269,83 @@ class ProjectController extends Controller
      */
     public function show(Project $project): View
     {
-        $project->load(['incomingEntity', 'contractor', 'pricingItems.relatedWork']);
+        $user = auth()->user();
 
-        $incomingEntities = IncomingEntity::query()->orderBy('name')->get();
+        $project->load([
+            'incomingEntity',
+            'contractor',
+            'pricingItems.relatedWork',
+        ]);
 
-        $contractors = Contractor::query()->orderBy('name')->get();
+        $incomingEntities = $user->hasPermission('incoming_entities.view')
+            ? IncomingEntity::query()->orderBy('name')->get()
+            : collect();
+
+        $contractors = $user->hasPermission('contractors.view')
+            ? Contractor::query()->orderBy('name')->get()
+            : collect();
 
         $pricingItems = PricingItem::query()
             ->with(['relatedWork', 'specifications'])
             ->orderBy('name')
             ->get();
 
-        return view('projects.show', compact('project', 'incomingEntities', 'contractors', 'pricingItems'));
+        return view(
+            'projects.show',
+            compact(
+                'project',
+                'incomingEntities',
+                'contractors',
+                'pricingItems'
+            )
+        );
     }
 
-   /**
+    /**
      * Show edit project page.
      */
     public function edit(Project $project): View
     {
-        $incomingEntities = IncomingEntity::query()->orderBy('name')->get();
+        $user = auth()->user();
 
-        $contractors = Contractor::query()->orderBy('name')->get();
+        $incomingEntities = $user->hasPermission('incoming_entities.view')
+            ? IncomingEntity::query()->orderBy('name')->get()
+            : collect();
+
+        $contractors = $user->hasPermission('contractors.view')
+            ? Contractor::query()->orderBy('name')->get()
+            : collect();
 
         $pricingItems = PricingItem::query()
             ->with(['relatedWork', 'specifications'])
             ->orderBy('name')
             ->get();
 
-        $relatedWorks = RelatedWork::query()->orderBy('name')->get();
+        $relatedWorks = RelatedWork::query()
+            ->orderBy('name')
+            ->get();
 
         $project->load([
             'pricingItems.relatedWork',
             'pricingItems.specifications',
         ]);
 
-        $currentPricingItems = $project->pricingItems->map(function ($item) {
-            return [
-                'pricing_item_id' => $item->id,
-                'quantity'        => $item->pivot->quantity,
-                'unit_price_syp'  => $item->pivot->unit_price_syp,
-                'unit_price_usd'  => $item->pivot->unit_price_usd,
-                'specifications'  => $item->pivot->specifications
-                    ? json_decode($item->pivot->specifications, true)
-                    : null,
-            ];
-        })->values();
+        $currentPricingItems = $project->pricingItems
+            ->map(function ($item) {
+                return [
+                    'pricing_item_id' => $item->id,
+                    'quantity' => $item->pivot->quantity,
+                    'unit_price_syp' => $item->pivot->unit_price_syp,
+                    'unit_price_usd' => $item->pivot->unit_price_usd,
+                    'specifications' => $item->pivot->specifications
+                        ? json_decode(
+                            $item->pivot->specifications,
+                            true
+                        )
+                        : null,
+                ];
+            })
+            ->values();
 
         return view(
             'projects.edit',
@@ -265,37 +363,47 @@ class ProjectController extends Controller
     /**
      * Update project.
      */
-    public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
-    {
+    public function update(
+        UpdateProjectRequest $request,
+        Project $project
+    ): RedirectResponse {
         $data = $request->validated();
 
         DB::transaction(function () use ($data, $project) {
 
             $incomingEntityId = $data['incoming_entity_id'] ?? null;
-            if (!$incomingEntityId && !empty($data['new_incoming_entity_name'])) {
+
+            if (
+                !$incomingEntityId &&
+                !empty($data['new_incoming_entity_name'])
+            ) {
                 $incomingEntityId = IncomingEntity::create([
-                    'name'  => $data['new_incoming_entity_name'],
+                    'name' => $data['new_incoming_entity_name'],
                     'notes' => $data['new_incoming_entity_notes'] ?? null,
                 ])->id;
             }
 
             $contractorId = $data['contractor_id'] ?? null;
-            if (!$contractorId && !empty($data['new_contractor_name'])) {
+
+            if (
+                !$contractorId &&
+                !empty($data['new_contractor_name'])
+            ) {
                 $contractorId = Contractor::create([
-                    'name'            => $data['new_contractor_name'],
-                    'phone'           => $data['new_contractor_phone'],
+                    'name' => $data['new_contractor_name'],
+                    'phone' => $data['new_contractor_phone'],
                     'national_number' => $data['new_contractor_national_number'],
-                    'company_name'    => $data['new_contractor_company_name'] ?? null,
+                    'company_name' => $data['new_contractor_company_name'] ?? null,
                 ])->id;
             }
 
             $project->update([
-                'name'               => $data['name'],
-                'signing_location'   => $data['signing_location'] ?? null,
-                'start_date'         => $data['start_date'] ?? null,
-                'end_date'           => $data['end_date'] ?? null,
+                'name' => $data['name'],
+                'signing_location' => $data['signing_location'] ?? null,
+                'start_date' => $data['start_date'] ?? null,
+                'end_date' => $data['end_date'] ?? null,
                 'incoming_entity_id' => $incomingEntityId,
-                'contractor_id'      => $contractorId,
+                'contractor_id' => $contractorId,
             ]);
 
             $syncData = [];
@@ -306,24 +414,34 @@ class ProjectController extends Controller
 
                     $pricingItemId = $item['pricing_item_id'] ?? null;
 
-                    if (!$pricingItemId && !empty($item['new_item_name'])) {
+                    if (
+                        !$pricingItemId &&
+                        !empty($item['new_item_name'])
+                    ) {
+                        $relatedWorkId =
+                            $item['new_item_related_work_id'] ?? null;
 
-                        $relatedWorkId = $item['new_item_related_work_id'] ?? null;
-                        if (!$relatedWorkId && !empty($item['new_item_related_work_name'])) {
+                        if (
+                            !$relatedWorkId &&
+                            !empty($item['new_item_related_work_name'])
+                        ) {
                             $relatedWorkId = RelatedWork::create([
                                 'name' => $item['new_item_related_work_name'],
                             ])->id;
                         }
 
                         $pricingItem = PricingItem::create([
-                            'name'            => $item['new_item_name'],
-                            'unit'            => $item['new_item_unit'] ?? null,
+                            'name' => $item['new_item_name'],
+                            'unit' => $item['new_item_unit'] ?? null,
                             'related_work_id' => $relatedWorkId,
                         ]);
 
                         if (!empty($item['specifications'])) {
                             foreach ($item['specifications'] as $spec) {
-                                if (trim((string) $spec) === '') continue;
+                                if (trim((string) $spec) === '') {
+                                    continue;
+                                }
+
                                 $pricingItem->specifications()->create([
                                     'name' => $spec,
                                 ]);
@@ -338,13 +456,15 @@ class ProjectController extends Controller
                     }
 
                     $syncData[$pricingItemId] = [
-                        'quantity'       => $item['quantity'],
+                        'quantity' => $item['quantity'],
                         'unit_price_syp' => $item['unit_price_syp'],
                         'unit_price_usd' => $item['unit_price_usd'],
-                        'specifications' =>
-                            isset($item['specifications'])
-                                ? json_encode($item['specifications'], JSON_UNESCAPED_UNICODE)
-                                : null,
+                        'specifications' => isset($item['specifications'])
+                            ? json_encode(
+                                $item['specifications'],
+                                JSON_UNESCAPED_UNICODE
+                            )
+                            : null,
                     ];
                 }
             }
@@ -364,6 +484,8 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return redirect()->route('projects.index')->with('success', 'تم حذف المشروع بنجاح.');
+        return redirect()
+            ->route('projects.index')
+            ->with('success', 'تم حذف المشروع بنجاح.');
     }
 }

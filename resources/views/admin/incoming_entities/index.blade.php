@@ -50,19 +50,19 @@
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.index') }}" class="sidebar-link">
                             <span>الأدوار</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link active">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
@@ -107,47 +107,42 @@
                 </section>
 
 
-                    <div class="cards-grid">
+                <div class="cards-grid">
 
-                        @foreach ($incomingEntities as $incomingEntity)
+                    @foreach ($incomingEntities as $incomingEntity)
 
-                            <div class="card">
+                        <div class="card">
 
-                                <span class="card-title">
-                                    {{ $incomingEntity->name }}
-                                </span>
+                            <span class="card-title">
+                                {{ $incomingEntity->name }}
+                            </span>
 
-                                <span class="card-subtitle">
-                                    ملاحظات : {{ $incomingEntity->notes }}
-                                </span>
+                            <span class="card-subtitle">
+                                ملاحظات : {{ $incomingEntity->notes }}
+                            </span>
 
-                                <div class="card-footer">
+                            <div class="card-footer">
 
-                                    <a
-                                        href="{{ route('incoming_entities.show', $incomingEntity) }}"
-                                        class="btn-details"
-                                    >
-                                        عرض التفاصيل
-                                    </a>
-
-                                </div>
+                                <a href="{{ route('incoming_entities.show', $incomingEntity) }}" class="btn-details">
+                                    عرض التفاصيل
+                                </a>
 
                             </div>
 
-                        @endforeach
+                        </div>
+
+                    @endforeach
 
 
 
-                        <a
-                            href="{{ route('incoming_entities.create') }}"
-                            class="add-card"
-                            title="إضافة جهة واردة جديدة"
-                        >
+                    @if(auth()->user()->hasPermission('incoming_entities.create'))
+                        <a href="{{ route('incoming_entities.create') }}" class="add-card" title="إضافة جهة واردة جديدة">
                             <span class="add-card-icon">
                                 +
                             </span>
                         </a>
-                    </div>
+                    @endif
+                </div>
 
 
             </div>

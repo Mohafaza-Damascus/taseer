@@ -26,25 +26,33 @@
                 </div>
 
                 <div class="header-actions">
-                    <a href="{{ route('projects.edit', $project) }}" class="btn-edit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                        </svg>
-                        تعديل المشروع
-                    </a>
 
-                    <form method="POST" action="{{ route('projects.destroy', $project) }}"
-                        onsubmit="return confirm('هل أنت متأكد من حذف المشروع؟');">
+                    @if(auth()->user()->hasPermission('projects.update'))
+                        <a href="{{ route('projects.edit', $project) }}" class="btn-edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 
-                        @csrf
-                        @method('DELETE')
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
 
-                        <button type="submit" class="btn-delete">
-                            حذف المشروع
-                        </button>
+                            </svg>
 
-                    </form>
+                            تعديل المشروع
+                        </a>
+                    @endif
+
+
+                    @if(auth()->user()->hasPermission('projects.delete'))
+                        <form method="POST" action="{{ route('projects.destroy', $project) }}"
+                            onsubmit="return confirm('هل أنت متأكد من حذف المشروع؟');">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn-delete">
+                                حذف المشروع
+                            </button>
+                        </form>
+                    @endif
+
                 </div>
 
             </div>
@@ -344,20 +352,27 @@
                                                             {{-- Edit --}}
                                                             <td>
 
-                                                                <a href="{{ route(
-                                    'projects.edit',
-                                    $project
-                                ) }}#pricing-items" class="btn-icon-edit" aria-label="تعديل بنود المشروع">
+                                                               @if(auth()->user()->hasPermission('projects.update'))
+    <a
+        href="{{ route('projects.edit', $project) }}#pricing-items"
+        class="btn-icon-edit"
+        aria-label="تعديل بنود المشروع"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
 
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
 
-                                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-
-                                                                    </svg>
-
-                                                                </a>
+        </svg>
+    </a>
+@endif
 
                                                             </td>
 

@@ -27,7 +27,6 @@
 
         </section>
 
-
         <div class="form-card">
 
             <div class="info-list">
@@ -43,7 +42,6 @@
                     </span>
 
                 </div>
-
 
                 <div class="info-row">
 
@@ -90,22 +88,30 @@
 
             <div class="form-actions">
 
-                <a href="{{ route('contractors.edit', $contractor) }}" class="btn-edit">
-                    تعديل
-                </a>
+                @if(auth()->user()->hasPermission('contractors.update'))
 
+                    <a href="{{ route('contractors.edit', $contractor) }}" class="btn-edit">
+                        تعديل
+                    </a>
 
-                <form action="{{ route('contractors.destroy', $contractor) }}" method="POST"
-                    onsubmit="return confirm('هل أنت متأكد من حذف المتعهد؟');">
+                @endif
 
-                    @csrf
-                    @method('DELETE')
+                @if(auth()->user()->hasPermission('contractors.delete'))
 
-                    <button type="submit" class="btn-delete">
-                        حذف
-                    </button>
+                    <form action="{{ route('contractors.destroy', $contractor) }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف المتعهد؟');">
 
-                </form>
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn-delete">
+                            حذف
+                        </button>
+
+                    </form>
+
+                @endif
+
             </div>
 
         </div>

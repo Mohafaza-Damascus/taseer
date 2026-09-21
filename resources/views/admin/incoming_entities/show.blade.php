@@ -67,24 +67,28 @@
 
             <div class="form-actions">
 
-                <a href="{{ route('incoming_entities.edit', $incomingEntity) }}" class="btn-edit">
-                    تعديل
-                </a>
+                @if(auth()->user()->hasPermission('incoming_entities.update'))
+                    <a href="{{ route('incoming_entities.edit', $incomingEntity) }}" class="btn-edit">
+                        تعديل
+                    </a>
+                @endif
 
 
-                <form action="{{ route('incoming_entities.destroy', $incomingEntity) }}" method="POST"
-                    onsubmit="return confirm('هل أنت متأكد من حذف الجهة الواردة؟');">
+                @if(auth()->user()->hasPermission('incoming_entities.delete'))
+                    <form action="{{ route('incoming_entities.destroy', $incomingEntity) }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف الجهة الواردة؟');">
 
-                    @csrf
-                    @method('DELETE')
+                        @csrf
+                        @method('DELETE')
 
-                    <button type="submit" class="btn-delete">
-                        حذف
-                    </button>
+                        <button type="submit" class="btn-delete">
+                            حذف
+                        </button>
 
-                </form>
+                    </form>
+                @endif
+
             </div>
-
         </div>
 
     </div>

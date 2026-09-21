@@ -9,7 +9,77 @@ class UpdateProjectRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check()
+            && auth()->user()->hasPermission('projects.create');
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+
+            $user = auth()->user();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Pricing Items
+            |--------------------------------------------------------------------------
+            */
+
+            foreach ($this->input('pricing_items', []) as $index => $item) {
+
+                if (
+                    !empty($item['new_item_name']) &&
+                    !$user->hasPermission('pricing_items.create')
+                ) {
+                    $validator->errors()->add(
+                        "pricing_items.$index.new_item_name",
+                        'لا تملك صلاحية إضافة بند جديد.'
+                    );
+                }
+
+                if (
+                    !empty($item['new_item_related_work_name']) &&
+                    !$user->hasPermission('related_works.create')
+                ) {
+                    $validator->errors()->add(
+                        "pricing_items.$index.new_item_related_work_name",
+                        'لا تملك صلاحية إضافة عمل مرتبط جديد.'
+                    );
+                }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Incoming Entity
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !empty($this->input('new_incoming_entity_name')) &&
+                !$user->hasPermission('incoming_entities.create')
+            ) {
+                $validator->errors()->add(
+                    'new_incoming_entity_name',
+                    'لا تملك صلاحية إضافة جهة واردة جديدة.'
+                );
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Contractor
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !empty($this->input('new_contractor_name')) &&
+                !$user->hasPermission('contractors.create')
+            ) {
+                $validator->errors()->add(
+                    'new_contractor_name',
+                    'لا تملك صلاحية إضافة متعهد جديد.'
+                );
+            }
+        });
     }
 
     public function rules(): array
@@ -104,35 +174,6 @@ class UpdateProjectRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator): void
-    {
-        $validator->after(function ($validator) {
-            if (!$this->filled('end_date')) {
-                return;
-            }
-
-            $project = $this->route('project');
-
-            if (!$project instanceof Project) {
-                return;
-            }
-
-            $startDate = $this->input(
-                'start_date',
-                $project->start_date
-            );
-
-            if (
-                $startDate !== null &&
-                $this->input('end_date') < $startDate
-            ) {
-                $validator->errors()->add(
-                    'end_date',
-                    'تاريخ النهاية يجب أن يكون بعد أو يساوي تاريخ البداية.'
-                );
-            }
-        });
-    }
 
     public function messages(): array
     {
