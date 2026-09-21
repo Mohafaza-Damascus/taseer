@@ -55,7 +55,7 @@
                     @endif
 
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.index') }}" class="sidebar-link">
 
                             <span>الأدوار</span>
@@ -242,7 +242,7 @@
                         @endif
 
 
-                        @if(auth()->user()->hasPermission('users.manage'))
+                        @if(auth()->user()->hasPermission('role.manage'))
                             <a href="{{ route('roles.index') }}" class="quick-link">
 
 

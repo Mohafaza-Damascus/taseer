@@ -29,9 +29,7 @@
                         <img src="{{ asset('../../resources/images/logo2.png') }}" alt="تسعير">
                     </a>
 
-
                 </div>
-
 
                 <nav class="sidebar-nav">
 
@@ -51,26 +49,25 @@
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.index') }}" class="sidebar-link active">
                             <span>الأدوار</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
                     @endif
 
                 </nav>
-
 
                 <div class="sidebar-footer">
 
@@ -93,7 +90,6 @@
 
         </aside>
 
-
         {{-- Main Content --}}
         <main class="main-content">
 
@@ -105,47 +101,43 @@
                         الأدوار
                     </h1>
 
-
                 </section>
 
+                <div class="cards-grid">
 
+                    @foreach ($roles as $role)
 
-                    <div class="cards-grid">
+                        <div class="card">
 
-                        @foreach ($roles as $role)
+                            <span class="card-title">
+                                {{ $role->name }}
+                            </span>
 
-                            <div class="card">
+                            <span class="card-subtitle">
+                                {{ $role->slug }}
+                            </span>
 
-                                <span class="card-title">
-                                    {{ $role->name }}
-                                </span>
+                            <div class="card-footer">
 
-                                <span class="card-subtitle">
-                                    {{ $role->slug }}
-                                </span>
-
-                                <div class="card-footer">
-
-                                    <a href="{{ route('roles.show', $role) }}" class="btn-details">
-                                        عرض التفاصيل
-                                    </a>
-
-                                </div>
+                                <a href="{{ route('roles.show', $role) }}" class="btn-details">
+                                    عرض التفاصيل
+                                </a>
 
                             </div>
 
-                        @endforeach
+                        </div>
 
+                    @endforeach
 
+                    @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.create') }}" class="add-card" title="إضافة دور جديد">
                             <span class="add-card-icon">
                                 +
                             </span>
                         </a>
+                    @endif
 
-                    </div>
-
-
+                </div>
 
             </div>
 

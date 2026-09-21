@@ -37,11 +37,6 @@ Route::get('/', function () {
 });
 
 
-Route::resource(
-    'roles',
-    BladeRoleController::class
-);
-
 
 
 
@@ -80,6 +75,21 @@ Route::middleware('auth')->group(function () {
         Route::resource(
             'users',
             BladeUserController::class
+        );
+
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Roles - Blade
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware('permission:role.manage')->group(function () {
+
+        Route::resource(
+            'roles',
+            BladeRoleController::class
         );
 
     });
