@@ -62,13 +62,13 @@
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
@@ -252,7 +252,7 @@
                             </a>
                         @endif
 
-                        @if(auth()->user()->hasPermission('users.manage'))
+                        @if(auth()->user()->hasPermission('incoming_entities.view'))
                             <a href="{{ route('incoming_entities.index') }}" class="quick-link">
                                 <div>
                                     <strong>الجهات الواردة</strong>
@@ -260,7 +260,7 @@
                             </a>
                         @endif
 
-                        @if(auth()->user()->hasPermission('users.manage'))
+                        @if(auth()->user()->hasPermission('contractors.view'))
                             <a href="{{ route('contractors.index') }}" class="quick-link">
                                 <div>
                                     <strong>المتعهدين</strong>

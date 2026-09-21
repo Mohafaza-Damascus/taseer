@@ -220,13 +220,64 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | IncomingEntityController - Blade
+    | Incoming Entities
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'incoming_entities',
-        BladeIncomingEntityController::class
-    );
+    Route::get(
+        '/incoming_entities',
+        [BladeIncomingEntityController::class, 'index']
+    )
+        ->middleware('permission:incoming_entities.view')
+        ->name('incoming_entities.index');
+
+    Route::get(
+        '/incoming_entities/create',
+        [BladeIncomingEntityController::class, 'create']
+    )
+        ->middleware('permission:incoming_entities.create')
+        ->name('incoming_entities.create');
+
+    Route::post(
+        '/incoming_entities',
+        [BladeIncomingEntityController::class, 'store']
+    )
+        ->middleware('permission:incoming_entities.create')
+        ->name('incoming_entities.store');
+
+    Route::get(
+        '/incoming_entities/{incoming_entity}',
+        [BladeIncomingEntityController::class, 'show']
+    )
+        ->middleware('permission:incoming_entities.view')
+        ->name('incoming_entities.show');
+
+    Route::get(
+        '/incoming_entities/{incoming_entity}/edit',
+        [BladeIncomingEntityController::class, 'edit']
+    )
+        ->middleware('permission:incoming_entities.update')
+        ->name('incoming_entities.edit');
+
+    Route::put(
+        '/incoming_entities/{incoming_entity}',
+        [BladeIncomingEntityController::class, 'update']
+    )
+        ->middleware('permission:incoming_entities.update')
+        ->name('incoming_entities.update');
+
+    Route::patch(
+        '/incoming_entities/{incoming_entity}',
+        [BladeIncomingEntityController::class, 'update']
+    )
+        ->middleware('permission:incoming_entities.update')
+        ->name('incoming_entities.update.patch');
+
+    Route::delete(
+        '/incoming_entities/{incoming_entity}',
+        [BladeIncomingEntityController::class, 'destroy']
+    )
+        ->middleware('permission:incoming_entities.delete')
+        ->name('incoming_entities.destroy');
 });
 
