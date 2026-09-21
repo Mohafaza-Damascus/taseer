@@ -15,7 +15,16 @@
 
 <body>
     @php
-        $canCreatePricingItems = auth()->user()->hasPermission('pricing_items.create');
+        $user = auth()->user();
+
+        $canViewIncomingEntities = $user->hasPermission('incoming_entities.view');
+        $canCreateIncomingEntities = $user->hasPermission('incoming_entities.create');
+
+        $canViewContractors = $user->hasPermission('contractors.view');
+        $canCreateContractors = $user->hasPermission('contractors.create');
+
+        $canCreatePricingItems = $user->hasPermission('pricing_items.create');
+        $canCreateRelatedWorks = $user->hasPermission('related_works.create');
     @endphp
 
     <div class="container">
@@ -46,37 +55,57 @@
                             <h2 class="info-card-title">الجهة الواردة</h2>
                         </div>
 
-                        <div id="incomingEntity-select-wrapper">
-                            <div class="info-item">
-                                <label for="incoming_entity_id">الاسم :</label>
-                                <select id="incoming_entity_id" name="incoming_entity_id">
+                        @if($canViewIncomingEntities)
+                            <div id="incomingEntity-select-wrapper">
+                                <div class="info-item">
+                                    <label for="incoming_entity_id">الاسم :</label>
+
+                                    <select id="incoming_entity_id" name="incoming_entity_id">
+                                        <option value="">اختر الجهة الواردة</option>
+
+                                        @foreach($incomingEntities as $incomingEntity)
+                                            <option value="{{ $incomingEntity->id }}"
+                                                @selected(old('incoming_entity_id') == $incomingEntity->id)>
+                                                {{ $incomingEntity->name }}
+                                            </option>
+                                        @endforeach
+
+                                        @if($canCreateIncomingEntities)
+                                            <option value="__other__">أخرى</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                        @elseif($canCreateIncomingEntities)
+                            <input type="hidden" name="incoming_entity_id" value="">
+
+                            <div id="incomingEntity-select-wrapper" style="display: none;">
+                                <select id="incoming_entity_id" name="">
                                     <option value="">اختر الجهة الواردة</option>
-                                    @foreach($incomingEntities as $incomingEntity)
-                                        <option value="{{ $incomingEntity->id }}"
-                                            @selected(old('incoming_entity_id') == $incomingEntity->id)>
-                                            {{ $incomingEntity->name }}
-                                        </option>
-                                    @endforeach
-                                    <option value="__other__">أخرى</option>
                                 </select>
                             </div>
-                        </div>
+                        @endif
 
-                        <div id="incomingEntity-new-wrapper" style="display: none;">
-                            <div class="new-fields" style="grid-template-columns: 1fr;">
-                                <div class="info-item">
-                                    <label for="new_incoming_entity_name">اسم الجهة :</label>
-                                    <input type="text" id="new_incoming_entity_name" name="new_incoming_entity_name"
-                                        value="{{ old('new_incoming_entity_name') }}"
-                                        placeholder="أدخل اسم الجهة الواردة">
-                                </div>
-                                <div class="info-item">
-                                    <label for="new_incoming_entity_notes">ملاحظات :</label>
-                                    <textarea id="new_incoming_entity_notes" name="new_incoming_entity_notes" rows="3"
-                                        placeholder="ملاحظات (اختياري)">{{ old('new_incoming_entity_notes') }}</textarea>
+                        @if($canCreateIncomingEntities)
+                            <div id="incomingEntity-new-wrapper" style="display: none;">
+                                <div class="new-fields" style="grid-template-columns: 1fr;">
+                                    <div class="info-item">
+                                        <label for="new_incoming_entity_name">اسم الجهة :</label>
+
+                                        <input type="text" id="new_incoming_entity_name" name="new_incoming_entity_name"
+                                            value="{{ old('new_incoming_entity_name') }}"
+                                            placeholder="أدخل اسم الجهة الواردة">
+                                    </div>
+
+                                    <div class="info-item">
+                                        <label for="new_incoming_entity_notes">ملاحظات :</label>
+
+                                        <textarea id="new_incoming_entity_notes" name="new_incoming_entity_notes" rows="3"
+                                            placeholder="ملاحظات (اختياري)">{{ old('new_incoming_entity_notes') }}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                     </div>
 
@@ -88,22 +117,39 @@
                             <h2 class="info-card-title">المقاول</h2>
                         </div>
 
-                        <div id="contractor-select-wrapper">
-                            <div class="info-item">
-                                <label for="contractor_id">الاسم :</label>
-                                <select id="contractor_id" name="contractor_id">
+                        @if($canViewContractors)
+                            <div id="contractor-select-wrapper">
+                                <div class="info-item">
+                                    <label for="contractor_id">الاسم :</label>
+
+                                    <select id="contractor_id" name="contractor_id">
+                                        <option value="">اختر المقاول</option>
+
+                                        @foreach($contractors as $contractor)
+                                            <option value="{{ $contractor->id }}"
+                                                @selected(old('contractor_id') == $contractor->id)>
+                                                {{ $contractor->name }}
+                                                @if($contractor->company_name)
+                                                    - {{ $contractor->company_name }}
+                                                @endif
+                                            </option>
+                                        @endforeach
+
+                                        @if($canCreateContractors)
+                                            <option value="__other__">أخرى</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                        @elseif($canCreateContractors)
+                            <input type="hidden" name="contractor_id" value="">
+
+                            <div id="contractor-select-wrapper" style="display: none;">
+                                <select id="contractor_id" name="">
                                     <option value="">اختر المقاول</option>
-                                    @foreach($contractors as $contractor)
-                                        <option value="{{ $contractor->id }}"
-                                            @selected(old('contractor_id') == $contractor->id)>
-                                            {{ $contractor->name }}
-                                            @if($contractor->company_name) - {{ $contractor->company_name }} @endif
-                                        </option>
-                                    @endforeach
-                                    <option value="__other__">أخرى</option>
                                 </select>
                             </div>
-                        </div>
+                        @endif
 
                         <div id="contractor-new-wrapper" style="display: none;">
                             <div class="new-fields">
@@ -264,6 +310,11 @@
 
             const select = document.getElementById(selectId);
             const newWrapper = document.getElementById(field + '-new-wrapper');
+
+            if (!select || !newWrapper) {
+                return;
+            }
+
             const newFields = newWrapper.querySelectorAll('input, textarea');
 
             const originalName = select.name;
@@ -326,14 +377,14 @@
 
         function setRowMode(row, mode) {
 
-            const select     = row.querySelector('.pricing-item-select');
-            const newWrap    = row.querySelector('.item-new-wrapper');
-            const newName    = row.querySelector('.new-item-name');
+            const select = row.querySelector('.pricing-item-select');
+            const newWrap = row.querySelector('.item-new-wrapper');
+            const newName = row.querySelector('.new-item-name');
 
-            const unitLabel  = row.querySelector('.unit-label');
-            const unitInput  = row.querySelector('.new-item-unit');
+            const unitLabel = row.querySelector('.unit-label');
+            const unitInput = row.querySelector('.new-item-unit');
 
-            const relatedWrap  = row.querySelector('.related-cell-wrap');
+            const relatedWrap = row.querySelector('.related-cell-wrap');
             const relatedLabel = row.querySelector('.related-work');
 
             const originalName = select.dataset.originalName;
@@ -344,7 +395,7 @@
                 newWrap.style.display = '';
                 newName.disabled = false;
                 newName.required = true;
-
+                select.required = false;
                 unitLabel.style.display = 'none';
                 unitInput.style.display = '';
                 unitInput.disabled = false;
@@ -367,7 +418,7 @@
                 newWrap.style.display = 'none';
                 newName.disabled = true;
                 newName.required = false;
-
+                select.required = true;
                 unitLabel.style.display = '';
                 unitInput.style.display = 'none';
                 unitInput.disabled = true;
@@ -387,8 +438,8 @@
 
         function setRelatedMode(row, mode) {
 
-            const select     = row.querySelector('.new-item-related-work');
-            const newInput   = row.querySelector('.new-item-related-work-name');
+            const select = row.querySelector('.new-item-related-work');
+            const newInput = row.querySelector('.new-item-related-work-name');
 
             const originalName = select.dataset.originalName;
             let hiddenInput = select.parentNode.querySelector('.related-work-hidden');
@@ -427,21 +478,21 @@
 
         function setupRow(row) {
 
-            const select        = row.querySelector('.pricing-item-select');
-            const unitLabel     = row.querySelector('.unit-label');
-            const relatedLabel  = row.querySelector('.related-work');
-            const specInput     = row.querySelector('.spec-input');
+            const select = row.querySelector('.pricing-item-select');
+            const unitLabel = row.querySelector('.unit-label');
+            const relatedLabel = row.querySelector('.related-work');
+            const specInput = row.querySelector('.spec-input');
 
             const relatedSelect = row.querySelector('.new-item-related-work');
 
-            const quantity      = row.querySelector('.quantity');
-            const unitPriceSyp  = row.querySelector('.unit-price-syp');
-            const unitPriceUsd  = row.querySelector('.unit-price-usd');
+            const quantity = row.querySelector('.quantity');
+            const unitPriceSyp = row.querySelector('.unit-price-syp');
+            const unitPriceUsd = row.querySelector('.unit-price-usd');
 
-            const totalSyp      = row.querySelector('.total-syp');
-            const totalUsd      = row.querySelector('.total-usd');
+            const totalSyp = row.querySelector('.total-syp');
+            const totalUsd = row.querySelector('.total-usd');
 
-            const removeButton  = row.querySelector('.remove-item');
+            const removeButton = row.querySelector('.remove-item');
 
 
             select.addEventListener('change', function () {
@@ -543,8 +594,8 @@
                                     data-unit="${item.unit ?? ''}"
                                     data-related-work="${item.related_work?.name ?? ''}"
                                     data-specs="${JSON.stringify(
-                                        (item.specifications ?? []).map(s => s.name)
-                                    ).replace(/"/g, '&quot;')}"
+                (item.specifications ?? []).map(s => s.name)
+            ).replace(/"/g, '&quot;')}"
                                 >
                                     ${item.name}
                                 </option>
@@ -773,8 +824,9 @@
         }
 
 
-        addButton.addEventListener('click', () => addPricingItem());
-
+        if (addButton) {
+            addButton.addEventListener('click', () => addPricingItem());
+        }
 
         oldPricingItems.forEach(item => addPricingItem(item));
 

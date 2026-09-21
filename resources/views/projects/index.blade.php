@@ -57,14 +57,13 @@
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-
-                    @if(auth()->user()->hasPermission('users.manage'))
+                    @if(auth()->user()->hasPermission('contractors.view'))
                         <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
@@ -296,11 +295,14 @@
                     </div>
 
 
-                    <a href="{{ route('projects.create') }}" class="add-card" id="addProjectBtn"
-                        title="إضافة مشروع جديد">
-                        <span class="add-card-icon">
-                            +
-                        </span>
+                    @if(auth()->user()->hasPermission('projects.create'))
+                        <a href="{{ route('projects.create') }}" class="add-card" id="addProjectBtn"
+                            title="إضافة مشروع جديد">
+                            <span class="add-card-icon">
+                                +
+                            </span>
+                        </a>
+                    @endif
                     </a>
 
                 </div>

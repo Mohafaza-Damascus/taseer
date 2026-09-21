@@ -86,14 +86,65 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Projects - Blade
+    | Projects
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'projects',
-        BladeProjectController::class
-    );
+    Route::get(
+        '/projects',
+        [BladeProjectController::class, 'index']
+    )
+        ->middleware('permission:projects.view')
+        ->name('projects.index');
+
+    Route::get(
+        '/projects/create',
+        [BladeProjectController::class, 'create']
+    )
+        ->middleware('permission:projects.create')
+        ->name('projects.create');
+
+    Route::post(
+        '/projects',
+        [BladeProjectController::class, 'store']
+    )
+        ->middleware('permission:projects.create')
+        ->name('projects.store');
+
+    Route::get(
+        '/projects/{project}',
+        [BladeProjectController::class, 'show']
+    )
+        ->middleware('permission:projects.view')
+        ->name('projects.show');
+
+    Route::get(
+        '/projects/{project}/edit',
+        [BladeProjectController::class, 'edit']
+    )
+        ->middleware('permission:projects.update')
+        ->name('projects.edit');
+
+    Route::put(
+        '/projects/{project}',
+        [BladeProjectController::class, 'update']
+    )
+        ->middleware('permission:projects.update')
+        ->name('projects.update');
+
+    Route::patch(
+        '/projects/{project}',
+        [BladeProjectController::class, 'update']
+    )
+        ->middleware('permission:projects.update')
+        ->name('projects.update.patch');
+
+    Route::delete(
+        '/projects/{project}',
+        [BladeProjectController::class, 'destroy']
+    )
+        ->middleware('permission:projects.delete')
+        ->name('projects.destroy');
 
     /*
     |--------------------------------------------------------------------------
