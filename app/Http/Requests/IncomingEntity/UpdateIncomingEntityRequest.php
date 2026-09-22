@@ -10,7 +10,7 @@ class UpdateIncomingEntityRequest extends FormRequest
     public function authorize(): bool
     {
         return auth()->check()
-            && auth()->user()->hasPermission('incoming_entities.create');
+            && auth()->user()->hasPermission('incoming_entities.update');
     }
 
     public function rules(): array
