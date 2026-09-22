@@ -223,7 +223,7 @@
                         </label>
 
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
-                            placeholder="أدخل اسم المشروع" class="@error('name') input-error @enderror" required>
+                            placeholder="أدخل اسم المشروع" @class(['input-error' => $errors->has('name')])>
 
                         @error('name')
                             <span class="form-error">

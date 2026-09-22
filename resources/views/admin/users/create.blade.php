@@ -28,10 +28,6 @@
             font-size: 0.85rem;
             font-family: var(--font-thmanyahseriftext-medium);
         }
-
-        .input-error {
-            border-color: #c62828 !important;
-        }
     </style>
 </head>
 
@@ -73,7 +69,7 @@
                 </label>
 
                 <input type="text" id="username" name="username" value="{{ old('username') }}"
-                    class="@error('username') input-error @enderror" required>
+                    @class(['input-error' => $errors->has('username')])>
 
                 @error('username')
                     <span class="form-error">
@@ -91,7 +87,7 @@
                 </label>
 
                 <input type="password" id="password" name="password" autocomplete="new-password"
-                    class="@error('password') input-error @enderror" required>
+                    @class(['input-error' => $errors->has('password')])>
 
                 @error('password')
                     <span class="form-error">
@@ -109,13 +105,7 @@
                 </label>
 
                 <input type="password" id="password_confirmation" name="password_confirmation"
-                    autocomplete="new-password" class="@error('password_confirmation') input-error @enderror" required>
-
-                @error('password_confirmation')
-                    <span class="form-error">
-                        {{ $message }}
-                    </span>
-                @enderror
+                    autocomplete="new-password">
 
             </div>
 

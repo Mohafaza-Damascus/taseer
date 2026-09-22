@@ -39,7 +39,7 @@
                     الاسم
                 </label>
 
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" @class(['input-error' => $errors->has('name')])>
 
                 @error('name')
                     <span class="form-error">
@@ -56,7 +56,7 @@
                     ملاحظات
                 </label>
 
-                <input type="text" id="notes" name="notes" value="{{ old('notes') }}">
+                <input type="text" id="notes" name="notes" value="{{ old('notes') }}" @class(['input-error' => $errors->has('notes')])>
 
                 @error('notes')
                     <span class="form-error">

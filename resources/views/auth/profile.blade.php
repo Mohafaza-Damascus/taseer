@@ -31,7 +31,7 @@
                 <div class="sidebar-header">
 
                     <a href="{{ route('dashboard') }}" class="sidebar-logo">
-                        <img src="{{asset('../../resources/images/logo2.png') }}" alt="تسعير">
+                        <img src="{{asset('../../image/logo2.png') }}" alt="تسعير">
                     </a>
 
                 </div>

@@ -131,7 +131,7 @@ class ContractorController extends Controller
             return back()->withErrors([
                 'error' =>
                     'لا يمكن حذف المتعهد لأنه مرتبط بمشروع أو أكثر.',
-            ]);
+                ]);
         }
 
         $contractor->delete();

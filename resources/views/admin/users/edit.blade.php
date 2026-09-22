@@ -41,7 +41,7 @@
                 </label>
 
                 <input type="text" id="username" name="username" value="{{ old('username', $user->username) }}"
-                    required>
+                    @class(['input-error' => $errors->has('username')])>
 
                 @error('username')
                     <span class="form-error">
@@ -59,7 +59,7 @@
                 </label>
 
                 <input type="password" id="password" name="password"
-                    placeholder="اتركها فارغة للإبقاء على كلمة المرور الحالية" autocomplete="new-password">
+                    placeholder="اتركها فارغة للإبقاء على كلمة المرور الحالية" autocomplete="new-password" @class(['input-error' => $errors->has('password')])>
 
                 @error('password')
                     <span class="form-error">

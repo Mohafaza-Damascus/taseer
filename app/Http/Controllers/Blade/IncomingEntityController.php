@@ -104,10 +104,9 @@ class IncomingEntityController extends Controller
         if ($incomingEntity->projects()->exists()) {
             return redirect()
                 ->back()
-                ->with(
-                    'error',
-                    'لا يمكن حذف الجهة الواردة لأنها مرتبطة بمشروع أو أكثر.'
-                );
+                ->withErrors([
+                    'error' => 'لا يمكن حذف الجهة الواردة لأنها مرتبطة بمشروع أو أكثر.'
+                ]);
         }
 
         $incomingEntity->delete();
