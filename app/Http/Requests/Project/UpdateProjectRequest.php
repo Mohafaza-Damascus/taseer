@@ -10,7 +10,7 @@ class UpdateProjectRequest extends FormRequest
     public function authorize(): bool
     {
         return auth()->check()
-            && auth()->user()->hasPermission('projects.create');
+            && auth()->user()->hasPermission('projects.update');
     }
 
     public function withValidator($validator): void
@@ -27,8 +27,21 @@ class UpdateProjectRequest extends FormRequest
 
             foreach ($this->input('pricing_items', []) as $index => $item) {
 
+                $pricingItemId = $item['pricing_item_id'] ?? null;
+                $newItemName = $item['new_item_name'] ?? null;
+
                 if (
-                    !empty($item['new_item_name']) &&
+                    empty($pricingItemId) &&
+                    empty($newItemName)
+                ) {
+                    $validator->errors()->add(
+                        "pricing_items.$index.pricing_item_id",
+                        'يجب اختيار بند تسعير موجود أو إدخال اسم بند جديد.'
+                    );
+                }
+
+                if (
+                    !empty($newItemName) &&
                     !$user->hasPermission('pricing_items.create')
                 ) {
                     $validator->errors()->add(
@@ -143,10 +156,16 @@ class UpdateProjectRequest extends FormRequest
             ],
 
             'pricing_items.*.pricing_item_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'distinct',
                 'exists:pricing_items,id',
+            ],
+
+            'pricing_items.*.new_item_name' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
 
             'pricing_items.*.quantity' => [
