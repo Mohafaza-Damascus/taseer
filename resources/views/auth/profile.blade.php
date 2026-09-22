@@ -43,29 +43,32 @@
                         <span>لوحة التحكم</span>
                     </a>
 
-
-                    <a href="{{ route('projects.index') }}" class="sidebar-link">
-                        <span>المشاريع</span>
-                    </a>
-
-
-                    <a href="{{ route('users.index') }}" class="sidebar-link">
-                        <span>المستخدمين</span>
-                    </a>
-
-
-                    <a href="{{ route('roles.index') }}" class="sidebar-link">
-                        <span>الأدوار</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('projects.view'))
+                        <a href="{{ route('projects.index') }}" class="sidebar-link">
+                            <span>المشاريع</span>
+                        </a>
+                    @endif
 
                     @if(auth()->user()->hasPermission('users.manage'))
+                        <a href="{{ route('users.index') }}" class="sidebar-link">
+                            <span>المستخدمين</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('role.manage'))
+                        <a href="{{ route('roles.index') }}" class="sidebar-link">
+                            <span>الأدوار</span>
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->hasPermission('incoming_entities.view'))
                         <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
                             <span>الجهات الواردة</span>
                         </a>
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.manage'))
-                        <a href="{{ route('incoming_entities.index') }}" class="sidebar-link">
+                    @if(auth()->user()->hasPermission('contractors.view'))
+                        <a href="{{ route('contractors.index') }}" class="sidebar-link">
                             <span>المتعهدين</span>
                         </a>
                     @endif

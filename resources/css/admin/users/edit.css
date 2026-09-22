@@ -151,10 +151,11 @@ h1 {
 
 .radio-item:has(input[type="radio"]:checked) {
     background-color: var(--color-pineal-700);
+    color: white;
 }
 
-.radio-item input[type="radio"]:checked ~ .radio-name {
-    color: white;
+.radio-item:has(input[type="radio"]:checked) .radio-name {
+  color: white;
 }
 
 .form-actions {

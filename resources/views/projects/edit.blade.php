@@ -271,10 +271,19 @@
                     </table>
 
                 </section>
-
+                @foreach ($errors->getBag('default')->messages() as $field => $messages)
+                    @if ($field !== 'name')
+                        @foreach ($messages as $error)
+                            <span class="form-error">
+                                {{ $error }}
+                            </span>
+                        @endforeach
+                    @endif
+                @endforeach
             </section>
 
         </form>
+
 
     </div>
 
@@ -297,6 +306,7 @@
 
             const select = document.getElementById(selectId);
             const newWrapper = document.getElementById(field + '-new-wrapper');
+            if (!select || !newWrapper) return;
             const newFields = newWrapper.querySelectorAll('input, textarea');
 
             const originalName = select.name;

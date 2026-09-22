@@ -34,30 +34,23 @@
                 <nav class="sidebar-nav">
 
                     <a href="{{ route('dashboard') }}" class="sidebar-link active">
-
                         <span>لوحة التحكم</span>
                     </a>
 
-
                     @if(auth()->user()->hasPermission('projects.view'))
                         <a href="{{ route('projects.index') }}" class="sidebar-link">
-
                             <span>المشاريع</span>
                         </a>
                     @endif
 
-
                     @if(auth()->user()->hasPermission('users.manage'))
                         <a href="{{ route('users.index') }}" class="sidebar-link">
-
                             <span>المستخدمين</span>
                         </a>
                     @endif
 
-
                     @if(auth()->user()->hasPermission('role.manage'))
                         <a href="{{ route('roles.index') }}" class="sidebar-link">
-
                             <span>الأدوار</span>
                         </a>
                     @endif

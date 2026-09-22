@@ -65,7 +65,6 @@
                             <span>المتعهدين</span>
                         </a>
                     @endif
-
                 </nav>
 
                 <div class="sidebar-footer">
